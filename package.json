@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
-    "nuxt": "^2.3.4"
+    "nuxt": "^2.3.4",
+    "xmljson": "^0.2.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

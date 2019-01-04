@@ -31,7 +31,6 @@ module.exports = {
   },
   plugins: [],
   modules: ['@nuxtjs/axios'],
-  axios: {},
   build: {
     extend: ({ module, output }) => {
       // svgはurl-loaderではなくvue-svg-loaderを使う
@@ -47,12 +46,16 @@ module.exports = {
         test: /\.svg$/,
         loader: 'vue-svg-loader'
       })
-    }
-  },
-  watchers: {
-    webpack: {
-      aggregateTimeout: 300,
-      poll: 1000
+    },
+    terser: {
+      parallel: true,
+      sourceMap: false,
+      terserOptions: {
+        warnings: false,
+        compress: {
+          drop_console: true
+        }
+      }
     }
   }
 }
