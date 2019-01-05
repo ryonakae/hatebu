@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'spa',
   loading: false,
   head: {
     htmlAttrs: {
@@ -30,12 +31,27 @@ module.exports = {
     ]
   },
   plugins: [],
-  modules: ['@nuxtjs/axios'],
-  // axios: {
-  //   baseURL: 'http"//nuxt:3000/api',
-  //   browserBaseURL: 'http://localhost:' + process.env.VIRTUAL_PORT + '/api'
-  // },
-  serverMiddleware: ['~/api'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
+  axios: {
+    proxy: true,
+    credentials: true,
+    withCredentials: true
+  },
+  proxy: {
+    '/api': {
+      target: 'http://b.hatena.ne.jp',
+      pathRewrite: {
+        '^/api': '/'
+      },
+      changeOrigin: true,
+      logLevel: 'debug',
+      onError: (err, req, res) => {
+        console.log('Something went wrong with the proxy middleware.', err)
+        res.end()
+      }
+    }
+  },
+  // serverMiddleware: ['~/api'],
   build: {
     extend: ({ module, output }) => {
       // svgはurl-loaderではなくvue-svg-loaderを使う

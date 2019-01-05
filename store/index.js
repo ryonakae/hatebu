@@ -32,21 +32,7 @@ export const actions = {
     const getUrl =
       categoryId === 'all' ? '/api/hotentry?mode=rss' : '/api/hotentry/' + categoryId + '.rss'
 
-    const res = await this.$axios({
-      method: 'get',
-      url: getUrl,
-      responseType: 'text',
-      data: null,
-      headers: {
-        'Content-Type': 'application/xml',
-        'X-Requested-With': 'XMLHttpRequest',
-        'Access-Control-Allow-Origin': '*'
-      },
-      withCredentials: true
-    })
-
-    const xml = res.data
-    console.log(res)
+    const xml = await this.$axios.$get(getUrl)
 
     const json = await new Promise(resolve => {
       xmlJson.to_json(xml, (_, data) => {

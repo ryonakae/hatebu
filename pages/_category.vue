@@ -1,25 +1,37 @@
 <template>
-  <div v-if="entryData">
-    <h2>
-      <a :href="entryData.channel.link" target="_blank"
-        >最近の人気エントリー - {{ getCurrentCategoryName(category) }}</a
-      >
-    </h2>
-    <ul>
-      <li v-for="entry in entryData.item" :key="entry.link">
-        <h3>
-          <a :href="entry.link" target="_blank">{{ entry.title }}</a>
-        </h3>
-        <div>
-          <a :href="'http://b.hatena.ne.jp/entry/' + entry.link" target="_blank"
-            >{{ entry['hatena:bookmarkcount'] }} users</a
-          >
-          <div>{{ entry['dc:subject'] | categoryName }}</div>
-          <div>{{ entry.link }}</div>
+  <div>
+    <div v-if="!entryData">Loading</div>
+    <div v-else>
+      <h2>
+        <a :href="entryData.channel.link" target="_blank">{{
+          entryData.channel.description + ' - ' + categoryName
+        }}</a>
+      </h2>
+
+      <ul>
+        <li v-for="entry in entryData.item" :key="entry.link">
+          <h3>
+            <a :href="entry.link" target="_blank">{{ entry.title }}</a>
+          </h3>
+          <img
+            v-if="entry['hatena:imageurl']"
+            :src="entry['hatena:imageurl']"
+            :alt="entry.title"
+            width="100"
+          />
+          <div>
+            <a :href="'http://b.hatena.ne.jp/entry/' + entry.link" target="_blank"
+              >{{ entry['hatena:bookmarkcount'] }} users</a
+            >
+          </div>
+          <div>{{ entry['dc:subject'] | subject }}</div>
+          <div>
+            <img :src="getFaviconUrl(entry.link)" alt="" /> <span>{{ entry.link | hostName }}</span>
+          </div>
           <div>{{ entry['dc:date'] | moment }}</div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -27,11 +39,6 @@
 import moment from 'moment'
 
 export default {
-  async asyncData({ params, store }) {
-    await store.dispatch('getHotentry', params.category)
-    return { category: params.category }
-  },
-
   filters: {
     moment: date => {
       const today = moment().startOf('day')
@@ -47,42 +54,49 @@ export default {
       return moment(date).format(format)
     },
 
-    categoryName: subject => {
-      let categoryName
+    subject: subject => {
+      let _subject
 
       if (typeof subject === 'object') {
-        categoryName = subject[0]
+        _subject = subject[0]
       } else if (typeof subject === 'string') {
-        categoryName = subject
+        _subject = subject
       } else {
-        categoryName = ''
+        _subject = ''
       }
 
-      return categoryName
+      return _subject
     },
 
     hostName: url => {
-      const parser = new URL(url)
-      return parser.hostname
+      return new URL(url).hostname
     }
   },
 
   computed: {
     entryData() {
       return this.$store.state.entryData
+    },
+
+    category() {
+      return this.$route.params.category
+    },
+
+    categoryName() {
+      return this.$store.state.categories[this.category]
     }
   },
 
   async mounted() {
+    console.log(this.category)
+    await this.$store.dispatch('getHotentry', this.category)
     console.log(this.entryData)
-    console.log(this.$route.params.category)
-    const res = await this.$axios.$get('http://hatebu.brdr.test/api')
-    console.log(res)
   },
 
   methods: {
-    getCurrentCategoryName(category) {
-      return this.$store.state.categories[category]
+    getFaviconUrl(url) {
+      const hostName = new URL(url).hostname
+      return 'http://www.google.com/s2/favicons?domain=' + hostName
     }
   }
 }
