@@ -1,5 +1,3 @@
-const IS_DEV = process.env.NODE_ENV === 'development'
-
 module.exports = {
   loading: false,
   head: {
@@ -33,10 +31,11 @@ module.exports = {
   },
   plugins: [],
   modules: ['@nuxtjs/axios'],
-  axios: {
-    baseURL: 'http"//nuxt:3000/api',
-    browserBaseURL: 'http://localhost:' + process.env.VIRTUAL_PORT + '/api'
-  },
+  // axios: {
+  //   baseURL: 'http"//nuxt:3000/api',
+  //   browserBaseURL: 'http://localhost:' + process.env.VIRTUAL_PORT + '/api'
+  // },
+  serverMiddleware: ['~/api'],
   build: {
     extend: ({ module, output }) => {
       // svgはurl-loaderではなくvue-svg-loaderを使う

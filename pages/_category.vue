@@ -76,6 +76,8 @@ export default {
   async mounted() {
     console.log(this.entryData)
     console.log(this.$route.params.category)
+    const res = await this.$axios.$get('http://hatebu.brdr.test/api')
+    console.log(res)
   },
 
   methods: {

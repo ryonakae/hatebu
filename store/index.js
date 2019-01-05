@@ -29,7 +29,8 @@ export const mutations = {
 
 export const actions = {
   async getHotentry({ commit }, categoryId) {
-    const getUrl = categoryId === 'all' ? '/hotentry?mode=rss' : '/hotentry/' + categoryId + '.rss'
+    const getUrl =
+      categoryId === 'all' ? '/api/hotentry?mode=rss' : '/api/hotentry/' + categoryId + '.rss'
 
     const res = await this.$axios({
       method: 'get',
@@ -45,7 +46,7 @@ export const actions = {
     })
 
     const xml = res.data
-    console.log(res.headers)
+    console.log(res)
 
     const json = await new Promise(resolve => {
       xmlJson.to_json(xml, (_, data) => {
