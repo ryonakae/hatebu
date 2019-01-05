@@ -29,12 +29,11 @@ export const mutations = {
 
 export const actions = {
   async getHotentry({ commit }, categoryId) {
-    const getUrl =
-      categoryId === 'all'
-        ? 'http://b.hatena.ne.jp/hotentry?mode=rss'
-        : 'http://b.hatena.ne.jp/hotentry/' + categoryId + '.rss'
+    const getUrl = categoryId === 'all' ? '/hotentry?mode=rss' : '/hotentry/' + categoryId + '.rss'
 
-    const xml = await this.$axios.$get(getUrl, {
+    const res = await this.$axios({
+      method: 'get',
+      url: getUrl,
       responseType: 'text',
       data: null,
       headers: {
@@ -44,6 +43,9 @@ export const actions = {
       },
       withCredentials: true
     })
+
+    const xml = res.data
+    console.log(res.headers)
 
     const json = await new Promise(resolve => {
       xmlJson.to_json(xml, (_, data) => {

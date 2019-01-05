@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  nuxt:
+    environment:
+      NODE_ENV: development
+    command: sh -c 'yarn install && yarn dev'
+    volumes:
+      - nuxt-sync:/app:nocopy
+
+volumes:
+  nuxt-sync:
+    external: true

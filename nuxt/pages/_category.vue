@@ -15,7 +15,7 @@
             >{{ entry['hatena:bookmarkcount'] }} users</a
           >
           <div>{{ entry['dc:subject'] | categoryName }}</div>
-          <div>{{ entry.link | hostName }}</div>
+          <div>{{ entry.link }}</div>
           <div>{{ entry['dc:date'] | moment }}</div>
         </div>
       </li>

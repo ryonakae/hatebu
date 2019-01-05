@@ -33,11 +33,11 @@ module.exports = {
   },
   plugins: [],
   modules: ['@nuxtjs/axios'],
-  router: {
-    base: IS_DEV ? '/' : '/hatebu/'
+  axios: {
+    baseURL: 'http"//nuxt:3000/api',
+    browserBaseURL: 'http://localhost:' + process.env.VIRTUAL_PORT + '/api'
   },
   build: {
-    publicPath: 'http://dev.ryonakae.com/hatebu/',
     extend: ({ module, output }) => {
       // svgはurl-loaderではなくvue-svg-loaderを使う
       const imageRule = module.rules.find(rule => {
@@ -62,6 +62,12 @@ module.exports = {
           drop_console: true
         }
       }
+    }
+  },
+  watchers: {
+    webpack: {
+      aggregateTimeout: 300,
+      poll: 1000
     }
   }
 }
