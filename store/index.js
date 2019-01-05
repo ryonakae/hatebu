@@ -18,6 +18,12 @@ export const actions = {
         : 'http://b.hatena.ne.jp/hotentry/' + categoryId + '.rss'
 
     const xml = await this.$axios.$get(getUrl, {
+      data: null,
+      headers: {
+        'Content-Type': 'application/xml',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Access-Control-Allow-Origin': '*'
+      },
       withCredentials: true
     })
 
