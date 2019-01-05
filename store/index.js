@@ -1,6 +1,11 @@
 import xmlJson from 'xmljson'
 
 export const state = () => ({
+  siteInfo: {
+    name: '俺のはてブ',
+    url: 'https://hatebu.brdr.jp',
+    description: ''
+  },
   entryData: null,
   categories: {
     all: '総合',
@@ -40,6 +45,6 @@ export const actions = {
       })
     })
 
-    return commit('SET_ENTRY_DATA', json['rdf:RDF'])
+    return json['rdf:RDF']
   }
 }

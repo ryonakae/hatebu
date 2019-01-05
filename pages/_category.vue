@@ -3,9 +3,7 @@
     <div v-if="!entryData">Loading</div>
     <div v-else>
       <h2>
-        <a :href="entryData.channel.link" target="_blank">{{
-          entryData.channel.description + ' - ' + categoryName
-        }}</a>
+        <a :href="entryData.channel.link" target="_blank">{{ pageTitle }}</a>
       </h2>
 
       <ul>
@@ -39,6 +37,29 @@
 import moment from 'moment'
 
 export default {
+  async fetch({ store, params }) {
+    const data = await store.dispatch('getHotentry', params.category)
+    store.commit('SET_ENTRY_DATA', data)
+  },
+
+  head() {
+    return {
+      title: this.pageTitle,
+      meta: [
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: this.pageTitle + ' | ' + this.siteInfo.name
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: location.href
+        }
+      ]
+    }
+  },
+
   filters: {
     moment: date => {
       const today = moment().startOf('day')
@@ -74,22 +95,22 @@ export default {
   },
 
   computed: {
+    siteInfo() {
+      return this.$store.state.siteInfo
+    },
+
     entryData() {
       return this.$store.state.entryData
     },
 
-    category() {
-      return this.$route.params.category
-    },
-
-    categoryName() {
-      return this.$store.state.categories[this.category]
+    pageTitle() {
+      const categoryName = this.$store.state.categories[this.$route.params.category]
+      return categoryName + 'の人気エントリー'
     }
   },
 
   async mounted() {
-    console.log(this.category)
-    await this.$store.dispatch('getHotentry', this.category)
+    console.log(this.$route)
     console.log(this.entryData)
   },
 

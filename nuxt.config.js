@@ -12,7 +12,7 @@ module.exports = {
       {
         hid: 'og:type',
         property: 'og:type',
-        content: 'article'
+        content: 'website'
       },
       {
         property: 'og:locale',
