@@ -1,5 +1,6 @@
+const IS_DEV = process.env.NODE_ENV === 'development'
+
 module.exports = {
-  mode: 'spa',
   loading: false,
   head: {
     htmlAttrs: {
@@ -32,7 +33,11 @@ module.exports = {
   },
   plugins: [],
   modules: ['@nuxtjs/axios'],
+  router: {
+    base: IS_DEV ? '/' : '/hatebu/'
+  },
   build: {
+    publicPath: 'http://dev.ryonakae.com/hatebu/',
     extend: ({ module, output }) => {
       // svgはurl-loaderではなくvue-svg-loaderを使う
       const imageRule = module.rules.find(rule => {
