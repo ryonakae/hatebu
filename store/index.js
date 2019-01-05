@@ -14,8 +14,8 @@ export const actions = {
   async getHotentry({ commit }, categoryId) {
     const getUrl =
       categoryId === 'all'
-        ? 'https://b.hatena.ne.jp/hotentry?mode=rss'
-        : 'https://b.hatena.ne.jp/hotentry/' + categoryId + '.rss'
+        ? '//b.hatena.ne.jp/hotentry?mode=rss'
+        : '//b.hatena.ne.jp/hotentry/' + categoryId + '.rss'
 
     const xml = await this.$axios.$get(getUrl, {
       data: null,
