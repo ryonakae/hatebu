@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'spa',
   loading: false,
   head: {
     htmlAttrs: {

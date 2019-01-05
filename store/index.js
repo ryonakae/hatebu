@@ -17,7 +17,9 @@ export const actions = {
         ? 'http://b.hatena.ne.jp/hotentry?mode=rss'
         : 'http://b.hatena.ne.jp/hotentry/' + categoryId + '.rss'
 
-    const xml = await this.$axios.$get(getUrl)
+    const xml = await this.$axios.$get(getUrl, {
+      withCredentials: true
+    })
 
     const json = await new Promise(resolve => {
       xmlJson.to_json(xml, (_, data) => {
