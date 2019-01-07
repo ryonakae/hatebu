@@ -28,9 +28,20 @@ export const mutations = {
 }
 
 export const actions = {
-  async getHotentry({ commit }, categoryId) {
-    const getUrl =
-      categoryId === 'all' ? '/api/hotentry?mode=rss' : '/api/hotentry/' + categoryId + '.rss'
+  async getEntry({ commit }, options) {
+    let getUrl
+
+    if (options.mode === 'hotentry') {
+      getUrl =
+        options.category === 'all'
+          ? '/api/hotentry?mode=rss'
+          : '/api/hotentry/' + options.category + '.rss'
+    } else if (options.mode === 'entrylist') {
+      getUrl =
+        options.category === 'all'
+          ? '/api/entrylist?mode=rss'
+          : '/api/entrylist/' + options.category + '.rss'
+    }
 
     const xml = await this.$axios.$get(getUrl)
 

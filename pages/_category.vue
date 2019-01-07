@@ -3,14 +3,29 @@
     <div v-if="!entryData">Loading</div>
     <div v-else>
       <h2>
-        <a :href="entryData.channel.link" target="_blank">{{ pageTitle }}</a>
+        <a :href="entryData.channel.link" target="_blank">{{ categoryName }}</a>
       </h2>
 
       <ul>
+        <li
+          :class="{ 'is-active': displayMode === 'hotentry' }"
+          @click.prevent="changeDisplayMode('hotentry')"
+        >
+          人気エントリー
+        </li>
+        <li
+          :class="{ 'is-active': displayMode === 'entrylist' }"
+          @click.prevent="changeDisplayMode('entrylist')"
+        >
+          新着エントリー
+        </li>
+      </ul>
+
+      <ul>
         <li v-for="entry in entryData.item" :key="entry.link">
-          <h3>
+          <h4>
             <a :href="entry.link" target="_blank">{{ entry.title }}</a>
-          </h3>
+          </h4>
           <img
             v-if="entry['hatena:imageurl']"
             :src="entry['hatena:imageurl']"
@@ -38,7 +53,10 @@ import moment from 'moment'
 
 export default {
   async fetch({ store, params }) {
-    const data = await store.dispatch('getHotentry', params.category)
+    const data = await store.dispatch('getEntry', {
+      mode: 'hotentry',
+      category: params.category
+    })
     store.commit('SET_ENTRY_DATA', data)
   },
 
@@ -94,6 +112,12 @@ export default {
     }
   },
 
+  data() {
+    return {
+      displayMode: 'hotentry' // 'hotentry' or 'entrylist'
+    }
+  },
+
   computed: {
     siteInfo() {
       return this.$store.state.siteInfo
@@ -103,9 +127,20 @@ export default {
       return this.$store.state.entryData
     },
 
+    categoryName() {
+      return this.$store.state.categories[this.$route.params.category]
+    },
+
     pageTitle() {
-      const categoryName = this.$store.state.categories[this.$route.params.category]
-      return categoryName + 'の人気エントリー'
+      let suffix
+
+      if (this.displayMode === 'hotentry') {
+        suffix = 'の人気エントリー'
+      } else if (this.displayMode === 'entrylist') {
+        suffix = 'の新着エントリー'
+      }
+
+      return this.categoryName + suffix
     }
   },
 
@@ -118,6 +153,29 @@ export default {
     getFaviconUrl(url) {
       const hostName = new URL(url).hostname
       return 'http://www.google.com/s2/favicons?domain=' + hostName
+    },
+
+    async changeDisplayMode(mode) {
+      if (mode === this.displayMode) return
+
+      this.$store.commit('SET_ENTRY_DATA', null)
+      let data
+
+      if (mode === 'hotentry') {
+        this.displayMode = 'hotentry'
+        data = await this.$store.dispatch('getEntry', {
+          mode: 'hotentry',
+          category: this.$route.params.category
+        })
+      } else if (mode === 'entrylist') {
+        this.displayMode = 'entrylist'
+        data = await this.$store.dispatch('getEntry', {
+          mode: 'entrylist',
+          category: this.$route.params.category
+        })
+      }
+
+      this.$store.commit('SET_ENTRY_DATA', data)
     }
   }
 }
