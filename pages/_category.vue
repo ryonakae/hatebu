@@ -44,12 +44,12 @@ export default {
 
   head() {
     return {
-      title: this.pageTitle,
+      title: this.pageTitle + ' | ' + process.env.siteTitle,
       meta: [
         {
           hid: 'og:title',
           property: 'og:title',
-          content: this.pageTitle + ' | ' + this.siteInfo.name
+          content: this.pageTitle + ' | ' + process.env.siteTitle
         },
         {
           hid: 'og:url',

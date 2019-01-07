@@ -1,11 +1,6 @@
 import xmlJson from 'xmljson'
 
 export const state = () => ({
-  siteInfo: {
-    name: '俺のはてブ',
-    url: 'https://hatebu.brdr.jp',
-    description: ''
-  },
   entryData: null,
   categories: {
     all: '総合',
