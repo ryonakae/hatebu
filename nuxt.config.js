@@ -62,8 +62,12 @@ module.exports = {
       },
       {
         name: 'twitter:card',
-        content: 'summary_large_image'
+        content: 'summary'
       }
+    ],
+    link: [
+      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+      { rel: 'favicon', href: '/favicon.ico' }
     ]
   },
   plugins: [],
