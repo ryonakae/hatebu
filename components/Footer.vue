@@ -1,10 +1,10 @@
 <template>
   <footer class="footer">
     <small
-      >Respect <a href="//b.hatena.ne.jp/" target="_blank">はてなブックマーク</a> and
-      <a href="//hatebu.straightline.jp/" target="_blank">嫁のはてブ</a></small
+      >Respect <a href="http://b.hatena.ne.jp/" target="_blank">はてなブックマーク</a> and
+      <a href="http://hatebu.straightline.jp/" target="_blank">嫁のはてブ</a></small
     >
-    <small>Create by <a href="//twitter.com/ryo_dg" target="_blank">Ryo Nakae</a></small>
+    <small>Create by <a href="https://twitter.com/ryo_dg" target="_blank">Ryo Nakae</a></small>
   </footer>
 </template>
 

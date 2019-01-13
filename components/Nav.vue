@@ -28,7 +28,7 @@
         </nuxt-link>
       </li>
       <li class="category-item">
-        <a class="category-link is-noborder" href="//kadenkaigi.com/" target="_blank">
+        <a class="category-link is-noborder" href="https://kadenkaigi.com/" target="_blank">
           <span>家電</span>
         </a>
       </li>
