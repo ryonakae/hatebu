@@ -205,6 +205,7 @@ export default {
   grid-row: 1 / 4;
   grid-column: 2 / 3;
   height: var(--image-size);
+  background-color: var(--color-bg);
   background-position: 50% 50%;
   background-size: cover;
   border-radius: var(--border-radius);
