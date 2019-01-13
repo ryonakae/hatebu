@@ -12,7 +12,7 @@ services:
     depends_on:
       - nuxt
     networks:
-      - proxy
+      - ${NETWORK_PROXY_NAME}
       - default
 
   nuxt:
@@ -30,6 +30,6 @@ services:
       - default
 
 networks:
-  proxy:
+  ${NETWORK_PROXY_NAME}:
     external: true
   default:
