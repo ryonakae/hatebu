@@ -14,7 +14,8 @@ export const state = () => ({
     entertainment: 'エンタメ',
     game: 'アニメとゲーム'
   },
-  currentCategory: 'all'
+  currentCategory: 'all',
+  displayMode: 'hotentry' // 'hotentry' or 'entrylist'
 })
 
 export const mutations = {
@@ -24,6 +25,10 @@ export const mutations = {
 
   SET_CURRENT_CATEGORY(state, category) {
     state.currentCategory = category
+  },
+
+  SET_DISPLAY_MODE(state, mode) {
+    state.displayMode = mode
   }
 }
 

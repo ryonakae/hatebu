@@ -1,12 +1,10 @@
 <template>
   <div class="app">
-    <div class="app-inner">
-      <Header />
-      <Nav />
-      <nuxt />
-      <Nav />
-      <Footer />
-    </div>
+    <Header />
+    <Nav />
+    <nuxt />
+    <Nav />
+    <Footer />
   </div>
 </template>
 
@@ -29,3 +27,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.app {
+  max-width: var(--content-width);
+  margin-right: auto;
+  margin-left: auto;
+  background-color: var(--color-contentBg);
+}
+</style>

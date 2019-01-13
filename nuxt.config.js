@@ -64,12 +64,6 @@ module.exports = {
         name: 'twitter:card',
         content: 'summary_large_image'
       }
-    ],
-    link: [
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Noto+Sans+JP:400,700&amp;subset=japanese'
-      }
     ]
   },
   plugins: [],

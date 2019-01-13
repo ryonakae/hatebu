@@ -1,49 +1,56 @@
 <template>
-  <div>
-    <div v-if="!entryData">Loading</div>
-    <div v-else>
-      <h2>
-        <a :href="entryData.channel.link" target="_blank">{{ categoryName }}</a>
-      </h2>
+  <div class="content">
+    <div v-if="!entryData" class="loading"><span>Loading</span></div>
 
-      <ul>
+    <div v-else class="entries">
+      <ul class="entries-list">
         <li
-          :class="{ 'is-active': displayMode === 'hotentry' }"
-          @click.prevent="changeDisplayMode('hotentry')"
+          v-for="entry in entryData.item"
+          :key="entry.link"
+          class="entry"
+          :class="{ 'is-noimage': !entry['hatena:imageurl'] }"
         >
-          人気エントリー
-        </li>
-        <li
-          :class="{ 'is-active': displayMode === 'entrylist' }"
-          @click.prevent="changeDisplayMode('entrylist')"
-        >
-          新着エントリー
-        </li>
-      </ul>
-
-      <ul>
-        <li v-for="entry in entryData.item" :key="entry.link">
-          <h4>
+          <h4 class="entry-title">
             <a :href="entry.link" target="_blank">{{ entry.title }}</a>
           </h4>
-          <img
+          <a
             v-if="entry['hatena:imageurl']"
-            :src="entry['hatena:imageurl']"
-            :alt="entry.title"
-            width="100"
-          />
-          <div>
-            <a :href="'http://b.hatena.ne.jp/entry/' + entry.link" target="_blank"
-              >{{ entry['hatena:bookmarkcount'] }} users</a
+            :href="entry.link"
+            target="_blank"
+            class="entry-image"
+            :style="{ backgroundImage: 'url(' + entry['hatena:imageurl'] + ')' }"
+          ></a>
+          <div class="entry-info">
+            <a
+              class="entry-users"
+              :href="'http://b.hatena.ne.jp/entry/' + entry.link"
+              target="_blank"
             >
+              <span>{{ entry['hatena:bookmarkcount'] }} users</span>
+            </a>
+            <div class="entry-subject">{{ entry['dc:subject'] | subject }}</div>
+            <div class="entry-date">{{ entry['dc:date'] | moment }}</div>
           </div>
-          <div>{{ entry['dc:subject'] | subject }}</div>
-          <div>
+          <div class="entry-hostName">
             <img :src="getFaviconUrl(entry.link)" alt="" /> <span>{{ entry.link | hostName }}</span>
           </div>
-          <div>{{ entry['dc:date'] | moment }}</div>
         </li>
       </ul>
+
+      <div class="entries-link">
+        <a
+          v-if="displayMode === 'hotentry'"
+          :href="'http://b.hatena.ne.jp/hotentry/' + category"
+          target="_blank"
+          >{{ categoryName }}の人気エントリーをもっと読む</a
+        >
+        <a
+          v-else-if="displayMode === 'entrylist'"
+          :href="'http://b.hatena.ne.jp/entrylist/' + category"
+          target="_blank"
+          >{{ categoryName }}の新着エントリーをもっと読む</a
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -54,7 +61,7 @@ import moment from 'moment'
 export default {
   async fetch({ store, params }) {
     const data = await store.dispatch('getEntry', {
-      mode: 'hotentry',
+      mode: store.state.displayMode,
       category: params.category
     })
     store.commit('SET_ENTRY_DATA', data)
@@ -112,12 +119,6 @@ export default {
     }
   },
 
-  data() {
-    return {
-      displayMode: 'hotentry' // 'hotentry' or 'entrylist'
-    }
-  },
-
   computed: {
     siteInfo() {
       return this.$store.state.siteInfo
@@ -127,8 +128,16 @@ export default {
       return this.$store.state.entryData
     },
 
+    category() {
+      return this.$route.params.category
+    },
+
     categoryName() {
-      return this.$store.state.categories[this.$route.params.category]
+      return this.$store.state.categories[this.category]
+    },
+
+    displayMode() {
+      return this.$store.state.displayMode
     },
 
     pageTitle() {
@@ -158,7 +167,6 @@ export default {
     async changeDisplayMode(mode) {
       if (mode === this.displayMode) return
 
-      this.$store.commit('SET_ENTRY_DATA', null)
       let data
 
       if (mode === 'hotentry') {
@@ -180,3 +188,127 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+@import 'custom-media.css';
+
+.content {
+  min-height: 100vh;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  font-size: var(--fontSize-nav);
+  color: var(--color-sub);
+}
+
+.entries-list {
+  list-style-type: none;
+}
+
+.entries-link {
+  font-size: var(--fontSize-nav);
+  border-top: 1px solid var(--color-border);
+
+  & a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+  }
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: auto var(--image-size);
+  grid-row-gap: 3px;
+  grid-column-gap: 10px;
+  padding: var(--padding-content-vertical) var(--padding-content-horizontal);
+  border-top: 1px solid var(--color-border);
+
+  @media (--sp) {
+    padding: var(--padding-content-vertical-sp) var(--padding-content-horizontal-sp);
+  }
+
+  &:first-child {
+    border-top: none;
+  }
+
+  &.is-noimage {
+    grid-template-columns: auto;
+  }
+}
+
+.entry-title {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+  margin-bottom: 3px;
+}
+
+.entry-image {
+  position: relative;
+  display: block;
+  grid-row: 1 / 4;
+  grid-column: 2 / 3;
+  height: var(--image-size);
+  background-position: 50% 50%;
+  background-size: cover;
+  border-radius: var(--border-radius);
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+  }
+}
+
+.entry-info {
+  display: flex;
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
+  align-items: center;
+
+  & > * {
+    margin-right: 5px;
+  }
+}
+
+.entry-users {
+  height: 20px;
+  padding: 0 8px;
+  font-size: var(--fontSize-small);
+  color: var(--color-accent);
+  background-color: rgba(var(--color-accent-rgb), 0.08);
+  border-radius: calc(20px / 2);
+}
+
+.entry-subject,
+.entry-hostName,
+.entry-date {
+  font-size: var(--fontSize-small);
+  color: var(--color-sub);
+}
+
+.entry-hostName {
+  display: flex;
+  grid-row: 3 / 4;
+  grid-column: 1 / 2;
+  align-items: center;
+
+  & img {
+    width: var(--favicon-size);
+    height: auto;
+    margin-right: 5px;
+  }
+}
+</style>

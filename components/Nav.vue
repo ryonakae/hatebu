@@ -1,8 +1,20 @@
 <template>
   <nav class="nav">
     <ul class="display">
-      <li class="display-item">人気</li>
-      <li class="display-item">新着</li>
+      <li
+        class="display-item link is-noborder"
+        :class="{ 'is-active': displayMode === 'hotentry' }"
+        @click.prevent="changeDisplayMode('hotentry')"
+      >
+        人気
+      </li>
+      <li
+        class="display-item link is-noborder"
+        :class="{ 'is-active': displayMode === 'entrylist' }"
+        @click.prevent="changeDisplayMode('entrylist')"
+      >
+        新着
+      </li>
     </ul>
 
     <ul class="category">
@@ -29,12 +41,39 @@ export default {
   computed: {
     categories() {
       return this.$store.state.categories
+    },
+
+    displayMode() {
+      return this.$store.state.displayMode
     }
   },
 
   methods: {
     setCurrentCategory(category) {
       this.$store.commit('SET_CURRENT_CATEGORY', category)
+    },
+
+    async changeDisplayMode(mode) {
+      if (mode === this.displayMode) return
+
+      this.$store.commit('SET_ENTRY_DATA', null)
+      let data
+
+      if (mode === 'hotentry') {
+        this.$store.commit('SET_DISPLAY_MODE', 'hotentry')
+        data = await this.$store.dispatch('getEntry', {
+          mode: 'hotentry',
+          category: this.$route.params.category
+        })
+      } else if (mode === 'entrylist') {
+        this.$store.commit('SET_DISPLAY_MODE', 'entrylist')
+        data = await this.$store.dispatch('getEntry', {
+          mode: 'entrylist',
+          category: this.$route.params.category
+        })
+      }
+
+      this.$store.commit('SET_ENTRY_DATA', data)
     }
   }
 }
@@ -43,9 +82,11 @@ export default {
 <style scoped>
 .nav {
   position: sticky;
-  top: 0;
+  top: -1px;
+  z-index: 100;
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
   height: 44px;
   overflow: hidden;
@@ -72,11 +113,28 @@ export default {
   padding: 0 10px;
   margin-left: 2px;
   line-height: 26px;
+  color: inherit;
   background-color: var(--color-bg);
   border-radius: calc(26px / 2);
 
   &:first-child {
     margin-left: 0;
+  }
+
+  &.is-active {
+    font-weight: bold;
+    color: white;
+    background-color: var(--color-key);
+  }
+
+  @media (hover) {
+    &:hover {
+      color: var(--color-key);
+    }
+
+    &.is-active:hover {
+      color: white;
+    }
   }
 }
 
@@ -102,7 +160,14 @@ export default {
   color: inherit;
 
   &.nuxt-link-active {
+    font-weight: bold;
     color: var(--color-key);
+  }
+
+  @media (hover) {
+    &:hover {
+      color: var(--color-key);
+    }
   }
 }
 </style>
