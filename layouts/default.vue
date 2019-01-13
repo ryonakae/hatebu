@@ -1,22 +1,24 @@
 <template>
-  <div id="app">
-    <Header />
-    <Menu />
-    <nuxt />
-    <Menu />
-    <Footer />
+  <div class="app">
+    <div class="app-inner">
+      <Header />
+      <Nav />
+      <nuxt />
+      <Nav />
+      <Footer />
+    </div>
   </div>
 </template>
 
 <script>
 import Header from '~/components/Header.vue'
-import Menu from '~/components/Menu.vue'
+import Nav from '~/components/Nav.vue'
 import Footer from '~/components/Footer.vue'
 
 export default {
   components: {
     Header,
-    Menu,
+    Nav,
     Footer
   },
 

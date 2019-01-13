@@ -7,6 +7,7 @@ const siteInfo = {
 module.exports = {
   mode: 'spa',
   loading: false,
+  css: ['~/assets/styles/main.css'],
   env: {
     siteTitle: '俺のはてブ',
     siteUrl: 'https://hatebu.brdr.jp',
@@ -92,7 +93,6 @@ module.exports = {
       }
     }
   },
-  // serverMiddleware: ['~/api'],
   build: {
     extend: ({ module, output }) => {
       // svgはurl-loaderではなくvue-svg-loaderを使う
@@ -118,12 +118,6 @@ module.exports = {
           drop_console: true
         }
       }
-    }
-  },
-  watchers: {
-    webpack: {
-      aggregateTimeout: 300,
-      poll: 1000
     }
   }
 }
