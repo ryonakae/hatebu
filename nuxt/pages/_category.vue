@@ -57,6 +57,7 @@
 
 <script>
 import moment from 'moment'
+import Url from 'url-parse'
 
 export default {
   async fetch({ store, params }) {
@@ -79,7 +80,7 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: location.href
+          content: process.env.siteUrl + '/' + this.category
         }
       ]
     }
@@ -115,7 +116,7 @@ export default {
     },
 
     hostName: url => {
-      return new URL(url).hostname
+      return new Url(url).hostname
     }
   },
 
@@ -160,30 +161,8 @@ export default {
 
   methods: {
     getFaviconUrl(url) {
-      const hostName = new URL(url).hostname
+      const hostName = new Url(url).hostname
       return 'https://www.google.com/s2/favicons?domain=' + hostName
-    },
-
-    async changeDisplayMode(mode) {
-      if (mode === this.displayMode) return
-
-      let data
-
-      if (mode === 'hotentry') {
-        this.displayMode = 'hotentry'
-        data = await this.$store.dispatch('getEntry', {
-          mode: 'hotentry',
-          category: this.$route.params.category
-        })
-      } else if (mode === 'entrylist') {
-        this.displayMode = 'entrylist'
-        data = await this.$store.dispatch('getEntry', {
-          mode: 'entrylist',
-          category: this.$route.params.category
-        })
-      }
-
-      this.$store.commit('SET_ENTRY_DATA', data)
     }
   }
 }

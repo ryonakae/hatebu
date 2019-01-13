@@ -7,6 +7,7 @@
     "moment": "^2.23.0",
     "nuxt": "^2.3.4",
     "ress": "^1.2.2",
+    "url-parse": "^1.4.4",
     "xmljson": "^0.2.0"
   },
   "devDependencies": {
@@ -46,7 +47,6 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt",
-    "open": "open -a '/Applications/Vivaldi.app' --args --disable-web-security --user-data-dir",
     "precommit": "lint-staged",
     "start": "nuxt start"
   }

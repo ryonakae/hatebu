@@ -56,22 +56,15 @@ export default {
     async changeDisplayMode(mode) {
       if (mode === this.displayMode) return
 
+      window.scrollTo(0, 0)
       this.$store.commit('SET_ENTRY_DATA', null)
       let data
 
-      if (mode === 'hotentry') {
-        this.$store.commit('SET_DISPLAY_MODE', 'hotentry')
-        data = await this.$store.dispatch('getEntry', {
-          mode: 'hotentry',
-          category: this.$route.params.category
-        })
-      } else if (mode === 'entrylist') {
-        this.$store.commit('SET_DISPLAY_MODE', 'entrylist')
-        data = await this.$store.dispatch('getEntry', {
-          mode: 'entrylist',
-          category: this.$route.params.category
-        })
-      }
+      this.displayMode = mode
+      data = await this.$store.dispatch('getEntry', {
+        mode: mode,
+        category: this.$route.params.category
+      })
 
       this.$store.commit('SET_ENTRY_DATA', data)
     }

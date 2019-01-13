@@ -5,7 +5,6 @@ const siteInfo = {
 }
 
 module.exports = {
-  mode: 'spa',
   loading: false,
   css: ['~/assets/styles/main.css'],
   env: {
@@ -70,10 +69,15 @@ module.exports = {
       { rel: 'favicon', href: '/favicon.ico' }
     ]
   },
-  plugins: [],
+  router: {
+    scrollBehavior() {
+      return { x: 0, y: 0 }
+    }
+  },
   modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
   axios: {
-    baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'http://b.hatena.ne.jp',
+    baseURL: 'http://b.hatena.ne.jp',
+    browserBaseURL: '/api',
     proxy: true,
     credentials: true,
     withCredentials: true
@@ -89,21 +93,6 @@ module.exports = {
     }
   },
   build: {
-    extend: ({ module, output }) => {
-      // svgはurl-loaderではなくvue-svg-loaderを使う
-      const imageRule = module.rules.find(rule => {
-        if (rule.use !== void 0) {
-          return rule.use[0].loader === 'url-loader'
-        }
-      })
-
-      imageRule.test = /\.(png|jpe?g|gif|webp)$/
-
-      module.rules.push({
-        test: /\.svg$/,
-        loader: 'vue-svg-loader'
-      })
-    },
     terser: {
       parallel: true,
       sourceMap: false,
@@ -113,6 +102,12 @@ module.exports = {
           drop_console: true
         }
       }
+    }
+  },
+  watchers: {
+    webpack: {
+      aggregateTimeout: 300,
+      poll: 1000
     }
   }
 }
