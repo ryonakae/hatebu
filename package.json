@@ -10,11 +10,11 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.11.1",
+    "eslint": "^5.12.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
@@ -28,7 +28,7 @@
     "stylelint-config-prettier": "^4.0.0",
     "stylelint-config-recess-order": "^2.0.1",
     "stylelint-config-standard": "^18.2.0",
-    "stylelint-prettier": "^1.0.5",
+    "stylelint-prettier": "^1.0.6",
     "vue-svg-loader": "^0.11.0"
   },
   "license": "MIT",
