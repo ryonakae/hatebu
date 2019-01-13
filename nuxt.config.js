@@ -73,6 +73,7 @@ module.exports = {
   plugins: [],
   modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
   axios: {
+    browserBaseURL: process.env.NODE_ENV !== 'production' ? '/api' : 'http://b.hatena.ne.jp',
     proxy: true,
     credentials: true,
     withCredentials: true
@@ -84,11 +85,7 @@ module.exports = {
         '^/api': '/'
       },
       changeOrigin: true,
-      logLevel: 'debug',
-      onError: (err, req, res) => {
-        console.log('Something went wrong with the proxy middleware.', err)
-        res.end()
-      }
+      logLevel: 'debug'
     }
   },
   build: {

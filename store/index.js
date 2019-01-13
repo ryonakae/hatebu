@@ -38,14 +38,12 @@ export const actions = {
 
     if (options.mode === 'hotentry') {
       getUrl =
-        options.category === 'all'
-          ? '/api/hotentry?mode=rss'
-          : '/api/hotentry/' + options.category + '.rss'
+        options.category === 'all' ? '/hotentry?mode=rss' : '/hotentry/' + options.category + '.rss'
     } else if (options.mode === 'entrylist') {
       getUrl =
         options.category === 'all'
-          ? '/api/entrylist?mode=rss'
-          : '/api/entrylist/' + options.category + '.rss'
+          ? '/entrylist?mode=rss'
+          : '/entrylist/' + options.category + '.rss'
     }
 
     const xml = await this.$axios.$get(getUrl)
