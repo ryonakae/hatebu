@@ -68,24 +68,6 @@ export default {
     store.commit('SET_ENTRY_DATA', data)
   },
 
-  head() {
-    return {
-      title: this.pageTitle + ' | ' + process.env.siteTitle,
-      meta: [
-        {
-          hid: 'og:title',
-          property: 'og:title',
-          content: this.pageTitle + ' | ' + process.env.siteTitle
-        },
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: process.env.siteUrl + '/' + this.category
-        }
-      ]
-    }
-  },
-
   filters: {
     moment: date => {
       const today = moment().startOf('day')
@@ -139,18 +121,6 @@ export default {
 
     displayMode() {
       return this.$store.state.displayMode
-    },
-
-    pageTitle() {
-      let suffix
-
-      if (this.displayMode === 'hotentry') {
-        suffix = 'の人気エントリー'
-      } else if (this.displayMode === 'entrylist') {
-        suffix = 'の新着エントリー'
-      }
-
-      return this.categoryName + suffix
     }
   },
 

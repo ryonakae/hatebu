@@ -1,7 +1,7 @@
 const siteInfo = {
   title: '俺のはてブ',
   url: 'https://hatebu.brdr.jp',
-  description: ''
+  description: '俺のためのはてブ'
 }
 
 module.exports = {
