@@ -30,6 +30,7 @@ services:
       - default
 
 networks:
-  ${NETWORK_PROXY_NAME}:
-    external: true
+  proxy:
+    external:
+      name: ${NETWORK_PROXY_NAME}
   default:
