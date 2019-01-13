@@ -21,11 +21,7 @@
             :style="{ backgroundImage: 'url(' + entry['hatena:imageurl'] + ')' }"
           ></a>
           <div class="entry-info">
-            <a
-              class="entry-users"
-              :href="'http://b.hatena.ne.jp/entry/' + entry.link"
-              target="_blank"
-            >
+            <a class="entry-users" :href="'//b.hatena.ne.jp/entry/' + entry.link" target="_blank">
               <span>{{ entry['hatena:bookmarkcount'] }} users</span>
             </a>
             <div class="entry-subject">{{ entry['dc:subject'] | subject }}</div>
@@ -40,13 +36,13 @@
       <div class="entries-link">
         <a
           v-if="displayMode === 'hotentry'"
-          :href="'http://b.hatena.ne.jp/hotentry/' + category"
+          :href="'//b.hatena.ne.jp/hotentry/' + category"
           target="_blank"
           >{{ categoryName }}の人気エントリーをもっと読む</a
         >
         <a
           v-else-if="displayMode === 'entrylist'"
-          :href="'http://b.hatena.ne.jp/entrylist/' + category"
+          :href="'//b.hatena.ne.jp/entrylist/' + category"
           target="_blank"
           >{{ categoryName }}の新着エントリーをもっと読む</a
         >
@@ -161,7 +157,7 @@ export default {
   methods: {
     getFaviconUrl(url) {
       const hostName = new URL(url).hostname
-      return 'http://www.google.com/s2/favicons?domain=' + hostName
+      return '//www.google.com/s2/favicons?domain=' + hostName
     },
 
     async changeDisplayMode(mode) {

@@ -73,7 +73,7 @@ module.exports = {
   plugins: [],
   modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
   axios: {
-    browserBaseURL: process.env.NODE_ENV !== 'production' ? '/api' : 'http://b.hatena.ne.jp',
+    browserBaseURL: process.env.NODE_ENV !== 'production' ? '/api' : '//b.hatena.ne.jp',
     proxy: true,
     credentials: true,
     withCredentials: true
