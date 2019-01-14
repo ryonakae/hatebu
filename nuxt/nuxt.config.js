@@ -6,7 +6,7 @@ const siteInfo = {
 
 module.exports = {
   loading: false,
-  css: ['~/assets/styles/main.css'],
+  css: ['~/assets/styles/main.css', 'swiper/dist/css/swiper.css'],
   env: {
     siteTitle: '俺のはてブ',
     siteUrl: 'https://hatebu.brdr.jp',
@@ -20,7 +20,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'robots', content: 'index, follow' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, minimum-scale=1.0' },
       {
         hid: 'description',
         name: 'description',
@@ -74,6 +74,7 @@ module.exports = {
       return { x: 0, y: 0 }
     }
   },
+  plugins: [{ src: '~/plugins/vue-awesome-swiper.js', ssr: false }],
   modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
   axios: {
     baseURL: 'http://b.hatena.ne.jp',

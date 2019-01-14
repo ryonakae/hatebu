@@ -15,7 +15,8 @@ export const state = () => ({
     game: 'アニメとゲーム'
   },
   currentCategory: 'all',
-  displayMode: 'hotentry' // 'hotentry' or 'entrylist'
+  displayMode: 'hotentry', // 'hotentry' or 'entrylist'
+  swiperTransrate: 0
 })
 
 export const mutations = {
@@ -29,6 +30,10 @@ export const mutations = {
 
   SET_DISPLAY_MODE(state, mode) {
     state.displayMode = mode
+  },
+
+  SET_SWIPER_TRANSLATE(state, translate) {
+    state.swiperTransrate = translate
   }
 }
 
