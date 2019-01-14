@@ -74,7 +74,10 @@ module.exports = {
       return { x: 0, y: 0 }
     }
   },
-  plugins: [{ src: '~/plugins/vue-awesome-swiper.js', ssr: false }],
+  plugins: [
+    { src: '~/plugins/vue-awesome-swiper.js', ssr: false },
+    { src: '~/plugins/keyCodes.js', ssr: false }
+  ],
   modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
   axios: {
     baseURL: 'http://b.hatena.ne.jp',

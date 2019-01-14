@@ -59,6 +59,19 @@ export const actions = {
       })
     })
 
-    return json['rdf:RDF']
+    commit('SET_ENTRY_DATA', json['rdf:RDF'])
+  },
+
+  async changeDisplayMode({ state, commit, dispatch }, options) {
+    if (options.mode === state.displayMode) return
+
+    window.scrollTo(0, 0)
+
+    await dispatch('getEntry', {
+      mode: options.mode,
+      category: options.category
+    })
+
+    commit('SET_DISPLAY_MODE', options.mode)
   }
 }
