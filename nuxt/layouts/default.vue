@@ -25,6 +25,14 @@ export default {
   computed: {
     siteInfo() {
       return this.$store.state.siteInfo
+    },
+
+    categories() {
+      return this.$store.state.categories
+    },
+
+    currentCategory() {
+      return this.$store.state.currentCategory
     }
   },
 
@@ -52,11 +60,11 @@ export default {
         }
         // ←: 一つ前のカテゴリを表示
         else if (keyCode === keyCodes.leftarrow) {
-          console.log('prev')
+          this.getAdjacentCategory('previous')
         }
         // →: 一つ後のカテゴリを表示
         else if (keyCode === keyCodes.rightarrow) {
-          console.log('next')
+          this.getAdjacentCategory('next')
         }
 
         setTimeout(() => {
@@ -72,6 +80,30 @@ export default {
       await this.$store.dispatch('changeDisplayMode', {
         mode: mode,
         category: this.$route.params.category
+      })
+    },
+
+    getAdjacentCategory(side) {
+      let sideCategory, sideIndex
+
+      Object.keys(this.categories).forEach((category, index) => {
+        if (category === this.currentCategory) {
+          console.log('current', category, index)
+
+          if (side === 'previous') {
+            sideIndex = index - 1
+          } else if (side === 'next') {
+            sideIndex = index + 1
+          }
+
+          Object.keys(this.categories).forEach((category, index) => {
+            if (index === sideIndex) {
+              sideCategory = category
+            }
+          })
+
+          console.log(side, sideCategory, sideIndex)
+        }
       })
     }
   }

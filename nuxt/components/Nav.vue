@@ -26,11 +26,7 @@
     <div v-swiper:swiper="swiperOptions" class="category" :class="{ 'is-visible': isVisible }">
       <div class="swiper-wrapper">
         <div v-for="(category, key) in categories" :key="key" class="swiper-slide category-item">
-          <nuxt-link
-            class="category-link is-noborder"
-            :to="'/' + key"
-            @click.stop="setCurrentCategory(key)"
-          >
+          <nuxt-link class="category-link is-noborder" :to="'/' + key">
             <span>{{ category }}</span>
           </nuxt-link>
         </div>
@@ -102,10 +98,6 @@ export default {
   },
 
   methods: {
-    setCurrentCategory(category) {
-      this.$store.commit('SET_CURRENT_CATEGORY', category)
-    },
-
     async changeDisplayMode(mode) {
       await this.$store.dispatch('changeDisplayMode', {
         mode: mode,
