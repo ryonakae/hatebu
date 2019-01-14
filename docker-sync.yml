@@ -1,6 +1,6 @@
 version: '2'
 
 syncs:
-  nuxt-sync:
+  $COMPOSE_PROJECT_NAME-nuxt-sync:
     src: './nuxt'
-    sync_excludes: ['.nuxt', 'node_modules']
+    sync_excludes: ['.git', '.nuxt', 'node_modules']

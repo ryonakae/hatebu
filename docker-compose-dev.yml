@@ -10,4 +10,5 @@ services:
 
 volumes:
   nuxt-sync:
-    external: true
+    external:
+      name: ${COMPOSE_PROJECT_NAME}-nuxt-sync
