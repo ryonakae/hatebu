@@ -57,16 +57,15 @@ export default {
       if (mode === this.displayMode) return
 
       window.scrollTo(0, 0)
-      this.$store.commit('SET_ENTRY_DATA', null)
       let data
 
-      this.displayMode = mode
       data = await this.$store.dispatch('getEntry', {
         mode: mode,
         category: this.$route.params.category
       })
 
       this.$store.commit('SET_ENTRY_DATA', data)
+      this.$store.commit('SET_DISPLAY_MODE', mode)
     }
   }
 }

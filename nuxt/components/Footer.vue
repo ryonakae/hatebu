@@ -15,6 +15,7 @@
   align-items: center;
   padding: var(--padding-content-horizontal-sp);
   color: var(--color-sub);
+  background-color: var(--color-footerBg);
 
   & small {
     font-size: var(--fontSize-footer);

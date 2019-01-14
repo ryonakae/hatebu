@@ -20,12 +20,11 @@ module.exports = {
     'no-unused-vars': 'warn',
     'vue/max-attributes-per-line': 'off',
     'vue/no-v-html': 'warn',
-    'vue/html-self-closing': 'off',
     'vue/component-name-in-template-casing': [
       'error',
       'PascalCase',
       {
-        ignores: ['nuxt', 'nuxt-link', 'transition', 'youtube']
+        ignores: ['nuxt', 'nuxt-link', 'transition', 'no-ssr']
       }
     ]
   }

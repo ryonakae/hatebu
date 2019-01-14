@@ -3,6 +3,11 @@
     <div v-if="!entryData" class="loading"><span>Loading</span></div>
 
     <div v-else class="entries">
+      <h2 class="entries-title">
+        <span v-if="displayMode === 'hotentry'">{{ categoryName }}の人気エントリー</span>
+        <span v-else-if="displayMode === 'entrylist'">{{ categoryName }}の新着エントリー</span>
+      </h2>
+
       <ul class="entries-list">
         <li
           v-for="entry in entryData.item"
@@ -10,9 +15,9 @@
           class="entry"
           :class="{ 'is-noimage': !entry['hatena:imageurl'] }"
         >
-          <h4 class="entry-title">
+          <h3 class="entry-title">
             <a :href="entry.link" target="_blank">{{ entry.title }}</a>
-          </h4>
+          </h3>
           <a
             v-if="entry['hatena:imageurl']"
             :href="entry.link"
@@ -154,6 +159,18 @@ export default {
   color: var(--color-sub);
 }
 
+.entries-title {
+  padding: 8px var(--padding-content-horizontal);
+  font-size: var(--fontSize-small);
+  text-align: center;
+  background-color: var(--color-footerBg);
+
+  @media (--sp) {
+    padding-right: var(--padding-content-horizontal-sp);
+    padding-left: var(--padding-content-horizontal-sp);
+  }
+}
+
 .entries-list {
   list-style-type: none;
 }
@@ -197,6 +214,7 @@ export default {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
   margin-bottom: 3px;
+  font-size: var(--fontSize);
 }
 
 .entry-image {
