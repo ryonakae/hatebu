@@ -166,7 +166,7 @@ export default {
   padding: 8px var(--padding-content-horizontal);
   font-size: var(--fontSize-small);
   text-align: center;
-  background-color: var(--color-footerBg);
+  background-color: var(--color-bg-footer);
 
   @media (--sp) {
     padding-right: var(--padding-content-horizontal-sp);

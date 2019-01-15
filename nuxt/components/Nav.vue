@@ -131,7 +131,7 @@ export default {
   height: 50px;
   overflow: hidden;
   font-size: var(--fontSize-nav);
-  background-color: var(--color-contentBg);
+  background-color: var(--color-bg-content);
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
 }
@@ -145,7 +145,7 @@ export default {
   padding: 0 8px;
   white-space: nowrap;
   list-style-type: none;
-  background-color: var(--color-contentBg);
+  background-color: var(--color-bg-content);
 }
 
 .display-item {

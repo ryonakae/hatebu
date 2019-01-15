@@ -119,6 +119,6 @@ export default {
   max-width: var(--content-width);
   margin-right: auto;
   margin-left: auto;
-  background-color: var(--color-contentBg);
+  background-color: var(--color-bg-content);
 }
 </style>
