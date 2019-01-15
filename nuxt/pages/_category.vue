@@ -130,9 +130,11 @@ export default {
     }
   },
 
-  async mounted() {
-    console.log(this.$route)
-    console.log(this.entryData)
+  mounted() {
+    this.$nextTick(() => {
+      console.log(this.$route)
+      console.log(this.entryData)
+    })
   },
 
   methods: {

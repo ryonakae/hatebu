@@ -70,12 +70,17 @@ module.exports = {
     ]
   },
   router: {
-    scrollBehavior() {
-      return { x: 0, y: 0 }
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        return { x: 0, y: 0 }
+      }
     }
   },
   plugins: [
     { src: '~/plugins/vue-awesome-swiper.js', ssr: false },
+    { src: '~/plugins/routerOptions.js', ssr: false },
     { src: '~/plugins/keyCodes.js', ssr: false }
   ],
   modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],

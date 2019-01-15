@@ -63,7 +63,6 @@ export default {
 
             // アクティブなNaviのtranslateの情報だけをstoreに格納する
             if (this.isActive) {
-              console.log(this.swiper.getTranslate())
               this.$store.commit('SET_SWIPER_TRANSLATE', this.swiper.getTranslate())
             }
           }
@@ -111,7 +110,7 @@ export default {
 <style scoped>
 .nav {
   position: sticky;
-  top: -1px;
+  top: 0;
   z-index: 100;
   display: flex;
   width: 100%;

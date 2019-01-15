@@ -39,6 +39,8 @@ export const mutations = {
 
 export const actions = {
   async getEntry({ commit }, options) {
+    // commit('SET_ENTRY_DATA', null)
+
     let getUrl
 
     if (options.mode === 'hotentry') {

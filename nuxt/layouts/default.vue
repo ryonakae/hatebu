@@ -22,6 +22,12 @@ export default {
     Footer
   },
 
+  data() {
+    return {
+      isKeyUp: false
+    }
+  },
+
   computed: {
     siteInfo() {
       return this.$store.state.siteInfo
@@ -37,50 +43,47 @@ export default {
   },
 
   mounted() {
-    let isKeyUp = false
-
-    // キーボードショートカットを設定
-    window.addEventListener(
-      'keyup',
-      async e => {
-        if (isKeyUp) return
-
-        isKeyUp = true
-
-        const keyCode = e.keyCode
-        const keyCodes = Vue.config.keyCodes
-
-        // H: ホッテントリに切り替え
-        if (keyCode === keyCodes.h) {
-          await this.changeDisplayMode('hotentry')
-        }
-        // N: 新着エントリに切り替え
-        else if (keyCode === keyCodes.n) {
-          await this.changeDisplayMode('entrylist')
-        }
-        // ←: 一つ前のカテゴリを表示
-        else if (keyCode === keyCodes.leftarrow) {
-          this.getAdjacentCategory('previous')
-        }
-        // →: 一つ後のカテゴリを表示
-        else if (keyCode === keyCodes.rightarrow) {
-          this.getAdjacentCategory('next')
-        }
-
-        setTimeout(() => {
-          isKeyUp = false
-        }, 100)
-      },
-      false
-    )
+    this.$nextTick(() => {
+      // キーボードショートカットを設定
+      window.addEventListener('keyup', this.onKeyUp, false)
+    })
   },
 
   methods: {
-    async changeDisplayMode(mode) {
-      await this.$store.dispatch('changeDisplayMode', {
-        mode: mode,
-        category: this.$route.params.category
-      })
+    async onKeyUp(event) {
+      if (this.isKeyUp) return
+
+      this.isKeyUp = true
+
+      const keyCode = event.keyCode
+      const keyCodes = Vue.config.keyCodes
+
+      // H: ホッテントリに切り替え
+      if (keyCode === keyCodes.h) {
+        await this.$store.dispatch('changeDisplayMode', {
+          mode: 'hotentry',
+          category: this.$route.params.category
+        })
+      }
+      // N: 新着エントリに切り替え
+      else if (keyCode === keyCodes.n) {
+        await this.$store.dispatch('changeDisplayMode', {
+          mode: 'entrylist',
+          category: this.$route.params.category
+        })
+      }
+      // ←: 一つ前のカテゴリを表示
+      else if (keyCode === keyCodes.leftarrow) {
+        this.getAdjacentCategory('previous')
+      }
+      // →: 一つ後のカテゴリを表示
+      else if (keyCode === keyCodes.rightarrow) {
+        this.getAdjacentCategory('next')
+      }
+
+      setTimeout(() => {
+        this.isKeyUp = false
+      }, 100)
     },
 
     getAdjacentCategory(side) {
