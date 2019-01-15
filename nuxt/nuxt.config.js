@@ -86,7 +86,13 @@ module.exports = {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
-    ['@nuxtjs/google-tag-manager', { id: siteInfo.gtmId }]
+    [
+      '@nuxtjs/google-tag-manager',
+      {
+        id: siteInfo.gtmId,
+        pageTracking: true
+      }
+    ]
   ],
   axios: {
     baseURL: 'http://b.hatena.ne.jp',
