@@ -1,16 +1,17 @@
 const siteInfo = {
   title: '俺のはてブ',
   url: 'https://hatebu.brdr.jp',
-  description: '俺のためのはてブ'
+  description: '俺のためのはてブ',
+  gtmId: 'GTM-K3P2D4D'
 }
 
 module.exports = {
   loading: false,
   css: ['~/assets/styles/main.css', 'swiper/dist/css/swiper.css'],
   env: {
-    siteTitle: '俺のはてブ',
-    siteUrl: 'https://hatebu.brdr.jp',
-    siteDescription: ''
+    siteTitle: siteInfo.title,
+    siteUrl: siteInfo.url,
+    siteDescription: siteInfo.description
   },
   head: {
     htmlAttrs: {
@@ -80,10 +81,13 @@ module.exports = {
   },
   plugins: [
     { src: '~/plugins/vue-awesome-swiper.js', ssr: false },
-    { src: '~/plugins/routerOptions.js', ssr: false },
     { src: '~/plugins/keyCodes.js', ssr: false }
   ],
-  modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy',
+    ['@nuxtjs/google-tag-manager', { id: siteInfo.gtmId }]
+  ],
   axios: {
     baseURL: 'http://b.hatena.ne.jp',
     browserBaseURL: '/api',

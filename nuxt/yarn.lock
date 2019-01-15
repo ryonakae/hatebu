@@ -901,6 +901,11 @@
   dependencies:
     consola "^2.3.0"
 
+"@nuxtjs/google-tag-manager@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/google-tag-manager/-/google-tag-manager-2.1.2.tgz#1b858bbb102505b1df6bdf16ee0cab2408853b02"
+  integrity sha512-CQfNDKXSZgBTTYqz7p5MMkWDKnQO9qn7KDbYRTec5Jr/JQwiryPKHWwpAp4PwG20T2dKSXmw1Wb+44aOsQGeUQ==
+
 "@nuxtjs/opencollective@^0.2.0":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/opencollective/-/opencollective-0.2.1.tgz#ddf3e6a22990997322bc2b82e2455a7fbffc518d"
