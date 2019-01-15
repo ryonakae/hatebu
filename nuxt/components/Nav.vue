@@ -25,9 +25,13 @@
 
     <div v-swiper:swiper="swiperOptions" class="category" :class="{ 'is-visible': isVisible }">
       <div class="swiper-wrapper">
-        <div v-for="(category, key) in categories" :key="key" class="swiper-slide category-item">
-          <nuxt-link class="category-link is-noborder" :to="'/' + key">
-            <span>{{ category }}</span>
+        <div
+          v-for="(categoryName, category) in categories"
+          :key="category"
+          class="swiper-slide category-item"
+        >
+          <nuxt-link class="category-link is-noborder" :to="'/' + category">
+            <span>{{ categoryName }}</span>
           </nuxt-link>
         </div>
         <div class="swiper-slide category-item">

@@ -72,13 +72,13 @@ export default {
           category: this.$route.params.category
         })
       }
-      // ←: 一つ前のカテゴリを表示
+      // ←: 一つ前のカテゴリに遷移
       else if (keyCode === keyCodes.leftarrow) {
-        this.getAdjacentCategory('previous')
+        this.moveAdjacentCategory('previous')
       }
-      // →: 一つ後のカテゴリを表示
+      // →: 一つ後のカテゴリに遷移
       else if (keyCode === keyCodes.rightarrow) {
-        this.getAdjacentCategory('next')
+        this.moveAdjacentCategory('next')
       }
 
       setTimeout(() => {
@@ -86,28 +86,29 @@ export default {
       }, 100)
     },
 
-    getAdjacentCategory(side) {
-      let sideCategory, sideIndex
+    moveAdjacentCategory(side) {
+      const categories = Object.keys(this.categories)
+      const currentIndex = categories.indexOf(this.currentCategory)
 
-      Object.keys(this.categories).forEach((category, index) => {
-        if (category === this.currentCategory) {
-          console.log('current', category, index)
+      let sideIndex
 
-          if (side === 'previous') {
-            sideIndex = index - 1
-          } else if (side === 'next') {
-            sideIndex = index + 1
-          }
+      if (side === 'previous') {
+        sideIndex = currentIndex - 1
 
-          Object.keys(this.categories).forEach((category, index) => {
-            if (index === sideIndex) {
-              sideCategory = category
-            }
-          })
-
-          console.log(side, sideCategory, sideIndex)
+        if (sideIndex < 0) {
+          sideIndex = categories.length - 1
         }
-      })
+      } else if (side === 'next') {
+        sideIndex = currentIndex + 1
+
+        if (sideIndex > categories.length - 1) {
+          sideIndex = 0
+        }
+      }
+
+      const sideCategory = categories[sideIndex]
+
+      this.$router.push('/' + sideCategory)
     }
   }
 }
