@@ -82,6 +82,10 @@ export default {
       return this.$store.state.categories
     },
 
+    currentCategory() {
+      return this.$store.state.currentCategory
+    },
+
     displayMode() {
       return this.$store.state.displayMode
     },
@@ -92,6 +96,12 @@ export default {
   },
 
   watch: {
+    currentCategory(category) {
+      console.log(category)
+      const categories = Object.keys(this.categories)
+      const currentIndex = categories.indexOf(category)
+      this.swiper.slideTo(currentIndex, 0)
+    },
     swiperTransrate(translate) {
       // アクティブじゃないNaviだけtranslateを更新する
       if (!this.isActive) {
