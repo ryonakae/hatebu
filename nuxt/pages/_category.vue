@@ -182,7 +182,7 @@ export default {
   font-size: var(--fontSize-nav);
   border-top: 1px solid var(--color-border);
 
-  & a {
+  & :any-link {
     display: block;
     width: 100%;
     height: 100%;
@@ -261,6 +261,14 @@ export default {
   color: var(--color-accent);
   background-color: rgba(var(--color-accent-rgb), 0.08);
   border-radius: calc(20px / 2);
+
+  @media (hover) {
+    &:hover {
+      color: white;
+      text-decoration: none;
+      background-color: rgba(var(--color-accent-rgb), 1);
+    }
+  }
 }
 
 .entry-subject,
