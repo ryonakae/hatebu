@@ -66,12 +66,12 @@ import Url from 'url-parse'
 
 export default {
   async fetch({ store, params }) {
-    store.commit('SET_CURRENT_CATEGORY', params.category)
-
     await store.dispatch('getEntry', {
       mode: store.state.displayMode,
       category: params.category
     })
+
+    store.commit('SET_CURRENT_CATEGORY', params.category)
   },
 
   filters: {

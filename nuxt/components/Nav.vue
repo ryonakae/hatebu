@@ -46,8 +46,8 @@ export default {
         slidesPerView: 'auto',
         spaceBetween: 16,
         freeMode: true,
-        freeModeMomentum: true,
-        touchReleaseOnEdges: false,
+        freeModeMomentum: false,
+        touchReleaseOnEdges: true,
         mousewheel: {
           releaseOnEdges: true
         },
@@ -78,11 +78,12 @@ export default {
 
   watch: {
     currentCategory(category) {
-      console.log(category)
-      const categories = Object.keys(this.categories)
-      const currentIndex = categories.indexOf(category)
-      this.swiper.slideTo(currentIndex, 0)
+      this.updateIndex(category)
     }
+  },
+
+  mounted() {
+    this.updateIndex(this.currentCategory)
   },
 
   methods: {
@@ -91,6 +92,13 @@ export default {
         mode: mode,
         category: this.$route.params.category
       })
+    },
+
+    updateIndex(category) {
+      console.log(category)
+      const categories = Object.keys(this.categories)
+      const currentIndex = categories.indexOf(category)
+      this.swiper.slideTo(currentIndex, 0)
     }
   }
 }
