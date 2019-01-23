@@ -134,6 +134,8 @@ export default {
     this.$nextTick(() => {
       console.log(this.$route)
       console.log(this.entryData)
+
+      this.$toast.show('aaa')
     })
   },
 

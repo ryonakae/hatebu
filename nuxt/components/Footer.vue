@@ -58,7 +58,7 @@
 
   & pre {
     display: block;
-    padding: 0.45em 0.6em 0.3em;
+    padding: 0.4em 0.6em 0.3em;
     font-weight: bold;
     line-height: 1;
     color: var(--color-text);
