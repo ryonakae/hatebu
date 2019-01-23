@@ -135,7 +135,12 @@ export default {
       console.log(this.$route)
       console.log(this.entryData)
 
-      this.$toast.show('aaa')
+      setTimeout(() => {
+        this.$toast.show('aaaaaaa')
+      }, 1000)
+      setTimeout(() => {
+        this.$toast.hide('bbbbbbbbbbb')
+      }, 3000)
     })
   },
 
