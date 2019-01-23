@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # stop
-docker-sync-stack clean
+docker-sync stop
+docker-compose stop
 
 # start
 docker-sync start

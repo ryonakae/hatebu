@@ -1,3 +1,4 @@
 #!/bin/sh
 
-docker-sync-stack clean
+docker-sync stop
+docker-compose stop
