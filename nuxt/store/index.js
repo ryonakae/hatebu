@@ -62,6 +62,7 @@ export const actions = {
   async changeDisplayMode({ state, commit, dispatch }, options) {
     if (options.mode === state.displayMode) return
 
+    this.$toast.show('読み込み中')
     window.scrollTo(0, 0)
 
     await dispatch('getEntry', {
@@ -70,5 +71,6 @@ export const actions = {
     })
 
     commit('SET_DISPLAY_MODE', options.mode)
+    this.$toast.hide('読み込み完了', 500)
   }
 }

@@ -65,13 +65,21 @@ import moment from 'moment'
 import Url from 'url-parse'
 
 export default {
-  async fetch({ store, params }) {
+  async fetch({ app, store, params }) {
+    if (process.client) {
+      app.$toast.show('読み込み中')
+    }
+
     await store.dispatch('getEntry', {
       mode: store.state.displayMode,
       category: params.category
     })
 
     store.commit('SET_CURRENT_CATEGORY', params.category)
+
+    if (process.client) {
+      app.$toast.hide('読み込み完了', 500)
+    }
   },
 
   filters: {
@@ -134,13 +142,6 @@ export default {
     this.$nextTick(() => {
       console.log(this.$route)
       console.log(this.entryData)
-
-      setTimeout(() => {
-        this.$toast.show('aaaaaaa')
-      }, 1000)
-      setTimeout(() => {
-        this.$toast.hide('bbbbbbbbbbb')
-      }, 3000)
     })
   },
 

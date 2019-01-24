@@ -5,6 +5,7 @@
     <nuxt />
     <Nav />
     <Footer />
+    <div class="notices" />
   </div>
 </template>
 
@@ -120,5 +121,19 @@ export default {
   margin-right: auto;
   margin-left: auto;
   background-color: var(--color-bg-content);
+}
+
+.notices {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  pointer-events: none;
 }
 </style>

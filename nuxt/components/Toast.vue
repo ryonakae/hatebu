@@ -1,6 +1,6 @@
 <template>
   <div class="toast" :class="{ 'is-visible': isVisible }">
-    <span class="toast-text">{{ message }}</span>
+    <span>{{ message }}</span>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   },
 
   methods: {
-    async show(msg) {
+    show(msg) {
       this.message = msg
       this.isVisible = true
     },
@@ -34,14 +34,18 @@ export default {
 
 <style scoped>
 .toast {
-  position: fixed;
-  right: 0;
-  bottom: 20px;
-  left: 0;
   display: none;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 24px;
+  font-size: var(--fontSize-small);
+  color: var(--color-key);
+  background-color: var(--color-bg);
+  border-radius: calc(24px / 2);
 
   &.is-visible {
-    display: block;
+    display: flex;
   }
 }
 </style>
