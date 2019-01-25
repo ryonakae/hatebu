@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <h1 class="title"><nuxt-link to="/" class="is-noborder">俺のはてブ</nuxt-link></h1>
+    <h1 class="title"><a href="/" class="is-noborder">俺のはてブ</a></h1>
   </header>
 </template>
 

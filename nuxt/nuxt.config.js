@@ -82,8 +82,7 @@ module.exports = {
   plugins: [
     { src: '~/plugins/vue-awesome-swiper', ssr: false },
     { src: '~/plugins/keyCodes', ssr: false },
-    { src: '~/plugins/toast', ssr: false },
-    { src: '~/plugins/routerOptions', ssr: false }
+    { src: '~/plugins/toast', ssr: false }
   ],
   modules: [
     '@nuxtjs/axios',
