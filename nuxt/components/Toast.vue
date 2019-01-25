@@ -37,12 +37,12 @@ export default {
   display: none;
   align-items: center;
   justify-content: center;
-  width: 90px;
-  height: 24px;
+  width: 95px;
+  height: 25px;
   font-size: var(--fontSize-small);
   color: var(--color-key);
   background-color: var(--color-bg);
-  border-radius: calc(24px / 2);
+  border-radius: calc(25px / 2);
 
   &.is-visible {
     display: flex;
