@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Toast from '~/components/Toast.vue'
 
 const ToastComponent = Vue.extend(Toast)
-let toast
+let toast = null
 
 function destroyToast() {
   toast.$destroy()
@@ -13,7 +13,9 @@ function destroyToast() {
 export default (context, inject) => {
   inject('toast', {
     show: msg => {
-      if (toast) destroyToast()
+      if (typeof toast === 'undefined' || toast === null) {
+        destroyToast()
+      }
 
       toast = new ToastComponent({
         el: document.createElement('div')
@@ -23,7 +25,7 @@ export default (context, inject) => {
     },
 
     hide: async (msg, delay) => {
-      if (!toast) return
+      if (typeof toast !== 'undefined' || toast !== null) return
 
       await toast.hide(msg, delay)
       destroyToast()

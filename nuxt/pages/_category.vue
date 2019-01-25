@@ -66,10 +66,6 @@ import Url from 'url-parse'
 
 export default {
   async fetch({ app, store, params }) {
-    if (process.client) {
-      app.$toast.show('読み込み中…')
-    }
-
     await store.dispatch('getEntry', {
       mode: store.state.displayMode,
       category: params.category
