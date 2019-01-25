@@ -5,7 +5,7 @@
     <nuxt />
     <Nav />
     <Footer />
-    <div class="notices" />
+    <div class="notice" />
   </div>
 </template>
 
@@ -123,7 +123,7 @@ export default {
   background-color: var(--color-bg-content);
 }
 
-.notices {
+.notice {
   position: fixed;
   top: 0;
   left: 0;

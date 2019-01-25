@@ -18,7 +18,7 @@ export default (context, inject) => {
       toast = new ToastComponent({
         el: document.createElement('div')
       })
-      document.querySelector('.notices').appendChild(toast.$el)
+      document.querySelector('.notice').appendChild(toast.$el)
       toast.show(msg)
     },
 
