@@ -10,9 +10,16 @@ function destroyToast() {
   toast = null
 }
 
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 export default (context, inject) => {
   inject('toast', {
     show: msg => {
+      console.log('show toast')
+
+      // 既にトーストが表示されている場合は前のトーストをdestroyして続行
       if (toast) {
         destroyToast()
       }
@@ -25,7 +32,16 @@ export default (context, inject) => {
     },
 
     hide: async (msg, delay) => {
-      if (!toast) return
+      // トーストがない場合は処理をキャンセル
+      if (!toast) {
+        return
+      }
+      // トーストがある場合は少し処理を待ってから続行
+      else {
+        await wait(200)
+      }
+
+      console.log('hide toast')
 
       await toast.hide(msg, delay)
       destroyToast()
