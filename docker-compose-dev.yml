@@ -6,9 +6,9 @@ services:
       NODE_ENV: development
     command: sh -c 'yarn install && yarn dev'
     volumes:
-      - nuxt-sync:/app:nocopy
+      - sync:/app:nocopy
 
 volumes:
-  nuxt-sync:
+  sync:
     external:
-      name: ${COMPOSE_PROJECT_NAME}-nuxt-sync
+      name: ${COMPOSE_PROJECT_NAME}-sync
