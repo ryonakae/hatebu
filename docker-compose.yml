@@ -9,7 +9,7 @@ services:
     env_file: .env
     environment:
       NODE_ENV: production
-    command: sh -c 'yarn install && yarn build && yarn start'
+    command: sh -c 'yarn install --production && yarn build && yarn start'
     volumes:
       - .:/app:rw
     networks:
