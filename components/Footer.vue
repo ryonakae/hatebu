@@ -30,8 +30,6 @@
 </template>
 
 <style scoped>
-@import 'custom-media.css';
-
 .footer {
   padding: 20px var(--padding-content-horizontal-sp);
   font-size: var(--fontSize-footer);

@@ -155,8 +155,6 @@ export default {
 </script>
 
 <style scoped>
-@import 'custom-media.css';
-
 .content {
   min-height: 100vh;
 }
