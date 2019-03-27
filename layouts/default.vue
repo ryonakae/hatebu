@@ -5,7 +5,7 @@
     <nuxt />
     <Nav />
     <Footer />
-    <div class="notice" />
+    <no-ssr><Toast /></no-ssr>
   </div>
 </template>
 
@@ -15,12 +15,14 @@ import Vue from 'vue'
 import Header from '~/components/Header.vue'
 import Nav from '~/components/Nav.vue'
 import Footer from '~/components/Footer.vue'
+import Toast from '~/components/Toast.vue'
 
 export default {
   components: {
     Header,
     Nav,
-    Footer
+    Footer,
+    Toast
   },
 
   data() {
@@ -121,19 +123,5 @@ export default {
   margin-right: auto;
   margin-left: auto;
   background-color: var(--color-bg-content);
-}
-
-.notice {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: var(--padding-notice);
-  pointer-events: none;
 }
 </style>
