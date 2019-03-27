@@ -15,7 +15,8 @@ export const state = () => ({
     game: 'アニメとゲーム'
   },
   currentCategory: 'all',
-  displayMode: 'hotentry' // 'hotentry' or 'entrylist'
+  displayMode: 'hotentry', // 'hotentry' or 'entrylist'
+  isToastShow: false
 })
 
 export const mutations = {
@@ -29,6 +30,10 @@ export const mutations = {
 
   SET_DISPLAY_MODE(state, mode) {
     state.displayMode = mode
+  },
+
+  SET_IS_TOAST_SHOW(state, boolean) {
+    state.isToastShow = boolean
   }
 }
 
@@ -62,7 +67,7 @@ export const actions = {
   async changeDisplayMode({ state, commit, dispatch }, options) {
     if (options.mode === state.displayMode) return
 
-    this.$toast.show('読み込み中…')
+    commit('SET_IS_TOAST_SHOW', true)
     window.scrollTo(0, 0)
 
     await dispatch('getEntry', {
@@ -71,6 +76,6 @@ export const actions = {
     })
 
     commit('SET_DISPLAY_MODE', options.mode)
-    this.$toast.hide('読み込み完了', 500)
+    commit('SET_IS_TOAST_SHOW', false)
   }
 }

@@ -67,7 +67,7 @@ import Url from 'url-parse'
 export default {
   async fetch({ app, store, params }) {
     if (process.client) {
-      app.$toast.show('読み込み中')
+      store.commit('SET_IS_TOAST_SHOW', true)
     }
 
     await store.dispatch('getEntry', {
@@ -78,7 +78,7 @@ export default {
     store.commit('SET_CURRENT_CATEGORY', params.category)
 
     if (process.client) {
-      app.$toast.hide('読み込み完了', 500)
+      store.commit('SET_IS_TOAST_SHOW', false)
     }
   },
 
