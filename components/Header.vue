@@ -9,11 +9,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 18px;
-  padding-bottom: 18px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .title {
-  font-size: var(--fontSize-title);
+  font-size: var(--fontSize);
 }
 </style>

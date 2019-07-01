@@ -95,7 +95,7 @@ module.exports = {
     ]
   ],
   axios: {
-    baseURL: 'http://b.hatena.ne.jp',
+    baseURL: 'https://b.hatena.ne.jp',
     browserBaseURL: '/api',
     proxy: true,
     credentials: true,
@@ -103,7 +103,7 @@ module.exports = {
   },
   proxy: {
     '/api': {
-      target: 'http://b.hatena.ne.jp',
+      target: 'https://b.hatena.ne.jp',
       pathRewrite: {
         '^/api': '/'
       },

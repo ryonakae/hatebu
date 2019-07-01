@@ -21,7 +21,7 @@
 
     <div class="footer-copyright">
       <small
-        >Respect <a href="http://b.hatena.ne.jp/" target="_blank">はてなブックマーク</a> and
+        >Respect <a href="https://b.hatena.ne.jp/" target="_blank">はてなブックマーク</a> and
         <a href="http://hatebu.straightline.jp/" target="_blank">嫁のはてブ</a></small
       >
       <small>Created by <a href="https://twitter.com/ryo_dg" target="_blank">Ryo Nakae</a></small>

@@ -24,7 +24,14 @@
           :key="category"
           class="swiper-slide category-item"
         >
-          <nuxt-link class="category-link is-noborder" :to="'/' + category">
+          <a
+            v-if="category === currentCategory"
+            class="category-link is-noborder is-active"
+            :href="'/' + category"
+          >
+            <span>{{ categoryName }}</span>
+          </a>
+          <nuxt-link v-else class="category-link is-noborder" :to="'/' + category">
             <span>{{ categoryName }}</span>
           </nuxt-link>
         </div>
@@ -182,10 +189,10 @@ export default {
   height: 100%;
   color: inherit;
 
+  &.is-active,
   &.nuxt-link-active {
     font-weight: bold;
     color: var(--color-key);
-    pointer-events: none;
   }
 
   @media (hover) {

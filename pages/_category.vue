@@ -28,7 +28,7 @@
           <div class="entry-info">
             <a
               class="entry-users"
-              :href="'http://b.hatena.ne.jp/entry/' + entry.link"
+              :href="'https://b.hatena.ne.jp/entry/' + entry.link"
               target="_blank"
             >
               <span>{{ entry['hatena:bookmarkcount'] }} users</span>
@@ -45,13 +45,13 @@
       <div class="entries-link">
         <a
           v-if="displayMode === 'hotentry'"
-          :href="'http://b.hatena.ne.jp/hotentry/' + category"
+          :href="'https://b.hatena.ne.jp/hotentry/' + category"
           target="_blank"
           >{{ categoryName }}の人気エントリーをもっと読む</a
         >
         <a
           v-else-if="displayMode === 'entrylist'"
-          :href="'http://b.hatena.ne.jp/entrylist/' + category"
+          :href="'https://b.hatena.ne.jp/entrylist/' + category"
           target="_blank"
           >{{ categoryName }}の新着エントリーをもっと読む</a
         >
