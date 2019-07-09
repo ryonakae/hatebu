@@ -6,8 +6,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   data() {
     return {
       message: '',
@@ -39,7 +41,7 @@ export default {
       this.isVisible = true
     },
 
-    async hide(msg, delay) {
+    hide(msg, delay): Promise<void> {
       return new Promise(resolve => {
         this.message = msg
         setTimeout(() => {
@@ -49,7 +51,7 @@ export default {
       })
     }
   }
-}
+})
 </script>
 
 <style scoped>

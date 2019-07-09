@@ -1,17 +1,18 @@
+import NuxtConfiguration from '@nuxt/config'
+import { Position } from 'vue-router/types/router';
+
 const siteInfo = {
   title: '俺のはてブ',
   url: 'https://hatebu.brdr.jp',
-  description: '俺のためのはてブ',
-  gtmId: 'GTM-K3P2D4D'
+  description: '俺のためのはてブ'
 }
 
-module.exports = {
+const config: NuxtConfiguration = {
   loading: false,
+  mode: 'spa',
   css: ['~/assets/styles/main.css', 'swiper/dist/css/swiper.css'],
   env: {
-    siteTitle: siteInfo.title,
-    siteUrl: siteInfo.url,
-    siteDescription: siteInfo.description
+    GTM_ID: process.env.GTM_ID as string
   },
   head: {
     htmlAttrs: {
@@ -71,7 +72,8 @@ module.exports = {
     ]
   },
   router: {
-    scrollBehavior(to, from, savedPosition) {
+    mode: 'hash',
+    scrollBehavior(to, from, savedPosition): Position {
       if (savedPosition) {
         return savedPosition
       } else {
@@ -80,16 +82,17 @@ module.exports = {
     }
   },
   plugins: [
-    { src: '~/plugins/vueAwesomeSwiper', ssr: false },
-    { src: '~/plugins/keyCodes', ssr: false }
+    { src: '~/plugins/vueAwesomeSwiper', mode: 'client' },
+    { src: '~/plugins/keyCodes', mode: 'client' }
   ],
   modules: [
+    '@nuxtjs/dotenv',
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
     [
       '@nuxtjs/google-tag-manager',
       {
-        id: siteInfo.gtmId,
+        id: process.env.GTM_ID,
         pageTracking: true
       }
     ]
@@ -112,6 +115,26 @@ module.exports = {
     }
   },
   build: {
+    postcss: {
+      plugins: {
+        cssnano: {
+          preset: 'default',
+          autoprefixer: false,
+          zindex: false,
+          discardUnused: {
+            fontFace: false
+          }
+        }
+      },
+      preset: {
+        stage: 2,
+        features: {
+          'custom-media-queries': true,
+          'nesting-rules': true
+        },
+        importFrom: ['./assets/styles/custom-properties.css', './assets/styles/custom-media.css']
+      }
+    },
     terser: {
       parallel: true,
       sourceMap: false,
@@ -119,14 +142,13 @@ module.exports = {
         warnings: false,
         compress: {
           drop_console: true
+        },
+        output: {
+          comments: /@license/i
         }
       }
     }
-  },
-  watchers: {
-    webpack: {
-      aggregateTimeout: 300,
-      poll: 1000
-    }
   }
 }
+
+export default config

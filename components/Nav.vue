@@ -17,7 +17,7 @@
       </li>
     </ul>
 
-    <div v-swiper:swiper="swiperOptions" class="category" :class="{ 'is-visible': isVisible }">
+    <div v-swiper:swiper="swiperOptions" class="category">
       <div class="swiper-wrapper">
         <div
           v-for="(categoryName, category) in categories"
@@ -45,68 +45,66 @@
   </nav>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      swiperOptions: {
-        slidesPerView: 'auto',
-        spaceBetween: 16,
-        freeMode: true,
-        freeModeMomentum: false,
-        touchReleaseOnEdges: true,
-        mousewheel: {
-          releaseOnEdges: true
-        },
-        on: {
-          init: () => {
-            console.log('swiper init')
-            this.isVisible = true
-          }
-        }
-      },
-      isVisible: false
-    }
-  },
+<script lang="ts">
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 
-  computed: {
-    categories() {
-      return this.$store.state.categories
+@Component
+export default class extends Vue {
+  // data
+  private swiperOptions = {
+    slidesPerView: 'auto',
+    spaceBetween: 16,
+    freeMode: true,
+    freeModeMomentum: false,
+    touchReleaseOnEdges: true,
+    mousewheel: {
+      releaseOnEdges: true
     },
-
-    currentCategory() {
-      return this.$store.state.currentCategory
-    },
-
-    displayMode() {
-      return this.$store.state.displayMode
+    on: {
+      init: (): void => {
+        console.log('swiper init')
+      }
     }
-  },
+  }
 
-  watch: {
-    currentCategory(category) {
-      this.updateIndex(category)
-    }
-  },
+  // computed
+  get categories(): Categories {
+    return this.$store.state.categories
+  }
 
-  mounted() {
+  get currentCategory(): string {
+    return this.$store.state.currentCategory
+  }
+
+  get displayMode(): DisplayMode {
+    return this.$store.state.displayMode
+  }
+
+  // watch
+  @Watch('currentCategory')
+  onCurrentCategoryChange(category: string): void {
+    this.updateIndex(category)
+  }
+
+  // methods
+  async changeDisplayMode(mode: DisplayMode): Promise<void> {
+    await this.$store.dispatch('changeDisplayMode', {
+      mode,
+      category: this.$route.params.category
+    })
+  }
+
+  updateIndex(category: string): void {
+    console.log(category)
+    const categories = Object.keys(this.categories)
+    const currentIndex = categories.indexOf(category)
+    this.swiper.slideTo(currentIndex, 0)
+  }
+
+  // lifecycle
+  async mounted(): Promise<void> {
+    await this.$nextTick()
     this.updateIndex(this.currentCategory)
-  },
-
-  methods: {
-    async changeDisplayMode(mode) {
-      await this.$store.dispatch('changeDisplayMode', {
-        mode: mode,
-        category: this.$route.params.category
-      })
-    },
-
-    updateIndex(category) {
-      console.log(category)
-      const categories = Object.keys(this.categories)
-      const currentIndex = categories.indexOf(category)
-      this.swiper.slideTo(currentIndex, 0)
-    }
   }
 }
 </script>
@@ -170,11 +168,6 @@ export default {
   height: 100%;
   padding: 0 16px 0 8px;
   overflow: hidden;
-  visibility: hidden;
-
-  &.is-visible {
-    visibility: visible;
-  }
 }
 
 .category-item {

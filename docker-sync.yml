@@ -1,6 +1,0 @@
-version: '2'
-
-syncs:
-  $COMPOSE_PROJECT_NAME-sync:
-    src: .
-    sync_excludes: ['.git', '.nuxt', 'node_modules']

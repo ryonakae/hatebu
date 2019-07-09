@@ -17,7 +17,18 @@
   --fontSize-title: 1.7rem;
   --fontSize-nav: 1.3rem;
   --fontSize-footer: 1.1rem;
-  --fontFamily: system-ui;
+
+  /* --fontFamily: system-ui; */
+  --fontFamily:
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Helvetica,
+    Arial,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol';
   --fontFamily-code: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   --letterSpacing: initial;
   --lineHeight: 1.7;
