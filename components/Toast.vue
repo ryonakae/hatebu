@@ -7,51 +7,44 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { common } from '~/store/modules/common'
 
-export default Vue.extend({
-  data() {
-    return {
-      message: '',
-      isVisible: false
-    }
-  },
+@Component
+export default class extends Vue {
+  message = ''
+  isVisible = false
 
-  computed: {
-    isToastShow() {
-      return this.$store.state.isToastShow
-    }
-  },
+  get isToastShow() {
+    return common.isToastShow
+  }
 
-  watch: {
-    isToastShow(isToastShow) {
-      if (isToastShow) {
-        console.log('toast show')
-        this.show('読み込み中…')
-      } else {
-        console.log('toast hide')
-        this.hide('読み込み完了', 500)
-      }
-    }
-  },
-
-  methods: {
-    show(msg) {
-      this.message = msg
-      this.isVisible = true
-    },
-
-    hide(msg, delay): Promise<void> {
-      return new Promise(resolve => {
-        this.message = msg
-        setTimeout(() => {
-          this.isVisible = false
-          resolve()
-        }, delay)
-      })
+  @Watch('isToastShow')
+  onIsToastShowChange(isToastShow: boolean): void {
+    if (isToastShow) {
+      console.log('toast show')
+      this.show('読み込み中…')
+    } else {
+      console.log('toast hide')
+      this.hide('読み込み完了', 500)
     }
   }
-})
+
+  show(msg: string): void {
+    this.message = msg
+    this.isVisible = true
+  }
+
+  hide(msg: string, delay: number): Promise<void> {
+    return new Promise(resolve => {
+      this.message = msg
+      setTimeout(() => {
+        this.isVisible = false
+        resolve()
+      }, delay)
+    })
+  }
+}
 </script>
 
 <style scoped>

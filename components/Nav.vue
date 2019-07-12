@@ -47,6 +47,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { common } from '~/store/modules/common'
 
 @Component
 export default class extends Vue {
@@ -68,16 +69,16 @@ export default class extends Vue {
   }
 
   // computed
-  get categories(): Categories {
-    return this.$store.state.categories
+  get categories() {
+    return common.categories
   }
 
-  get currentCategory(): string {
-    return this.$store.state.currentCategory
+  get currentCategory() {
+    return common.currentCategory
   }
 
-  get displayMode(): DisplayMode {
-    return this.$store.state.displayMode
+  get displayMode() {
+    return common.displayMode
   }
 
   // watch
@@ -88,9 +89,9 @@ export default class extends Vue {
 
   // methods
   async changeDisplayMode(mode: DisplayMode): Promise<void> {
-    await this.$store.dispatch('changeDisplayMode', {
+    await common.changeDisplayMode({
       mode,
-      category: this.$route.params.category
+      category: this.$route.params.category as keyof Categories
     })
   }
 

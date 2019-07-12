@@ -10,7 +10,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
+import { common } from '~/store/modules/common'
 
 import Header from '~/components/Header.vue'
 import Nav from '~/components/Nav.vue'
@@ -30,12 +31,12 @@ export default class extends Vue {
   private isKeyUp = false
 
   // computed
-  get categories(): Categories {
-    return this.$store.state.categories
+  get categories() {
+    return common.categories
   }
 
-  get currentCategory(): string {
-    return this.$store.state.currentCategory
+  get currentCategory() {
+    return common.currentCategory
   }
 
   // methods
@@ -49,16 +50,16 @@ export default class extends Vue {
 
     // H: ホッテントリに切り替え
     if (keyCode === keyCodes.h) {
-      await this.$store.dispatch('changeDisplayMode', {
+      await common.changeDisplayMode({
         mode: 'hotentry',
-        category: this.$route.params.category
+        category: this.$route.params.category as keyof Categories
       })
     }
     // N: 新着エントリに切り替え
     else if (keyCode === keyCodes.n) {
-      await this.$store.dispatch('changeDisplayMode', {
+      await common.changeDisplayMode({
         mode: 'entrylist',
-        category: this.$route.params.category
+        category: this.$route.params.category as keyof Categories
       })
     }
     // ←: 一つ前のカテゴリに遷移
@@ -75,7 +76,7 @@ export default class extends Vue {
     }, 100)
   }
 
-  moveAdjacentCategory(side: 'previous' | 'next') {
+  moveAdjacentCategory(side: 'previous' | 'next'): void {
     const categories = Object.keys(this.categories)
     const currentIndex = categories.indexOf(this.currentCategory)
 

@@ -1,9 +1,11 @@
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'nuxt-property-decorator'
+import { Context } from '@nuxt/vue-app'
 
-export default Vue.extend({
-  fetch({ redirect }) {
-    return redirect('/all')
+@Component
+export default class extends Vue {
+  fetch(ctx: Context): void {
+    return ctx.redirect('/all')
   }
-})
+}
 </script>

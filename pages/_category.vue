@@ -61,13 +61,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'nuxt-property-decorator'
 import dayjs from 'dayjs'
 import Url from 'url-parse'
+import { Context } from '@nuxt/vue-app'
+import { common } from '~/store/modules/common'
 
-export default Vue.extend({
+@Component({
   filters: {
-    dayjs: (date): string => {
+    dayjs: (date: string): string => {
       const today = dayjs().startOf('day')
       const _date = dayjs(date).startOf('day')
       let format
@@ -81,8 +83,8 @@ export default Vue.extend({
       return dayjs(date).format(format)
     },
 
-    subject: subject => {
-      let _subject
+    subject: (subject: string): string => {
+      let _subject!: string
 
       if (typeof subject === 'object') {
         _subject = subject[0]
@@ -95,59 +97,56 @@ export default Vue.extend({
       return _subject
     },
 
-    hostName: url => {
+    hostName: (url: string): string => {
       return new Url(url).hostname
     }
-  },
+  }
+})
+export default class extends Vue {
+  get entryData() {
+    return common.entryData
+  }
 
-  computed: {
-    entryData() {
-      return this.$store.state.entryData
-    },
+  get category() {
+    return this.$route.params.category
+  }
 
-    category(): string {
-      return this.$route.params.category
-    },
+  get categoryName(): string {
+    return common.categories[this.category]
+  }
 
-    categoryName(): string {
-      return this.$store.state.categories[this.category]
-    },
+  get displayMode(): DisplayMode {
+    return this.displayMode
+  }
 
-    displayMode(): DisplayMode {
-      return this.$store.state.displayMode
-    }
-  },
-
-  async fetch({ app, store, params }): Promise<void> {
+  async fetch(ctx: Context): Promise<void> {
     if (process.client) {
-      store.commit('SET_IS_TOAST_SHOW', true)
+      common.SET_IS_TOAST_SHOW(true)
     }
 
-    await store.dispatch('getEntry', {
-      mode: store.state.displayMode,
-      category: params.category
+    await common.getEntry({
+      mode: common.displayMode,
+      category: ctx.route.params.category as keyof Categories
     })
 
-    store.commit('SET_CURRENT_CATEGORY', params.category)
+    common.SET_CURRENT_CATEGORY(ctx.route.params.category)
 
     if (process.client) {
-      store.commit('SET_IS_TOAST_SHOW', false)
+      common.SET_IS_TOAST_SHOW(false)
     }
-  },
+  }
+
+  getFaviconUrl(url) {
+    const hostName = new Url(url).hostname
+    return 'https://www.google.com/s2/favicons?domain=' + hostName
+  }
 
   async mounted(): Promise<void> {
     await this.$nextTick()
     console.log(this.$route)
     console.log(this.entryData)
-  },
-
-  methods: {
-    getFaviconUrl(url): string {
-      const hostName = new Url(url).hostname
-      return 'https://www.google.com/s2/favicons?domain=' + hostName
-    }
   }
-})
+}
 </script>
 
 <style scoped>
