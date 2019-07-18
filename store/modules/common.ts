@@ -1,6 +1,6 @@
 import { Module, Mutation, VuexModule, getModule, Action } from 'vuex-module-decorators'
-import axios from 'axios'
 import xml2js from 'xml2js'
+import { $axios } from '~/plugins/axios'
 import { store } from '~/store'
 
 @Module({
@@ -24,7 +24,7 @@ export class CommonModule extends VuexModule {
   }
   public currentCategory = 'all'
   public displayMode: DisplayMode = 'hotentry'
-  public entryData: any = null
+  public entryData!: any
   public isToastShow = false
 
   @Mutation
@@ -54,17 +54,16 @@ export class CommonModule extends VuexModule {
 
     if (options.mode === 'hotentry') {
       getUrl =
-        options.category === 'all' ? '/api/hotentry?mode=rss' : '/api/hotentry/' + options.category + '.rss'
+        options.category === 'all' ? '/hotentry?mode=rss' : '/hotentry/' + options.category + '.rss'
     } else if (options.mode === 'entrylist') {
       getUrl =
         options.category === 'all'
-          ? '/api/entrylist?mode=rss'
-          : '/api/entrylist/' + options.category + '.rss'
+          ? '/entrylist?mode=rss'
+          : '/entrylist/' + options.category + '.rss'
     }
 
-    // const xml = await this.$axios.$get(getUrl)
-    const res = await axios.get(getUrl)
-    const xml = res.data
+    const xml = await $axios.$get(getUrl)
+    console.log(xml)
     const json: any = await new Promise((resolve): void => {
       parseString(
         xml,
@@ -73,12 +72,13 @@ export class CommonModule extends VuexModule {
           explicitArray: false
         },
         (_err, data): void => {
-          resolve(data)
+          resolve(data['rdf:RDF'])
         }
       )
     })
+    console.log(json)
 
-    this.SET_ENTRY_DATA(json['rdf:RDF'])
+    this.SET_ENTRY_DATA(json)
   }
 
   @Action({ rawError: true })

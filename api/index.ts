@@ -1,7 +1,7 @@
 import express from 'express'
 const app = express()
 
-app.get('/:type/:category.rss', (req, res): void => {
+app.get('/:type/:category.rss', (_req, res): void => {
   console.log('get')
   res.send('get')
 })

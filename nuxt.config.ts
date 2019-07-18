@@ -1,5 +1,5 @@
 import NuxtConfiguration from '@nuxt/config'
-import { Position } from 'vue-router/types/router';
+import { Position } from 'vue-router/types/router'
 
 const siteInfo = {
   title: '俺のはてブ',
@@ -82,6 +82,7 @@ const config: NuxtConfiguration = {
     }
   },
   plugins: [
+    { src: '~/plugins/axios', mode: 'client' },
     { src: '~/plugins/vueAwesomeSwiper', mode: 'client' },
     { src: '~/plugins/keyCodes', mode: 'client' }
   ],
