@@ -1,18 +1,15 @@
-import NuxtConfiguration from '@nuxt/config'
-import { Position } from 'vue-router/types/router'
-
 const siteInfo = {
   title: '俺のはてブ',
   url: 'https://hatebu.brdr.jp',
   description: '俺のためのはてブ'
 }
 
-const config: NuxtConfiguration = {
+const config = {
   loading: false,
   mode: 'universal',
   css: ['~/assets/styles/main.css', 'swiper/dist/css/swiper.css'],
   env: {
-    GTM_ID: process.env.GTM_ID as string
+    GTM_ID: process.env.GTM_ID
   },
   head: {
     htmlAttrs: {
@@ -73,7 +70,7 @@ const config: NuxtConfiguration = {
   },
   router: {
     mode: 'history',
-    scrollBehavior(to, from, savedPosition): Position {
+    scrollBehavior(to, from, savedPosition) {
       if (savedPosition) {
         return savedPosition
       } else {
