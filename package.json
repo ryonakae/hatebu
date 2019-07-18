@@ -46,6 +46,9 @@
     "stylelint-use-nesting": "^1.2.1",
     "stylelint-value-no-unknown-custom-properties": "^2.0.0"
   },
+  "engines": {
+    "node": "10.14.2"
+  },
   "license": "MIT",
   "lint-staged": {
     "**/*.js": [
