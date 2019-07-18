@@ -1,16 +1,16 @@
+import NuxtConfiguration from '@nuxt/config'
+import { Position } from 'vue-router/types/router'
+
 const siteInfo = {
   title: '俺のはてブ',
   url: 'https://hatebu.brdr.jp',
   description: '俺のためのはてブ'
 }
 
-const config = {
+const config: NuxtConfiguration = {
   loading: false,
   mode: 'universal',
   css: ['~/assets/styles/main.css', 'swiper/dist/css/swiper.css'],
-  env: {
-    GTM_ID: process.env.GTM_ID
-  },
   head: {
     htmlAttrs: {
       lang: 'ja'
@@ -70,7 +70,7 @@ const config = {
   },
   router: {
     mode: 'history',
-    scrollBehavior(to, from, savedPosition) {
+    scrollBehavior(to, from, savedPosition): Position {
       if (savedPosition) {
         return savedPosition
       } else {
@@ -84,13 +84,12 @@ const config = {
     { src: '~/plugins/keyCodes', mode: 'client' }
   ],
   modules: [
-    '@nuxtjs/dotenv',
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
     [
       '@nuxtjs/google-tag-manager',
       {
-        id: process.env.GTM_ID,
+        id: 'GTM-K3P2D4D',
         pageTracking: true
       }
     ]
