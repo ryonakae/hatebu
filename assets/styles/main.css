@@ -1,6 +1,6 @@
 @import 'ress';
-@import 'custom-properties.css';
-@import 'custom-media.css';
+@import '~/assets/styles/custom-properties.css';
+@import '~/assets/styles/custom-media.css';
 
 html {
   font-size: 62.5%;

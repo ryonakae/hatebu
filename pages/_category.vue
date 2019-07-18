@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div v-if="!entryData" class="loading"><span>Loading</span></div>
+    <div v-if="!rssData" class="loading"><span>Loading</span></div>
 
     <div v-else class="entries">
       <h2 class="entries-title">
@@ -10,13 +10,13 @@
 
       <ul class="entries-list">
         <li
-          v-for="entry in entryData.item"
+          v-for="entry in rssData.item"
           :key="entry.link"
           class="entry"
           :class="{ 'is-noimage': !entry['hatena:imageurl'] }"
         >
           <h3 class="entry-title">
-            <a :href="entry.link" target="_blank">{{ entry.title }}</a>
+            <a :href="entry.link" target="_blank" v-html="entry.title" />
           </h3>
           <a
             v-if="entry['hatena:imageurl']"
@@ -24,17 +24,17 @@
             target="_blank"
             class="entry-image"
             :style="{ backgroundImage: 'url(' + entry['hatena:imageurl'] + ')' }"
-          ></a>
+          />
           <div class="entry-info">
             <a
               class="entry-users"
-              :href="'https://b.hatena.ne.jp/entry/' + entry.link"
+              :href="entry['hatena:bookmarkCommentListPageUrl']"
               target="_blank"
             >
               <span>{{ entry['hatena:bookmarkcount'] }} users</span>
             </a>
             <div class="entry-subject">{{ entry['dc:subject'] | subject }}</div>
-            <div class="entry-date">{{ entry['dc:date'] | moment }}</div>
+            <div class="entry-date">{{ entry['dc:date'] | dayjs }}</div>
           </div>
           <div class="entry-hostName">
             <img :src="getFaviconUrl(entry.link)" alt="" /> <span>{{ entry.link | hostName }}</span>
@@ -60,96 +60,78 @@
   </div>
 </template>
 
-<script>
-import moment from 'moment'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import dayjs from 'dayjs'
 import Url from 'url-parse'
+import { Context } from '@nuxt/vue-app'
+import { common } from '~/store/modules/common'
 
-export default {
-  async fetch({ app, store, params }) {
-    if (process.client) {
-      store.commit('SET_IS_TOAST_SHOW', true)
-    }
-
-    await store.dispatch('getEntry', {
-      mode: store.state.displayMode,
-      category: params.category
-    })
-
-    store.commit('SET_CURRENT_CATEGORY', params.category)
-
-    if (process.client) {
-      store.commit('SET_IS_TOAST_SHOW', false)
-    }
-  },
-
+@Component({
   filters: {
-    moment: date => {
-      const today = moment().startOf('day')
-      const _date = moment(date).startOf('day')
-      let format
+    dayjs: (date: string): string => {
+      const today = dayjs().startOf('day')
+      const entryDate = dayjs(date).startOf('day')
+      let format: string
 
-      if (today.diff(_date, 'days') === 0) {
+      // 1日以内なら時刻だけ、1日以上なら日付を表示する
+      if (today.diff(entryDate, 'day') === 0) {
         format = 'HH:mm'
       } else {
         format = 'YYYY/MM/DD'
       }
 
-      return moment(date).format(format)
+      return dayjs(date).format(format)
     },
 
-    subject: subject => {
-      let _subject
-
-      if (typeof subject === 'object') {
-        _subject = subject[0]
-      } else if (typeof subject === 'string') {
-        _subject = subject
-      } else {
-        _subject = ''
-      }
-
-      return _subject
+    subject: (subject: string[]): string => {
+      return subject[0]
     },
 
-    hostName: url => {
+    hostName: (url: string): string => {
       return new Url(url).hostname
     }
-  },
+  }
+})
+export default class extends Vue {
+  get rssData() {
+    return common.rssData
+  }
 
-  computed: {
-    siteInfo() {
-      return this.$store.state.siteInfo
-    },
+  get category() {
+    return this.$route.params.category
+  }
 
-    entryData() {
-      return this.$store.state.entryData
-    },
+  get categoryName() {
+    return common.categories[this.category]
+  }
 
-    category() {
-      return this.$route.params.category
-    },
+  get displayMode() {
+    return common.displayMode
+  }
 
-    categoryName() {
-      return this.$store.state.categories[this.category]
-    },
+  async fetch(ctx: Context): Promise<void> {
+    common.SET_IS_TOAST_SHOW(true)
 
-    displayMode() {
-      return this.$store.state.displayMode
-    }
-  },
-
-  mounted() {
-    this.$nextTick(() => {
-      console.log(this.$route)
-      console.log(this.entryData)
+    const json = await common.getEntry({
+      mode: common.displayMode,
+      category: ctx.route.params.category as keyof Categories
     })
-  },
+    common.SET_RSS_DATA(json)
+    common.SET_CURRENT_CATEGORY(ctx.route.params.category)
 
-  methods: {
-    getFaviconUrl(url) {
-      const hostName = new Url(url).hostname
-      return 'https://www.google.com/s2/favicons?domain=' + hostName
-    }
+    common.SET_IS_TOAST_SHOW(false)
+  }
+
+  getFaviconUrl(url) {
+    const hostName = new Url(url).hostname
+    return 'https://www.google.com/s2/favicons?domain=' + hostName
+  }
+
+  async mounted(): Promise<void> {
+    await this.$nextTick()
+    console.log(this.$route)
+    console.log(this.rssData)
   }
 }
 </script>

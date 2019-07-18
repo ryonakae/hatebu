@@ -17,21 +17,18 @@
       </li>
     </ul>
 
-    <div v-swiper:swiper="swiperOptions" class="category" :class="{ 'is-visible': isVisible }">
+    <div v-swiper:swiper="swiperOptions" class="category">
       <div class="swiper-wrapper">
         <div
           v-for="(categoryName, category) in categories"
           :key="category"
           class="swiper-slide category-item"
         >
-          <a
-            v-if="category === currentCategory"
-            class="category-link is-noborder is-active"
-            :href="'/' + category"
+          <nuxt-link
+            class="category-link is-noborder"
+            :to="'/' + category"
+            @click.native="onLinkClick(category)"
           >
-            <span>{{ categoryName }}</span>
-          </a>
-          <nuxt-link v-else class="category-link is-noborder" :to="'/' + category">
             <span>{{ categoryName }}</span>
           </nuxt-link>
         </div>
@@ -45,68 +42,87 @@
   </nav>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      swiperOptions: {
-        slidesPerView: 'auto',
-        spaceBetween: 16,
-        freeMode: true,
-        freeModeMomentum: false,
-        touchReleaseOnEdges: true,
-        mousewheel: {
-          releaseOnEdges: true
-        },
-        on: {
-          init: () => {
-            console.log('swiper init')
-            this.isVisible = true
-          }
-        }
-      },
-      isVisible: false
-    }
-  },
+<script lang="ts">
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { common } from '~/store/modules/common'
+import categoryPage from '~/pages/_category.vue'
 
-  computed: {
-    categories() {
-      return this.$store.state.categories
+@Component
+export default class extends Vue {
+  // data
+  private swiperOptions = {
+    slidesPerView: 'auto',
+    spaceBetween: 16,
+    freeMode: true,
+    freeModeMomentum: false,
+    touchReleaseOnEdges: true,
+    mousewheel: {
+      releaseOnEdges: true
     },
-
-    currentCategory() {
-      return this.$store.state.currentCategory
-    },
-
-    displayMode() {
-      return this.$store.state.displayMode
+    on: {
+      init: (): void => {
+        console.log('swiper init')
+      }
     }
-  },
+  }
 
-  watch: {
-    currentCategory(category) {
-      this.updateIndex(category)
+  // computed
+  get categories() {
+    return common.categories
+  }
+
+  get currentCategory() {
+    return common.currentCategory
+  }
+
+  get displayMode() {
+    return common.displayMode
+  }
+
+  // watch
+  @Watch('currentCategory')
+  onCurrentCategoryChange(category: string): void {
+    this.updateIndex(category)
+  }
+
+  // methods
+  async changeDisplayMode(mode: DisplayMode): Promise<void> {
+    await common.changeDisplayMode({
+      mode,
+      category: this.$route.params.category as keyof Categories
+    })
+  }
+
+  updateIndex(category: string): void {
+    console.log(category)
+    const categories = Object.keys(this.categories)
+    const currentIndex = categories.indexOf(category)
+    this.swiper.slideTo(currentIndex, 0)
+  }
+
+  onLinkClick(category: keyof Categories): void {
+    if (category === this.currentCategory) {
+      this.reload()
     }
-  },
+  }
 
-  mounted() {
+  async reload(): Promise<void> {
+    common.SET_RSS_DATA(null)
+    common.SET_IS_TOAST_SHOW(true)
+
+    const json = await common.getEntry({
+      mode: this.displayMode,
+      category: this.$route.params.category as keyof Categories
+    })
+    common.SET_RSS_DATA(json)
+
+    common.SET_IS_TOAST_SHOW(false)
+  }
+
+  // lifecycle
+  async mounted(): Promise<void> {
+    await this.$nextTick()
     this.updateIndex(this.currentCategory)
-  },
-
-  methods: {
-    async changeDisplayMode(mode) {
-      await this.$store.dispatch('changeDisplayMode', {
-        mode: mode,
-        category: this.$route.params.category
-      })
-    },
-
-    updateIndex(category) {
-      console.log(category)
-      const categories = Object.keys(this.categories)
-      const currentIndex = categories.indexOf(category)
-      this.swiper.slideTo(currentIndex, 0)
-    }
   }
 }
 </script>
@@ -170,11 +186,6 @@ export default {
   height: 100%;
   padding: 0 16px 0 8px;
   overflow: hidden;
-  visibility: hidden;
-
-  &.is-visible {
-    visibility: visible;
-  }
 }
 
 .category-item {
