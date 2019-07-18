@@ -24,14 +24,11 @@
           :key="category"
           class="swiper-slide category-item"
         >
-          <a
-            v-if="category === currentCategory"
-            class="category-link is-noborder is-active"
-            :href="'/' + category"
+          <nuxt-link
+            class="category-link is-noborder"
+            :to="'/' + category"
+            @click.native="onLinkClick(category)"
           >
-            <span>{{ categoryName }}</span>
-          </a>
-          <nuxt-link v-else class="category-link is-noborder" :to="'/' + category">
             <span>{{ categoryName }}</span>
           </nuxt-link>
         </div>
@@ -48,6 +45,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { common } from '~/store/modules/common'
+import categoryPage from '~/pages/_category.vue'
 
 @Component
 export default class extends Vue {
@@ -100,6 +98,25 @@ export default class extends Vue {
     const categories = Object.keys(this.categories)
     const currentIndex = categories.indexOf(category)
     this.swiper.slideTo(currentIndex, 0)
+  }
+
+  onLinkClick(category: keyof Categories): void {
+    if (category === this.currentCategory) {
+      this.reload()
+    }
+  }
+
+  async reload(): Promise<void> {
+    common.SET_RSS_DATA(null)
+    common.SET_IS_TOAST_SHOW(true)
+
+    const json = await common.getEntry({
+      mode: this.displayMode,
+      category: this.$route.params.category as keyof Categories
+    })
+    common.SET_RSS_DATA(json)
+
+    common.SET_IS_TOAST_SHOW(false)
   }
 
   // lifecycle

@@ -21,6 +21,22 @@ declare global {
     mode: DisplayMode
     category: keyof Categories
   }
+
+  interface RSSData {
+    item: EntryItem[]
+  }
+
+  interface EntryItem {
+    title: string
+    description: string
+    link: string
+    'hatena:imageurl': string
+    'hatena:bookmarkcount': string
+    'hatena:bookmarkCommentListPageUrl': string
+    'dc:date': string
+    'dc:subject': string[]
+    'content:encoded': string
+  }
 }
 
 declare module 'vue/types/vue' {

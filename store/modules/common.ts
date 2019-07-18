@@ -24,12 +24,12 @@ export class CommonModule extends VuexModule {
   }
   public currentCategory = 'all'
   public displayMode: DisplayMode = 'hotentry'
-  public entryData!: any
+  public rssData = (null as unknown) as RSSData
   public isToastShow = false
 
   @Mutation
-  public SET_ENTRY_DATA(data): void {
-    this.entryData = data
+  public SET_RSS_DATA(data): void {
+    this.rssData = data
   }
 
   @Mutation
@@ -63,7 +63,7 @@ export class CommonModule extends VuexModule {
     }
 
     const xml = await $axios.$get(getUrl)
-    console.log(xml)
+
     const json: any = await new Promise((resolve): void => {
       parseString(
         xml,
@@ -76,9 +76,8 @@ export class CommonModule extends VuexModule {
         }
       )
     })
-    console.log(json)
 
-    this.SET_ENTRY_DATA(json)
+    return json
   }
 
   @Action({ rawError: true })

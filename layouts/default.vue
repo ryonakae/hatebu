@@ -5,7 +5,7 @@
     <nuxt />
     <Nav />
     <Footer />
-    <no-ssr><Toast /></no-ssr>
+    <Toast />
   </div>
 </template>
 

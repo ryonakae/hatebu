@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div v-if="!entryData" class="loading"><span>Loading</span></div>
+    <div v-if="!rssData" class="loading"><span>Loading</span></div>
 
     <div v-else class="entries">
       <h2 class="entries-title">
@@ -10,7 +10,7 @@
 
       <ul class="entries-list">
         <li
-          v-for="entry in entryData.item"
+          v-for="entry in rssData.item"
           :key="entry.link"
           class="entry"
           :class="{ 'is-noimage': !entry['hatena:imageurl'] }"
@@ -28,7 +28,7 @@
           <div class="entry-info">
             <a
               class="entry-users"
-              :href="'https://b.hatena.ne.jp/entry/' + entry.link"
+              :href="entry['hatena:bookmarkCommentListPageUrl']"
               target="_blank"
             >
               <span>{{ entry['hatena:bookmarkcount'] }} users</span>
@@ -71,10 +71,11 @@ import { common } from '~/store/modules/common'
   filters: {
     dayjs: (date: string): string => {
       const today = dayjs().startOf('day')
-      const _date = dayjs(date).startOf('day')
-      let format
+      const entryDate = dayjs(date).startOf('day')
+      let format: string
 
-      if (today.diff(_date, 'day') === 0) {
+      // 1日以内なら時刻だけ、1日以上なら日付を表示する
+      if (today.diff(entryDate, 'day') === 0) {
         format = 'HH:mm'
       } else {
         format = 'YYYY/MM/DD'
@@ -83,18 +84,8 @@ import { common } from '~/store/modules/common'
       return dayjs(date).format(format)
     },
 
-    subject: (subject: string): string => {
-      let _subject!: string
-
-      if (typeof subject === 'object') {
-        _subject = subject[0]
-      } else if (typeof subject === 'string') {
-        _subject = subject
-      } else {
-        _subject = ''
-      }
-
-      return _subject
+    subject: (subject: string[]): string => {
+      return subject[0]
     },
 
     hostName: (url: string): string => {
@@ -103,37 +94,33 @@ import { common } from '~/store/modules/common'
   }
 })
 export default class extends Vue {
-  get entryData() {
-    return common.entryData
+  get rssData() {
+    return common.rssData
   }
 
   get category() {
     return this.$route.params.category
   }
 
-  get categoryName(): string {
+  get categoryName() {
     return common.categories[this.category]
   }
 
-  get displayMode(): DisplayMode {
-    return this.displayMode
+  get displayMode() {
+    return common.displayMode
   }
 
   async fetch(ctx: Context): Promise<void> {
-    if (process.client) {
-      common.SET_IS_TOAST_SHOW(true)
-    }
+    common.SET_IS_TOAST_SHOW(true)
 
-    await common.getEntry({
+    const json = await common.getEntry({
       mode: common.displayMode,
       category: ctx.route.params.category as keyof Categories
     })
-
+    common.SET_RSS_DATA(json)
     common.SET_CURRENT_CATEGORY(ctx.route.params.category)
 
-    if (process.client) {
-      common.SET_IS_TOAST_SHOW(false)
-    }
+    common.SET_IS_TOAST_SHOW(false)
   }
 
   getFaviconUrl(url) {
@@ -144,7 +131,7 @@ export default class extends Vue {
   async mounted(): Promise<void> {
     await this.$nextTick()
     console.log(this.$route)
-    console.log(this.entryData)
+    console.log(this.rssData)
   }
 }
 </script>
