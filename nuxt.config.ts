@@ -9,7 +9,7 @@ const siteInfo = {
 
 const config: NuxtConfiguration = {
   loading: false,
-  mode: 'spa',
+  mode: 'universal',
   css: ['~/assets/styles/main.css', 'swiper/dist/css/swiper.css'],
   env: {
     GTM_ID: process.env.GTM_ID as string
@@ -72,7 +72,7 @@ const config: NuxtConfiguration = {
     ]
   },
   router: {
-    mode: 'hash',
+    mode: 'history',
     scrollBehavior(to, from, savedPosition): Position {
       if (savedPosition) {
         return savedPosition
@@ -82,7 +82,7 @@ const config: NuxtConfiguration = {
     }
   },
   plugins: [
-    { src: '~/plugins/axios', mode: 'client' },
+    { src: '~/plugins/axios', mode: 'all' },
     { src: '~/plugins/vueAwesomeSwiper', mode: 'client' },
     { src: '~/plugins/keyCodes', mode: 'client' }
   ],

@@ -94,6 +94,25 @@ import { common } from '~/store/modules/common'
   }
 })
 export default class extends Vue {
+  // fetch
+  async fetch(ctx: Context): Promise<void> {
+    if (process.client) {
+      common.SET_IS_TOAST_SHOW(true)
+    }
+
+    const json = await common.getEntry({
+      mode: common.displayMode,
+      category: ctx.route.params.category as keyof Categories
+    })
+    common.SET_RSS_DATA(json)
+    common.SET_CURRENT_CATEGORY(ctx.route.params.category)
+
+    if (process.client) {
+      common.SET_IS_TOAST_SHOW(false)
+    }
+  }
+
+  // computed
   get rssData() {
     return common.rssData
   }
@@ -110,24 +129,13 @@ export default class extends Vue {
     return common.displayMode
   }
 
-  async fetch(ctx: Context): Promise<void> {
-    common.SET_IS_TOAST_SHOW(true)
-
-    const json = await common.getEntry({
-      mode: common.displayMode,
-      category: ctx.route.params.category as keyof Categories
-    })
-    common.SET_RSS_DATA(json)
-    common.SET_CURRENT_CATEGORY(ctx.route.params.category)
-
-    common.SET_IS_TOAST_SHOW(false)
-  }
-
+  // methods
   getFaviconUrl(url) {
     const hostName = new Url(url).hostname
     return 'https://www.google.com/s2/favicons?domain=' + hostName
   }
 
+  // lifecycle
   async mounted(): Promise<void> {
     await this.$nextTick()
     console.log(this.$route)
@@ -142,12 +150,14 @@ export default class extends Vue {
 }
 
 .loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  width: 100%;
   font-size: var(--fontSize-nav);
   color: var(--color-sub);
+  text-align: center;
+  transform: translateY(-50%);
 }
 
 .entries-title {

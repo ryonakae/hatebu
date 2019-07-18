@@ -108,15 +108,12 @@ export default class extends Vue {
 
   async reload(): Promise<void> {
     common.SET_RSS_DATA(null)
-    common.SET_IS_TOAST_SHOW(true)
 
     const json = await common.getEntry({
       mode: this.displayMode,
       category: this.$route.params.category as keyof Categories
     })
     common.SET_RSS_DATA(json)
-
-    common.SET_IS_TOAST_SHOW(false)
   }
 
   // lifecycle
