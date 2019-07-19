@@ -1,7 +1,8 @@
 import { Module, Mutation, VuexModule, getModule, Action } from 'vuex-module-decorators'
 import xml2js from 'xml2js'
-import { $axios } from '~/plugins/axios'
+import { AxiosError } from 'axios'
 import { store } from '~/store'
+import { $axios, $redirect } from '~/plugins/axios'
 
 @Module({
   dynamic: true,
@@ -62,22 +63,27 @@ export class CommonModule extends VuexModule {
           : '/entrylist/' + options.category + '.rss'
     }
 
-    const xml = await $axios.$get(getUrl)
+    try {
+      const xml = await $axios.$get(getUrl)
 
-    const json: any = await new Promise((resolve): void => {
-      parseString(
-        xml,
-        {
-          trim: true,
-          explicitArray: false
-        },
-        (_err, data): void => {
-          resolve(data['rdf:RDF'])
-        }
-      )
-    })
+      const json: any = await new Promise((resolve): void => {
+        parseString(
+          xml,
+          {
+            trim: true,
+            explicitArray: false
+          },
+          (_err, data): void => {
+            resolve(data['rdf:RDF'])
+          }
+        )
+      })
 
-    return json
+      return json
+    } catch (error) {
+      $redirect('/')
+      throw new Error(error)
+    }
   }
 
   @Action({ rawError: true })

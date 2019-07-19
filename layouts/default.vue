@@ -52,14 +52,14 @@ export default class extends Vue {
     if (keyCode === keyCodes.h) {
       await common.changeDisplayMode({
         mode: 'hotentry',
-        category: this.$route.params.category as keyof Categories
+        category: this.$route.params.category as Category
       })
     }
     // N: 新着エントリに切り替え
     else if (keyCode === keyCodes.n) {
       await common.changeDisplayMode({
         mode: 'entrylist',
-        category: this.$route.params.category as keyof Categories
+        category: this.$route.params.category as Category
       })
     }
     // ←: 一つ前のカテゴリに遷移

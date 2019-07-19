@@ -89,7 +89,7 @@ export default class extends Vue {
   async changeDisplayMode(mode: DisplayMode): Promise<void> {
     await common.changeDisplayMode({
       mode,
-      category: this.$route.params.category as keyof Categories
+      category: this.$route.params.category as Category
     })
   }
 
@@ -100,7 +100,7 @@ export default class extends Vue {
     this.swiper.slideTo(currentIndex, 0)
   }
 
-  onLinkClick(category: keyof Categories): void {
+  onLinkClick(category: Category): void {
     if (category === this.currentCategory) {
       this.reload()
     }
@@ -111,7 +111,7 @@ export default class extends Vue {
 
     const json = await common.getEntry({
       mode: this.displayMode,
-      category: this.$route.params.category as keyof Categories
+      category: this.$route.params.category as Category
     })
     common.SET_RSS_DATA(json)
   }

@@ -17,6 +17,8 @@ declare global {
     game: 'アニメとゲーム'
   }
 
+  type Category = keyof Categories
+
   interface GetEntryOptions {
     mode: DisplayMode
     category: keyof Categories
