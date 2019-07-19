@@ -66,18 +66,20 @@ export class CommonModule extends VuexModule {
     try {
       const xml = await $axios.$get(getUrl)
 
-      const json: any = await new Promise((resolve): void => {
-        parseString(
-          xml,
-          {
-            trim: true,
-            explicitArray: false
-          },
-          (_err, data): void => {
-            resolve(data['rdf:RDF'])
-          }
-        )
-      })
+      const json: any = await new Promise(
+        (resolve): void => {
+          parseString(
+            xml,
+            {
+              trim: true,
+              explicitArray: false
+            },
+            (_err, data): void => {
+              resolve(data['rdf:RDF'])
+            }
+          )
+        }
+      )
 
       return json
     } catch (error) {
@@ -93,10 +95,11 @@ export class CommonModule extends VuexModule {
     this.SET_IS_TOAST_SHOW(true)
     window.scrollTo(0, 0)
 
-    await this.getEntry({
+    const json = await this.getEntry({
       mode: options.mode,
       category: options.category
     })
+    this.SET_RSS_DATA(json)
 
     this.SET_DISPLAY_MODE(options.mode)
     this.SET_IS_TOAST_SHOW(false)
