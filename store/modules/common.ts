@@ -64,7 +64,11 @@ export class CommonModule extends VuexModule {
     }
 
     try {
-      const xml = await $axios.$get(getUrl)
+      const xml = await $axios.$get(getUrl, {
+        params: {
+          timestamp: Date.now()
+        }
+      })
 
       const json: any = await new Promise(
         (resolve): void => {
