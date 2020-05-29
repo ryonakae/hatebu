@@ -11,6 +11,23 @@
   --color-bg-pre: #e8e8e8;
   --color-border: rgba(0, 0, 0, 0.05);
 
+  /* dark mode */
+  /* stylelint-disable-next-line csstools/media-use-custom-media */
+  @media (prefers-color-scheme: dark) {
+    --color-text: #fff;
+    --color-key: #527dff;
+
+    /* --color-accent: #ff5441; */
+
+    /* --color-accent-rgb: 255, 84, 65; */
+    --color-sub: #9c9c9c;
+    --color-bg: #080808;
+    --color-bg-content: #1a1a1a;
+    --color-bg-footer: #0d0d0d;
+    --color-bg-pre: #242424;
+    --color-border: rgba(255, 255, 255, 0.05);
+  }
+
   /* typography */
   --fontSize: 1.5rem;
   --fontSize-small: 1.2rem;
