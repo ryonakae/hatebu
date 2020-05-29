@@ -32,11 +32,6 @@
             <span>{{ categoryName }}</span>
           </nuxt-link>
         </div>
-        <div class="swiper-slide category-item">
-          <a class="category-link is-noborder" href="https://kadenkaigi.com/" target="_blank">
-            <span>家電</span>
-          </a>
-        </div>
       </div>
     </div>
   </nav>

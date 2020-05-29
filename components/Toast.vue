@@ -23,9 +23,11 @@ export default class extends Vue {
   onIsToastShowChange(isToastShow: boolean): void {
     if (isToastShow) {
       console.log('toast show')
+      common.enableProhibitScroll()
       this.show('読み込み中…')
     } else {
       console.log('toast hide')
+      common.disableProhibitScroll()
       this.hide('読み込み完了', 500)
     }
   }

@@ -70,20 +70,18 @@ export class CommonModule extends VuexModule {
         }
       })
 
-      const json: any = await new Promise(
-        (resolve): void => {
-          parseString(
-            xml,
-            {
-              trim: true,
-              explicitArray: false
-            },
-            (_err, data): void => {
-              resolve(data['rdf:RDF'])
-            }
-          )
-        }
-      )
+      const json: any = await new Promise((resolve): void => {
+        parseString(
+          xml,
+          {
+            trim: true,
+            explicitArray: false
+          },
+          (_err, data): void => {
+            resolve(data['rdf:RDF'])
+          }
+        )
+      })
 
       return json
     } catch (error) {
@@ -107,6 +105,28 @@ export class CommonModule extends VuexModule {
 
     this.SET_DISPLAY_MODE(options.mode)
     this.SET_IS_TOAST_SHOW(false)
+  }
+
+  @Action({ rawError: true })
+  public prohibitScroll(event: Event | WheelEvent | TouchEvent): void {
+    console.log('prohibitScroll')
+    event.preventDefault()
+  }
+
+  @Action({ rawError: true })
+  public enableProhibitScroll(): void {
+    window.addEventListener('scroll', this.prohibitScroll, { passive: false })
+    window.addEventListener('wheel', this.prohibitScroll, { passive: false })
+    window.addEventListener('touchmove', this.prohibitScroll, {
+      passive: false
+    })
+  }
+
+  @Action({ rawError: true })
+  public disableProhibitScroll(): void {
+    window.removeEventListener('scroll', this.prohibitScroll)
+    window.removeEventListener('wheel', this.prohibitScroll)
+    window.removeEventListener('touchmove', this.prohibitScroll)
   }
 }
 

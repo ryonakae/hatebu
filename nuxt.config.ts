@@ -70,12 +70,16 @@ const config: NuxtConfiguration = {
   },
   router: {
     mode: 'history',
-    scrollBehavior(to, from, savedPosition): Position {
-      if (savedPosition) {
-        return savedPosition
-      } else {
-        return { x: 0, y: 0 }
-      }
+    scrollBehavior(to, from, savedPosition): Promise<Position> {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (savedPosition) {
+            resolve(savedPosition)
+          } else {
+            resolve({ x: 0, y: 0 })
+          }
+        }, 500)
+      })
     }
   },
   plugins: [
