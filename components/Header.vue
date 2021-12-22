@@ -20,6 +20,7 @@ export default class extends Vue {}
   justify-content: center;
   padding-top: 15px;
   padding-bottom: 15px;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .title {

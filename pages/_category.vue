@@ -1,6 +1,8 @@
 <template>
   <div class="content">
-    <div v-if="!rssData" class="loading"><span>Loading</span></div>
+    <div v-if="!rssData" class="loading">
+      <span>読み込み中…</span>
+    </div>
 
     <div v-else class="entries">
       <h2 class="entries-title">
@@ -101,24 +103,6 @@ import { common } from '~/store/modules/common'
   }
 })
 export default class extends Vue {
-  // fetch
-  async fetch(ctx: Context): Promise<void> {
-    if (process.client) {
-      common.SET_IS_TOAST_SHOW(true)
-    }
-
-    const json = await common.getEntry({
-      mode: common.displayMode,
-      category: ctx.route.params.category as Category
-    })
-    common.SET_RSS_DATA(json)
-    common.SET_CURRENT_CATEGORY(ctx.route.params.category)
-
-    if (process.client) {
-      common.SET_IS_TOAST_SHOW(false)
-    }
-  }
-
   // computed
   get rssData() {
     return common.rssData
@@ -143,18 +127,24 @@ export default class extends Vue {
   }
 
   // lifecycle
-  async mounted(): Promise<void> {
+  async mounted() {
     await this.$nextTick()
     console.log(this.$route)
     console.log(this.rssData)
 
-    // const res = await this.$axios.$get(
-    //   'http://localhost:3000/.netlify/functions/api',
-    //   {
-    //     baseURL: '/'
-    //   }
-    // )
-    // console.log(res)
+    common.SET_IS_TOAST_SHOW(true)
+
+    // common.SET_RSS_DATA(null)
+
+    const json = await common.getEntry({
+      mode: common.displayMode,
+      category: this.$route.params.category as Category
+    })
+
+    common.SET_RSS_DATA(json)
+    common.SET_CURRENT_CATEGORY(this.$route.params.category)
+
+    common.SET_IS_TOAST_SHOW(false)
   }
 }
 </script>
@@ -162,6 +152,7 @@ export default class extends Vue {
 <style scoped>
 .content {
   min-height: 100vh;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .loading {

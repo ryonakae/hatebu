@@ -87,28 +87,6 @@ export class CommonModule extends VuexModule {
     this.SET_DISPLAY_MODE(options.mode)
     this.SET_IS_TOAST_SHOW(false)
   }
-
-  @Action({ rawError: true })
-  public prohibitScroll(event: Event | WheelEvent | TouchEvent): void {
-    console.log('prohibitScroll')
-    event.preventDefault()
-  }
-
-  @Action({ rawError: true })
-  public enableProhibitScroll(): void {
-    window.addEventListener('scroll', this.prohibitScroll, { passive: false })
-    window.addEventListener('wheel', this.prohibitScroll, { passive: false })
-    window.addEventListener('touchmove', this.prohibitScroll, {
-      passive: false
-    })
-  }
-
-  @Action({ rawError: true })
-  public disableProhibitScroll(): void {
-    window.removeEventListener('scroll', this.prohibitScroll)
-    window.removeEventListener('wheel', this.prohibitScroll)
-    window.removeEventListener('touchmove', this.prohibitScroll)
-  }
 }
 
 export const common = getModule(CommonModule, store)

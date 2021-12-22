@@ -71,19 +71,13 @@ const config: NuxtConfig = {
     ]
   },
   router: {
-    mode: 'hash',
-    scrollBehavior(to, from, savedPosition) {
-      if (savedPosition) {
-        return savedPosition
-      } else {
-        return { x: 0, y: 0 }
-      }
-    }
+    mode: 'hash'
   },
   plugins: [
-    { src: '~/plugins/axios', mode: 'all' },
-    { src: '~/plugins/vueAwesomeSwiper', mode: 'client' },
-    { src: '~/plugins/keyCodes', mode: 'client' }
+    '~/plugins/axios',
+    '~/plugins/vueAwesomeSwiper',
+    '~/plugins/keyCodes',
+    '~/plugins/vScrollLock'
   ],
   modules: [
     '@nuxtjs/axios',

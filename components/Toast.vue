@@ -23,12 +23,11 @@ export default class extends Vue {
   onIsToastShowChange(isToastShow: boolean): void {
     if (isToastShow) {
       console.log('toast show')
-      common.enableProhibitScroll()
       this.show('読み込み中…')
     } else {
       console.log('toast hide')
-      common.disableProhibitScroll()
-      this.hide('読み込み完了', 500)
+      // this.hide('読み込み完了', 500)
+      this.isVisible = false
     }
   }
 
@@ -61,7 +60,9 @@ export default class extends Vue {
   width: 100%;
   height: 100%;
   padding: var(--padding-notice);
-  pointer-events: none;
+
+  /* pointer-events: none; */
+  background-color: rgb(0 0 0 / 20%);
 
   &.is-visible {
     display: flex;
