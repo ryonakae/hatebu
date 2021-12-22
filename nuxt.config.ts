@@ -71,7 +71,7 @@ const config: NuxtConfig = {
     ]
   },
   router: {
-    mode: 'history',
+    mode: 'hash',
     scrollBehavior(to, from, savedPosition) {
       if (savedPosition) {
         return savedPosition
