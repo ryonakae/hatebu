@@ -1,5 +1,5 @@
 <template>
-  <div class="toastArea" :class="{ 'is-visible': isVisible }">
+  <div class="toast-area" :class="{ 'is-visible': isVisible }">
     <div class="toast">
       <span>{{ message }}</span>
     </div>
@@ -50,7 +50,7 @@ export default class extends Vue {
 </script>
 
 <style scoped>
-.toastArea {
+.toast-area {
   position: fixed;
   top: 0;
   left: 0;
@@ -74,7 +74,7 @@ export default class extends Vue {
   justify-content: center;
   width: 95px;
   height: 25px;
-  font-size: var(--fontSize-small);
+  font-size: var(--fontsize-small);
   color: var(--color-key);
   background-color: var(--color-bg);
   border-radius: calc(25px / 2);

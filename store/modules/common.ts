@@ -1,4 +1,10 @@
-import { Module, Mutation, VuexModule, getModule, Action } from 'vuex-module-decorators'
+import {
+  Module,
+  Mutation,
+  VuexModule,
+  getModule,
+  Action
+} from 'vuex-module-decorators'
 import xml2js from 'xml2js'
 import { AxiosError } from 'axios'
 import { store } from '~/store'
@@ -23,9 +29,10 @@ export class CommonModule extends VuexModule {
     entertainment: 'エンタメ',
     game: 'アニメとゲーム'
   }
+
   public currentCategory = 'all'
   public displayMode: DisplayMode = 'hotentry'
-  public rssData = (null as unknown) as RSSData
+  public rssData = null as unknown as RSSData
   public isToastShow = false
 
   @Mutation
@@ -55,7 +62,9 @@ export class CommonModule extends VuexModule {
 
     if (options.mode === 'hotentry') {
       getUrl =
-        options.category === 'all' ? '/hotentry?mode=rss' : '/hotentry/' + options.category + '.rss'
+        options.category === 'all'
+          ? '/hotentry?mode=rss'
+          : '/hotentry/' + options.category + '.rss'
     } else if (options.mode === 'entrylist') {
       getUrl =
         options.category === 'all'

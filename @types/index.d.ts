@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Swiper from 'swiper'
 
 declare global {
@@ -24,10 +23,6 @@ declare global {
     category: keyof Categories
   }
 
-  interface RSSData {
-    item: EntryItem[]
-  }
-
   interface EntryItem {
     title: string
     description: string
@@ -38,6 +33,10 @@ declare global {
     'dc:date': string
     'dc:subject': string[]
     'content:encoded': string
+  }
+
+  interface RSSData {
+    item: EntryItem[]
   }
 }
 

@@ -21,18 +21,36 @@
 
     <div class="footer-copyright">
       <small
-        >Respect <a href="https://b.hatena.ne.jp/" target="_blank">はてなブックマーク</a> and
-        <a href="http://hatebu.straightline.jp/" target="_blank">嫁のはてブ</a></small
+        >Respect
+        <a href="https://b.hatena.ne.jp/" target="_blank">はてなブックマーク</a>
+        and
+        <a href="http://hatebu.straightline.jp/" target="_blank"
+          >嫁のはてブ</a
+        ></small
       >
-      <small>Created by <a href="https://twitter.com/ryo_dg" target="_blank">Ryo Nakae</a></small>
+      <small
+        >Created by
+        <a href="https://twitter.com/ryo_dg" target="_blank"
+          >Ryo Nakae</a
+        ></small
+      >
     </div>
   </footer>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+
+@Component({
+  name: 'Footer'
+})
+export default class extends Vue {}
+</script>
+
 <style scoped>
 .footer {
   padding: 20px var(--padding-content-horizontal-sp);
-  font-size: var(--fontSize-footer);
+  font-size: var(--fontsize-footer);
   color: var(--color-sub);
   background-color: var(--color-bg-footer);
 }
@@ -75,7 +93,7 @@
   align-items: center;
 
   & small {
-    font-size: var(--fontSize-footer);
+    font-size: var(--fontsize-footer);
   }
 
   & :any-link {

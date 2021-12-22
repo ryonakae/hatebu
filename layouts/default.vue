@@ -5,7 +5,9 @@
     <nuxt />
     <Nav />
     <Footer />
-    <no-ssr><Toast /></no-ssr>
+    <client-only>
+      <Toast />
+    </client-only>
   </div>
 </template>
 

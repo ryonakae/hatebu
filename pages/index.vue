@@ -1,6 +1,6 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Context } from '@nuxt/vue-app'
+import { Context } from '@nuxt/types/app'
 
 @Component
 export default class extends Vue {

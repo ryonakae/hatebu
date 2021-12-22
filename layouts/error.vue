@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import { ErrorParams } from '@nuxt/vue-app'
+import { NuxtError } from '@nuxt/types/app'
 import { common } from '~/store/modules/common'
 
 @Component
@@ -23,7 +23,7 @@ export default class extends Vue {
 
   // props
   @Prop({ type: Object, required: true })
-  readonly error!: ErrorParams
+  readonly error!: NuxtError
 
   // lifecycle
   async mounted(): Promise<void> {
@@ -50,7 +50,7 @@ export default class extends Vue {
 }
 
 .title {
-  font-size: var(--fontSize-title);
+  font-size: var(--fontsize-title);
 }
 
 .link {

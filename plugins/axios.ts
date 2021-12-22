@@ -1,5 +1,6 @@
 /* eslint-disable import/no-mutable-exports */
-import { Context, ErrorParams } from '@nuxt/vue-app'
+/* eslint-disable import/named */
+import { Context } from '@nuxt/types/app'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
 
 let $axios!: NuxtAxiosInstance

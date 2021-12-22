@@ -4,6 +4,15 @@
   </header>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+
+@Component({
+  name: 'Header'
+})
+export default class extends Vue {}
+</script>
+
 <style scoped>
 .header {
   display: flex;
@@ -14,6 +23,6 @@
 }
 
 .title {
-  font-size: var(--fontSize);
+  font-size: var(--fontsize);
 }
 </style>

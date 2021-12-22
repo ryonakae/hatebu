@@ -21,7 +21,7 @@ const reqMethods = [
 const service = {}
 
 reqMethods.forEach((method): void => {
-  service[method] = function(): void {
+  service[method] = function (): void {
     if (!client) throw new Error('apiClient not installed')
     return client[method].apply(null, arguments)
   }

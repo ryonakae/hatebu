@@ -125,7 +125,7 @@ export default class extends Vue {
   width: 100%;
   height: 52px;
   overflow: hidden;
-  font-size: var(--fontSize-nav);
+  font-size: var(--fontsize-nav);
   background-color: var(--color-bg-content);
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
