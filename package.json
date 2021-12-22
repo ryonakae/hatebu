@@ -3,12 +3,11 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/google-tag-manager": "^2.3.2",
     "@nuxtjs/proxy": "^2.1.0",
-    "@types/express": "^4.17.13",
     "@types/swiper": "^4.4.3",
     "@types/url-parse": "^1.4.3",
     "@types/xml2js": "^0.4.4",
     "dayjs": "^1.8.15",
-    "express": "^4.17.2",
+    "netlify-lambda": "^2.0.15",
     "nuxt": "^2.15.8",
     "nuxt-property-decorator": "^2.9.1",
     "ress": "^1.2.2",
@@ -19,9 +18,11 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.16.5",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^8.0.0",
+    "@types/aws-lambda": "^8.10.88",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -48,11 +49,12 @@
   },
   "private": true,
   "scripts": {
-    "build": "nuxt build",
+    "build": "netlify-lambda build ./functions && nuxt build",
     "dev": "nuxt",
-    "precommit": "lint-staged",
-    "start": "nuxt start",
+    "dev:functions": "netlify-lambda serve ./functions",
+    "lint:css": "yarn stylelint '**/*.{css,vue}'",
     "lint:js": "yarn eslint --ext .js,.ts,.vue .",
-    "lint:css": "yarn stylelint '**/*.{css,vue}'"
+    "precommit": "lint-staged",
+    "serve": "nuxt serve"
   }
 }

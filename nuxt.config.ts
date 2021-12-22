@@ -91,25 +91,17 @@ const config: NuxtConfig = {
     [
       '@nuxtjs/google-tag-manager',
       {
-        id: 'GTM-K3P2D4D',
+        id: process.env.GTM_ID,
         pageTracking: true
       }
     ]
   ],
   axios: {
-    baseURL: 'https://b.hatena.ne.jp',
-    browserBaseURL: '/api',
-    proxy: true,
-    credentials: true
+    baseURL: '/'
   },
   proxy: {
-    '/api': {
-      target: 'https://b.hatena.ne.jp',
-      pathRewrite: {
-        '^/api': '/'
-      },
-      changeOrigin: true,
-      logLevel: 'debug'
+    '/.netlify/functions': {
+      target: 'http://localhost:9000'
     }
   },
   build: {

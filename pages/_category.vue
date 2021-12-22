@@ -147,6 +147,14 @@ export default class extends Vue {
     await this.$nextTick()
     console.log(this.$route)
     console.log(this.rssData)
+
+    // const res = await this.$axios.$get(
+    //   'http://localhost:3000/.netlify/functions/api',
+    //   {
+    //     baseURL: '/'
+    //   }
+    // )
+    // console.log(res)
   }
 }
 </script>
