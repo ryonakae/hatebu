@@ -1,8 +1,9 @@
 <template>
   <div class="app">
     <Header />
-    <Nav />
+    <Nav :is-top="true" />
     <nuxt />
+    <Nav :is-bottom="true" />
     <Footer />
     <Toast />
   </div>

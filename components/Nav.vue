@@ -1,49 +1,66 @@
 <template>
-  <nav class="nav">
-    <ul class="display">
-      <li
-        class="display-item link is-noborder"
-        :class="{ 'is-active': displayMode === 'hotentry' }"
-        @click.stop="changeDisplayMode('hotentry')"
-      >
-        人気
-      </li>
-      <li
-        class="display-item link is-noborder"
-        :class="{ 'is-active': displayMode === 'entrylist' }"
-        @click.stop="changeDisplayMode('entrylist')"
-      >
-        新着
-      </li>
-    </ul>
-
-    <div v-swiper:swiper="swiperOptions" class="category">
-      <div class="swiper-wrapper">
-        <div
-          v-for="(categoryName, category) in categories"
-          :key="category"
-          class="swiper-slide category-item"
+  <div class="nav" :class="{ 'is-top': isTop, 'is-bottom': isBottom }">
+    <Divider v-if="isBottom" />
+    <nav class="nav-content">
+      <ul class="display">
+        <li
+          class="display-item link is-noborder"
+          :class="{ 'is-active': displayMode === 'hotentry' }"
+          @click.stop="changeDisplayMode('hotentry')"
         >
-          <nuxt-link
-            class="category-link is-noborder"
-            :to="'/' + category"
-            @click.native="onLinkClick(category)"
+          人気
+        </li>
+        <li
+          class="display-item link is-noborder"
+          :class="{ 'is-active': displayMode === 'entrylist' }"
+          @click.stop="changeDisplayMode('entrylist')"
+        >
+          新着
+        </li>
+      </ul>
+
+      <div v-swiper:swiper="swiperOptions" class="category">
+        <div class="swiper-wrapper">
+          <div
+            v-for="(categoryName, category) in categories"
+            :key="category"
+            class="swiper-slide category-item"
           >
-            <span>{{ categoryName }}</span>
-          </nuxt-link>
+            <nuxt-link
+              class="category-link is-noborder"
+              :to="'/' + category"
+              @click.native="onLinkClick(category)"
+            >
+              <span>{{ categoryName }}</span>
+            </nuxt-link>
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+    <Divider />
+    <div v-if="isBottom" class="safe-area" />
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Vue, Watch, Prop } from 'nuxt-property-decorator'
 import { common } from '~/store/modules/common'
-import categoryPage from '~/pages/_category.vue'
 
-@Component
+import Divider from '~/components/Divider.vue'
+
+@Component({
+  components: {
+    Divider
+  }
+})
 export default class extends Vue {
+  // props
+  @Prop({ type: Boolean, required: false, default: false })
+  readonly isBottom!: boolean
+
+  @Prop({ type: Boolean, required: false, default: false })
+  readonly isTop!: boolean
+
   // data
   private swiperOptions = {
     slidesPerView: 'auto',
@@ -121,16 +138,43 @@ export default class extends Vue {
 
 <style scoped>
 .nav {
-  position: sticky;
-  top: 0;
   z-index: 10;
-  display: flex;
   width: 100%;
-  height: 52px;
-  overflow: hidden;
   font-size: var(--fontsize-nav);
   background-color: var(--color-bg-content);
-  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+
+  &.is-top {
+    display: block;
+    top: 0;
+
+    @media (--sp) {
+      display: none;
+    }
+  }
+
+  &.is-bottom {
+    display: none;
+    bottom: 0;
+    /* height: calc(var(--nav-height) + var(--safe-area-inset-bottom)); */
+
+    @media (--sp) {
+      display: block;
+    }
+  }
+}
+
+.nav-content {
+  width: 100%;
+  height: var(--nav-height);
+  display: flex;
+  overflow: hidden;
+}
+
+.safe-area {
+  /* height: calc(var(--nav-height) + var(--safe-area-inset-bottom)); */
+  height: var(--safe-area-inset-bottom);
+  background-color: var(--color-bg-footer);
 }
 
 .display {
@@ -139,13 +183,13 @@ export default class extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 var(--padding-content-horizontal);
+  padding: 0 16px 0 var(--padding-content-horizontal);
   white-space: nowrap;
   list-style-type: none;
   background-color: var(--color-bg-content);
 
   @media (--sp) {
-    padding-right: var(--padding-content-horizontal-sp);
+    padding-right: 8px;
     padding-left: var(--padding-content-horizontal-sp);
   }
 }

@@ -13,41 +13,45 @@
           >{{ categoryName }}の新着エントリー</span
         >
       </h2>
+      <Divider />
 
       <ul class="entries-list">
-        <li
-          v-for="entry in rssData.item"
-          :key="entry.link"
-          class="entry"
-          :class="{ 'is-noimage': !entry['hatena:imageurl'] }"
-        >
-          <h3 class="entry-title">
-            <a :href="entry.link" target="_blank" v-html="entry.title" />
-          </h3>
-          <a
-            v-if="entry['hatena:imageurl']"
-            :href="entry.link"
-            target="_blank"
-            class="entry-image"
-            :style="{
-              backgroundImage: 'url(' + entry['hatena:imageurl'] + ')'
-            }"
-          />
-          <div class="entry-info">
+        <li v-for="entry in rssData.item" :key="entry.link" class="entry">
+          <div
+            class="entry-content"
+            :class="{ 'is-noimage': !entry['hatena:imageurl'] }"
+          >
+            <h3 class="entry-title">
+              <a :href="entry.link" target="_blank" v-html="entry.title" />
+            </h3>
             <a
-              class="entry-users"
-              :href="entry['hatena:bookmarkCommentListPageUrl']"
+              v-if="entry['hatena:imageurl']"
+              :href="entry.link"
               target="_blank"
-            >
-              <span>{{ entry['hatena:bookmarkcount'] }} users</span>
-            </a>
-            <div class="entry-subject">{{ entry['dc:subject'] | subject }}</div>
-            <div class="entry-date">{{ entry['dc:date'] | dayjs }}</div>
+              class="entry-image"
+              :style="{
+                backgroundImage: 'url(' + entry['hatena:imageurl'] + ')'
+              }"
+            />
+            <div class="entry-info">
+              <a
+                class="entry-users"
+                :href="entry['hatena:bookmarkCommentListPageUrl']"
+                target="_blank"
+              >
+                <span>{{ entry['hatena:bookmarkcount'] }} users</span>
+              </a>
+              <div class="entry-subject">
+                {{ entry['dc:subject'] | subject }}
+              </div>
+              <div class="entry-date">{{ entry['dc:date'] | dayjs }}</div>
+            </div>
+            <div class="entry-hostname">
+              <img :src="getFaviconUrl(entry.link)" alt="" />
+              <span>{{ entry.link | hostName }}</span>
+            </div>
           </div>
-          <div class="entry-hostname">
-            <img :src="getFaviconUrl(entry.link)" alt="" />
-            <span>{{ entry.link | hostName }}</span>
-          </div>
+          <Divider />
         </li>
       </ul>
 
@@ -76,7 +80,12 @@ import Url from 'url-parse'
 import { Context } from '@nuxt/types/app'
 import { common } from '~/store/modules/common'
 
+import Divider from '~/components/Divider.vue'
+
 @Component({
+  components: {
+    Divider
+  },
   filters: {
     dayjs: (date: string): string => {
       const today = dayjs().startOf('day')
@@ -152,7 +161,6 @@ export default class extends Vue {
 <style scoped>
 .content {
   min-height: 100vh;
-  border-bottom: 1px solid var(--color-border);
 }
 
 .loading {
@@ -184,7 +192,6 @@ export default class extends Vue {
 
 .entries-link {
   font-size: var(--fontsize-nav);
-  border-top: 1px solid var(--color-border);
 
   & :any-link {
     display: block;
@@ -196,12 +203,11 @@ export default class extends Vue {
   }
 }
 
-.entry {
+.entry-content {
   display: grid;
   grid-template-columns: auto var(--image-size);
   grid-gap: 3px 10px;
   padding: var(--padding-content-vertical) var(--padding-content-horizontal);
-  border-top: 1px solid var(--color-border);
 
   @media (--sp) {
     padding: var(--padding-content-vertical-sp)
@@ -263,14 +269,14 @@ export default class extends Vue {
   padding: 0 8px;
   font-size: var(--fontsize-small);
   color: var(--color-accent);
-  background-color: rgb(var(--color-accent-rgb) 0.08);
+  background-color: rgb(var(--color-accent-rgb), 0.08);
   border-radius: calc(20px / 2);
 
   @media (hover) {
     &:hover {
       color: white;
       text-decoration: none;
-      background-color: rgb(var(--color-accent-rgb) 1);
+      background-color: rgb(var(--color-accent-rgb), 1);
     }
   }
 }

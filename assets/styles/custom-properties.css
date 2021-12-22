@@ -50,8 +50,28 @@
   --padding-content-horizontal-sp: 15px;
   --padding-content-vertical: 20px;
   --padding-content-vertical-sp: 15px;
-  --padding-notice: 25px;
   --image-size: 50px;
   --favicon-size: 14px;
   --border-radius: 4px;
+  --nav-height: 52px;
+
+  /* safe area */
+  --safe-area-inset-top: 1px;
+  --safe-area-inset-right: 1px;
+  --safe-area-inset-bottom: 1px;
+  --safe-area-inset-left: 1px;
+
+  @supports (top: constant(safe-area-inset-top)) {
+    --safe-area-inset-top: constant(safe-area-inset-top, 1px);
+    --safe-area-inset-right: constant(safe-area-inset-right, 1px);
+    --safe-area-inset-bottom: constant(safe-area-inset-bottom, 1px);
+    --safe-area-inset-left: constant(safe-area-inset-left, 1px);
+  }
+
+  @supports (top: env(safe-area-inset-top)) {
+    --safe-area-inset-top: env(safe-area-inset-top, 1px);
+    --safe-area-inset-right: env(safe-area-inset-right, 1px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 1px);
+    --safe-area-inset-left: env(safe-area-inset-left, 1px);
+  }
 }
