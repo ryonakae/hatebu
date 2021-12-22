@@ -121,13 +121,15 @@ export default class extends Vue {
 
 <style scoped>
 .nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   width: 100%;
   height: 52px;
   overflow: hidden;
-  font-size: var(--fontSize-nav);
+  font-size: var(--fontsize-nav);
   background-color: var(--color-bg-content);
-  border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -137,10 +139,15 @@ export default class extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 8px;
+  padding: 0 var(--padding-content-horizontal);
   white-space: nowrap;
   list-style-type: none;
   background-color: var(--color-bg-content);
+
+  @media (--sp) {
+    padding-right: var(--padding-content-horizontal-sp);
+    padding-left: var(--padding-content-horizontal-sp);
+  }
 }
 
 .display-item {

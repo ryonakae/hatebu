@@ -1,11 +1,10 @@
 <template>
-  <div class="app">
+  <div v-scroll-lock="isToastShow" class="app">
     <Header />
     <Nav />
     <nuxt />
-    <Nav />
     <Footer />
-    <no-ssr><Toast /></no-ssr>
+    <Toast />
   </div>
 </template>
 
@@ -37,6 +36,10 @@ export default class extends Vue {
 
   get currentCategory() {
     return common.currentCategory
+  }
+
+  get isToastShow() {
+    return common.isToastShow
   }
 
   // methods

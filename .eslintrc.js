@@ -1,27 +1,39 @@
 module.exports = {
   root: true,
-  env: {
-    browser: true,
-    node: true
-  },
-  parserOptions: {
-    parser: '@typescript-eslint/parser',
-    project: './tsconfig.json',
-    ecmaVersion: 2019
-  },
   extends: [
-    'plugin:@typescript-eslint/recommended',
-    '@nuxtjs',
+    '@nuxtjs/eslint-config-typescript',
     'plugin:prettier/recommended',
-    'prettier/standard',
-    'prettier/@typescript-eslint',
-    'prettier/vue'
+    'prettier'
   ],
   rules: {
-    camelcase: 'warn',
+    camelcase: 'off',
     'no-console': 'off',
     'no-unused-vars': 'off',
-    '@typescript-eslint/camelcase': 'warn',
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'default',
+        format: ['camelCase']
+      },
+      {
+        selector: 'variable',
+        format: ['camelCase']
+      },
+      {
+        selector: 'parameter',
+        format: ['camelCase'],
+        leadingUnderscore: 'allow'
+      },
+      {
+        selector: 'memberLike',
+        format: ['camelCase', 'PascalCase', 'UPPER_CASE', 'snake_case']
+      },
+      {
+        selector: 'typeLike',
+        format: ['PascalCase']
+      }
+    ],
+    '@typescript-eslint/no-unused-vars': 'warn',
     'vue/max-attributes-per-line': 'off',
     'vue/no-v-html': 'warn',
     'vue/html-self-closing': [
@@ -39,6 +51,6 @@ module.exports = {
         ignores: ['nuxt', 'nuxt-link', 'n-link', 'transition', 'no-ssr']
       }
     ],
-    'unicorn/number-literal-case': 'off'
+    'vue/component-tags-order': 'error'
   }
 }

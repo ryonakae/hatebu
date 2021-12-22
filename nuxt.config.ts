@@ -1,5 +1,4 @@
-import NuxtConfiguration from '@nuxt/config'
-import { Position } from 'vue-router/types/router'
+import { NuxtConfig } from '@nuxt/types'
 
 const siteInfo = {
   title: '俺のはてブ',
@@ -7,9 +6,9 @@ const siteInfo = {
   description: '俺のためのはてブ'
 }
 
-const config: NuxtConfiguration = {
+const config: NuxtConfig = {
   loading: false,
-  mode: 'universal',
+  ssr: false,
   css: ['~/assets/styles/main.css', 'swiper/dist/css/swiper.css'],
   head: {
     htmlAttrs: {
@@ -19,7 +18,10 @@ const config: NuxtConfiguration = {
     meta: [
       { charset: 'utf-8' },
       { name: 'robots', content: 'index, follow' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, minimum-scale=1.0' },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1.0, minimum-scale=1.0'
+      },
       {
         hid: 'description',
         name: 'description',
@@ -69,19 +71,13 @@ const config: NuxtConfiguration = {
     ]
   },
   router: {
-    mode: 'history',
-    scrollBehavior(to, from, savedPosition): Position {
-      if (savedPosition) {
-        return savedPosition
-      } else {
-        return { x: 0, y: 0 }
-      }
-    }
+    mode: 'hash'
   },
   plugins: [
-    { src: '~/plugins/axios', mode: 'all' },
-    { src: '~/plugins/vueAwesomeSwiper', mode: 'client' },
-    { src: '~/plugins/keyCodes', mode: 'client' }
+    '~/plugins/axios',
+    '~/plugins/vueAwesomeSwiper',
+    '~/plugins/keyCodes',
+    '~/plugins/vScrollLock'
   ],
   modules: [
     '@nuxtjs/axios',
@@ -89,26 +85,17 @@ const config: NuxtConfiguration = {
     [
       '@nuxtjs/google-tag-manager',
       {
-        id: 'GTM-K3P2D4D',
+        id: process.env.GTM_ID,
         pageTracking: true
       }
     ]
   ],
   axios: {
-    baseURL: 'https://b.hatena.ne.jp',
-    browserBaseURL: '/api',
-    proxy: true,
-    credentials: true,
-    withCredentials: true
+    baseURL: '/'
   },
   proxy: {
-    '/api': {
-      target: 'https://b.hatena.ne.jp',
-      pathRewrite: {
-        '^/api': '/'
-      },
-      changeOrigin: true,
-      logLevel: 'debug'
+    '/.netlify/functions': {
+      target: 'http://localhost:9000'
     }
   },
   build: {
@@ -129,7 +116,10 @@ const config: NuxtConfiguration = {
           'custom-media-queries': true,
           'nesting-rules': true
         },
-        importFrom: ['./assets/styles/custom-properties.css', './assets/styles/custom-media.css']
+        importFrom: [
+          './assets/styles/custom-properties.css',
+          './assets/styles/custom-media.css'
+        ]
       }
     },
     terser: {
@@ -145,7 +135,8 @@ const config: NuxtConfiguration = {
         }
       }
     }
-  }
+  },
+  buildModules: ['@nuxt/typescript-build']
 }
 
 export default config

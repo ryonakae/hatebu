@@ -7,21 +7,16 @@ html {
 }
 
 body {
-  font-family: var(--fontFamily);
-  font-size: var(--fontSize);
-  line-height: var(--lineHeight);
+  font-family: var(--fontfamily);
+  font-size: var(--fontsize);
+  line-height: var(--lineheight);
   color: var(--color-text);
-  letter-spacing: var(--letterSpacing);
+  letter-spacing: var(--letterspacing);
   overflow-wrap: break-word;
   background-color: var(--color-bg);
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: unset;
-  -webkit-text-size-adjust: 100%;
-
-  & ::-moz-selection {
-    color: white;
-    background-color: var(--color-accent);
-  }
+  text-size-adjust: 100%;
 
   & ::selection {
     color: white;
@@ -40,11 +35,11 @@ h3,
 h4,
 h5,
 h6 {
-  line-height: var(--lineHeight-title);
+  line-height: var(--lineheight-title);
 }
 
 pre {
-  font-family: var(--fontFamily-code);
+  font-family: var(--fontfamily-code);
 }
 
 :any-link,

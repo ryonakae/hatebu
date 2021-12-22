@@ -1,5 +1,5 @@
 <template>
-  <div class="toastArea" :class="{ 'is-visible': isVisible }">
+  <div class="toast-area" :class="{ 'is-visible': isVisible }">
     <div class="toast">
       <span>{{ message }}</span>
     </div>
@@ -23,12 +23,11 @@ export default class extends Vue {
   onIsToastShowChange(isToastShow: boolean): void {
     if (isToastShow) {
       console.log('toast show')
-      common.enableProhibitScroll()
       this.show('読み込み中…')
     } else {
       console.log('toast hide')
-      common.disableProhibitScroll()
-      this.hide('読み込み完了', 500)
+      // this.hide('読み込み完了', 500)
+      this.isVisible = false
     }
   }
 
@@ -50,7 +49,7 @@ export default class extends Vue {
 </script>
 
 <style scoped>
-.toastArea {
+.toast-area {
   position: fixed;
   top: 0;
   left: 0;
@@ -61,7 +60,9 @@ export default class extends Vue {
   width: 100%;
   height: 100%;
   padding: var(--padding-notice);
-  pointer-events: none;
+
+  /* pointer-events: none; */
+  background-color: rgb(0 0 0 / 20%);
 
   &.is-visible {
     display: flex;
@@ -74,7 +75,7 @@ export default class extends Vue {
   justify-content: center;
   width: 95px;
   height: 25px;
-  font-size: var(--fontSize-small);
+  font-size: var(--fontsize-small);
   color: var(--color-key);
   background-color: var(--color-bg);
   border-radius: calc(25px / 2);

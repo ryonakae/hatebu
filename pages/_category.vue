@@ -1,11 +1,17 @@
 <template>
   <div class="content">
-    <div v-if="!rssData" class="loading"><span>Loading</span></div>
+    <div v-if="!rssData" class="loading">
+      <span>読み込み中…</span>
+    </div>
 
     <div v-else class="entries">
       <h2 class="entries-title">
-        <span v-if="displayMode === 'hotentry'">{{ categoryName }}の人気エントリー</span>
-        <span v-else-if="displayMode === 'entrylist'">{{ categoryName }}の新着エントリー</span>
+        <span v-if="displayMode === 'hotentry'"
+          >{{ categoryName }}の人気エントリー</span
+        >
+        <span v-else-if="displayMode === 'entrylist'"
+          >{{ categoryName }}の新着エントリー</span
+        >
       </h2>
 
       <ul class="entries-list">
@@ -23,7 +29,9 @@
             :href="entry.link"
             target="_blank"
             class="entry-image"
-            :style="{ backgroundImage: 'url(' + entry['hatena:imageurl'] + ')' }"
+            :style="{
+              backgroundImage: 'url(' + entry['hatena:imageurl'] + ')'
+            }"
           />
           <div class="entry-info">
             <a
@@ -36,8 +44,9 @@
             <div class="entry-subject">{{ entry['dc:subject'] | subject }}</div>
             <div class="entry-date">{{ entry['dc:date'] | dayjs }}</div>
           </div>
-          <div class="entry-hostName">
-            <img :src="getFaviconUrl(entry.link)" alt="" /> <span>{{ entry.link | hostName }}</span>
+          <div class="entry-hostname">
+            <img :src="getFaviconUrl(entry.link)" alt="" />
+            <span>{{ entry.link | hostName }}</span>
           </div>
         </li>
       </ul>
@@ -64,7 +73,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import dayjs from 'dayjs'
 import Url from 'url-parse'
-import { Context } from '@nuxt/vue-app'
+import { Context } from '@nuxt/types/app'
 import { common } from '~/store/modules/common'
 
 @Component({
@@ -94,24 +103,6 @@ import { common } from '~/store/modules/common'
   }
 })
 export default class extends Vue {
-  // fetch
-  async fetch(ctx: Context): Promise<void> {
-    if (process.client) {
-      common.SET_IS_TOAST_SHOW(true)
-    }
-
-    const json = await common.getEntry({
-      mode: common.displayMode,
-      category: ctx.route.params.category as Category
-    })
-    common.SET_RSS_DATA(json)
-    common.SET_CURRENT_CATEGORY(ctx.route.params.category)
-
-    if (process.client) {
-      common.SET_IS_TOAST_SHOW(false)
-    }
-  }
-
   // computed
   get rssData() {
     return common.rssData
@@ -136,10 +127,24 @@ export default class extends Vue {
   }
 
   // lifecycle
-  async mounted(): Promise<void> {
+  async mounted() {
     await this.$nextTick()
     console.log(this.$route)
     console.log(this.rssData)
+
+    common.SET_IS_TOAST_SHOW(true)
+
+    // common.SET_RSS_DATA(null)
+
+    const json = await common.getEntry({
+      mode: common.displayMode,
+      category: this.$route.params.category as Category
+    })
+
+    common.SET_RSS_DATA(json)
+    common.SET_CURRENT_CATEGORY(this.$route.params.category)
+
+    common.SET_IS_TOAST_SHOW(false)
   }
 }
 </script>
@@ -147,6 +152,7 @@ export default class extends Vue {
 <style scoped>
 .content {
   min-height: 100vh;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .loading {
@@ -154,7 +160,7 @@ export default class extends Vue {
   top: 50%;
   left: 0;
   width: 100%;
-  font-size: var(--fontSize-nav);
+  font-size: var(--fontsize-nav);
   color: var(--color-sub);
   text-align: center;
   transform: translateY(-50%);
@@ -162,7 +168,7 @@ export default class extends Vue {
 
 .entries-title {
   padding: 8px var(--padding-content-horizontal);
-  font-size: var(--fontSize-small);
+  font-size: var(--fontsize-small);
   text-align: center;
   background-color: var(--color-bg-footer);
 
@@ -177,7 +183,7 @@ export default class extends Vue {
 }
 
 .entries-link {
-  font-size: var(--fontSize-nav);
+  font-size: var(--fontsize-nav);
   border-top: 1px solid var(--color-border);
 
   & :any-link {
@@ -193,13 +199,13 @@ export default class extends Vue {
 .entry {
   display: grid;
   grid-template-columns: auto var(--image-size);
-  grid-row-gap: 3px;
-  grid-column-gap: 10px;
+  grid-gap: 3px 10px;
   padding: var(--padding-content-vertical) var(--padding-content-horizontal);
   border-top: 1px solid var(--color-border);
 
   @media (--sp) {
-    padding: var(--padding-content-vertical-sp) var(--padding-content-horizontal-sp);
+    padding: var(--padding-content-vertical-sp)
+      var(--padding-content-horizontal-sp);
   }
 
   &:first-child {
@@ -215,7 +221,7 @@ export default class extends Vue {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
   margin-bottom: 3px;
-  font-size: var(--fontSize);
+  font-size: var(--fontsize);
 }
 
 .entry-image {
@@ -255,28 +261,28 @@ export default class extends Vue {
 .entry-users {
   height: 20px;
   padding: 0 8px;
-  font-size: var(--fontSize-small);
+  font-size: var(--fontsize-small);
   color: var(--color-accent);
-  background-color: rgba(var(--color-accent-rgb), 0.08);
+  background-color: rgb(var(--color-accent-rgb) 0.08);
   border-radius: calc(20px / 2);
 
   @media (hover) {
     &:hover {
       color: white;
       text-decoration: none;
-      background-color: rgba(var(--color-accent-rgb), 1);
+      background-color: rgb(var(--color-accent-rgb) 1);
     }
   }
 }
 
 .entry-subject,
-.entry-hostName,
+.entry-hostname,
 .entry-date {
-  font-size: var(--fontSize-small);
+  font-size: var(--fontsize-small);
   color: var(--color-sub);
 }
 
-.entry-hostName {
+.entry-hostname {
   display: flex;
   grid-row: 3 / 4;
   grid-column: 1 / 2;

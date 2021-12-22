@@ -59,6 +59,6 @@ typings/
 
 ##### MY GITIGNORE #####
 .DS_Store
-.docker-sync
 .nuxt
 dist
+functions/dist

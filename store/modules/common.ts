@@ -1,5 +1,10 @@
-import { Module, Mutation, VuexModule, getModule, Action } from 'vuex-module-decorators'
-import xml2js from 'xml2js'
+import {
+  Module,
+  Mutation,
+  VuexModule,
+  getModule,
+  Action
+} from 'vuex-module-decorators'
 import { AxiosError } from 'axios'
 import { store } from '~/store'
 import { $axios, $redirect } from '~/plugins/axios'
@@ -23,9 +28,10 @@ export class CommonModule extends VuexModule {
     entertainment: 'エンタメ',
     game: 'アニメとゲーム'
   }
+
   public currentCategory = 'all'
   public displayMode: DisplayMode = 'hotentry'
-  public rssData = (null as unknown) as RSSData
+  public rssData = null as unknown as RSSData
   public isToastShow = false
 
   @Mutation
@@ -50,44 +56,19 @@ export class CommonModule extends VuexModule {
 
   @Action({ rawError: true })
   public async getEntry(options: GetEntryOptions): Promise<any> {
-    const parseString = xml2js.parseString
-    let getUrl!: string
-
-    if (options.mode === 'hotentry') {
-      getUrl =
-        options.category === 'all' ? '/hotentry?mode=rss' : '/hotentry/' + options.category + '.rss'
-    } else if (options.mode === 'entrylist') {
-      getUrl =
-        options.category === 'all'
-          ? '/entrylist?mode=rss'
-          : '/entrylist/' + options.category + '.rss'
-    }
-
-    try {
-      const xml = await $axios.$get(getUrl, {
+    const res = await $axios
+      .$get('.netlify/functions/api', {
         params: {
-          timestamp: Date.now()
+          mode: options.mode,
+          category: options.category
         }
       })
-
-      const json: any = await new Promise((resolve): void => {
-        parseString(
-          xml,
-          {
-            trim: true,
-            explicitArray: false
-          },
-          (_err, data): void => {
-            resolve(data['rdf:RDF'])
-          }
-        )
+      .catch(error => {
+        $redirect('/')
+        throw new Error(error)
       })
 
-      return json
-    } catch (error) {
-      $redirect('/')
-      throw new Error(error)
-    }
+    return res.content
   }
 
   @Action({ rawError: true })
@@ -105,28 +86,6 @@ export class CommonModule extends VuexModule {
 
     this.SET_DISPLAY_MODE(options.mode)
     this.SET_IS_TOAST_SHOW(false)
-  }
-
-  @Action({ rawError: true })
-  public prohibitScroll(event: Event | WheelEvent | TouchEvent): void {
-    console.log('prohibitScroll')
-    event.preventDefault()
-  }
-
-  @Action({ rawError: true })
-  public enableProhibitScroll(): void {
-    window.addEventListener('scroll', this.prohibitScroll, { passive: false })
-    window.addEventListener('wheel', this.prohibitScroll, { passive: false })
-    window.addEventListener('touchmove', this.prohibitScroll, {
-      passive: false
-    })
-  }
-
-  @Action({ rawError: true })
-  public disableProhibitScroll(): void {
-    window.removeEventListener('scroll', this.prohibitScroll)
-    window.removeEventListener('wheel', this.prohibitScroll)
-    window.removeEventListener('touchmove', this.prohibitScroll)
   }
 }
 
