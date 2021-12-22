@@ -76,8 +76,7 @@ const config: NuxtConfig = {
   plugins: [
     '~/plugins/axios',
     '~/plugins/vueAwesomeSwiper',
-    '~/plugins/keyCodes',
-    '~/plugins/vScrollLock'
+    '~/plugins/keyCodes'
   ],
   modules: [
     '@nuxtjs/axios',

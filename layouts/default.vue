@@ -1,5 +1,5 @@
 <template>
-  <div v-scroll-lock="isToastShow" class="app">
+  <div class="app">
     <Header />
     <Nav />
     <nuxt />
