@@ -6,6 +6,7 @@ import {
   Action
 } from 'vuex-module-decorators'
 import { AxiosError } from 'axios'
+import { convertableToString, parseString } from 'xml2js'
 import { store } from '~/store'
 import { $axios, $redirect } from '~/plugins/axios'
 
@@ -55,20 +56,64 @@ export class CommonModule extends VuexModule {
   }
 
   @Action({ rawError: true })
+  private getJson(xml: convertableToString): Promise<any> {
+    return new Promise((resolve, reject) => {
+      parseString(
+        xml,
+        {
+          trim: true,
+          explicitArray: false
+        },
+        (err, data): void => {
+          if (err) {
+            return reject(err)
+          }
+          resolve(data['rdf:RDF'])
+        }
+      )
+    })
+  }
+
+  @Action({ rawError: true })
   public async getEntry(options: GetEntryOptions): Promise<any> {
-    const res = await $axios
-      .$get('.netlify/functions/api', {
+    console.log('getEntry2', options)
+
+    let getUrl!: string
+
+    if (options.mode === 'hotentry') {
+      getUrl =
+        options.category === 'all'
+          ? '/hotentry?mode=rss'
+          : '/hotentry/' + options.category + '.rss'
+    } else if (options.mode === 'entrylist') {
+      getUrl =
+        options.category === 'all'
+          ? '/entrylist?mode=rss'
+          : '/entrylist/' + options.category + '.rss'
+    }
+
+    console.log('getUrl', getUrl)
+
+    try {
+      const xml = await $axios.$get(getUrl, {
         params: {
-          mode: options.mode,
-          category: options.category
+          timestamp: Date.now()
         }
       })
-      .catch(error => {
-        $redirect('/')
-        throw new Error(error)
-      })
+      console.log(xml)
+      const json = await this.getJson(xml)
+      console.log(json)
 
-    return res.content
+      return {
+        statusCode: 200,
+        body: json
+      }
+    } catch (error) {
+      console.error(error)
+      return {
+        statusCode: 500
+      }
+    }
   }
 
   @Action({ rawError: true })

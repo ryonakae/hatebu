@@ -4,7 +4,6 @@
     "@nuxtjs/google-tag-manager": "^2.3.2",
     "@nuxtjs/proxy": "^2.1.0",
     "dayjs": "^1.8.15",
-    "netlify-lambda": "^2.0.15",
     "nuxt": "^2.15.8",
     "nuxt-property-decorator": "^2.9.1",
     "ress": "^1.2.2",
@@ -15,7 +14,6 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.16.5",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^8.0.0",
@@ -49,12 +47,11 @@
   },
   "private": true,
   "scripts": {
-    "build": "netlify-lambda build ./functions && nuxt build",
+    "build": "nuxt build",
     "dev": "nuxt",
-    "dev:functions": "netlify-lambda serve ./functions",
     "lint:css": "yarn stylelint '**/*.{css,vue}'",
     "lint:js": "yarn eslint --ext .js,.ts,.vue .",
     "precommit": "lint-staged",
-    "serve": "nuxt serve"
+    "start": "nuxt start"
   }
 }

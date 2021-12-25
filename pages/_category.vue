@@ -145,12 +145,12 @@ export default class extends Vue {
 
     // common.SET_RSS_DATA(null)
 
-    const json = await common.getEntry({
+    const res = await common.getEntry({
       mode: common.displayMode,
       category: this.$route.params.category as Category
     })
 
-    common.SET_RSS_DATA(json)
+    common.SET_RSS_DATA(res.body)
     common.SET_CURRENT_CATEGORY(this.$route.params.category)
 
     common.SET_IS_TOAST_SHOW(false)

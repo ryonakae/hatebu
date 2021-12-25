@@ -90,11 +90,15 @@ const config: NuxtConfig = {
     ]
   ],
   axios: {
-    baseURL: '/'
+    proxy: true,
+    prefix: process.env.API_URL
   },
   proxy: {
-    '/.netlify/functions': {
-      target: 'http://localhost:9000'
+    '/api': {
+      target: 'https://b.hatena.ne.jp',
+      pathRewrite: {
+        '^/api/': '/'
+      }
     }
   },
   build: {
