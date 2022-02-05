@@ -1,6 +1,4 @@
-*
-!/.nuxt/**
-!/static/**
-!app.yaml
-!package.json
-!yarn.lock
+.gcloudignore
+.git
+.gitignore
+node_modules/

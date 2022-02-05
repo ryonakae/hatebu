@@ -33,4 +33,5 @@ inbound_services:
   - warmup
 
 env_variables:
+  HOST: '0.0.0.0'
   NODE_ENV: 'production'
