@@ -226,8 +226,8 @@ export default class extends Vue {
   grid-column: 1 / 2;
   margin-bottom: 3px;
   font-size: var(--fontsize);
-  overflow-wrap: break-word;
   word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .entry-image {
@@ -269,14 +269,14 @@ export default class extends Vue {
   padding: 0 8px;
   font-size: var(--fontsize-small);
   color: var(--color-accent);
-  background-color: rgb(var(--color-accent-rgb), 0.08);
+  background-color: rgb(var(--color-accent-rgb) 0.08);
   border-radius: calc(20px / 2);
 
   @media (hover) {
     &:hover {
       color: white;
       text-decoration: none;
-      background-color: rgb(var(--color-accent-rgb), 1);
+      background-color: rgb(var(--color-accent-rgb) 1);
     }
   }
 }

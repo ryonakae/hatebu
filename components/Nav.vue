@@ -152,9 +152,9 @@ export default class extends Vue {
 }
 
 .nav-content {
+  display: flex;
   width: 100%;
   height: var(--nav-height);
-  display: flex;
   overflow: hidden;
 }
 
@@ -220,12 +220,12 @@ export default class extends Vue {
 
 .category-item {
   width: auto;
-  visibility: hidden;
   pointer-events: none;
+  visibility: hidden;
 
   &.is-visible {
-    visibility: visible;
     pointer-events: auto;
+    visibility: visible;
   }
 }
 
