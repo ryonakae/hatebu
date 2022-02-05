@@ -1,0 +1,6 @@
+*
+!/.nuxt/**
+!/static/**
+!app.yaml
+!package.json
+!yarn.lock
