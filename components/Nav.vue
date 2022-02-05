@@ -25,6 +25,7 @@
             v-for="(categoryName, category) in categories"
             :key="category"
             class="swiper-slide category-item"
+            :class="{ 'is-visible': isSwiperInit }"
           >
             <nuxt-link
               class="category-link is-noborder"
@@ -62,6 +63,7 @@ export default class extends Vue {
   readonly isTop!: boolean
 
   // data
+  private isSwiperInit = false
   private swiperOptions = {
     slidesPerView: 'auto',
     spaceBetween: 16,
@@ -73,7 +75,8 @@ export default class extends Vue {
     },
     on: {
       init: (): void => {
-        console.log('swiper init')
+        console.log('swiper init', this)
+        this.onSwiperInit()
       }
     }
   }
@@ -128,6 +131,11 @@ export default class extends Vue {
     common.SET_RSS_DATA(json)
   }
 
+  onSwiperInit() {
+    console.log('onSwiperInit')
+    this.isSwiperInit = true
+  }
+
   // lifecycle
   async mounted(): Promise<void> {
     await this.$nextTick()
@@ -138,30 +146,9 @@ export default class extends Vue {
 
 <style scoped>
 .nav {
-  z-index: 10;
   width: 100%;
   font-size: var(--fontsize-nav);
   background-color: var(--color-bg-content);
-  position: sticky;
-
-  &.is-top {
-    display: block;
-    top: 0;
-
-    @media (--sp) {
-      display: none;
-    }
-  }
-
-  &.is-bottom {
-    display: none;
-    bottom: 0;
-    /* height: calc(var(--nav-height) + var(--safe-area-inset-bottom)); */
-
-    @media (--sp) {
-      display: block;
-    }
-  }
 }
 
 .nav-content {
@@ -233,6 +220,13 @@ export default class extends Vue {
 
 .category-item {
   width: auto;
+  visibility: hidden;
+  pointer-events: none;
+
+  &.is-visible {
+    visibility: visible;
+    pointer-events: auto;
+  }
 }
 
 .category-link {

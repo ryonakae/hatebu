@@ -77,12 +77,15 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import dayjs from 'dayjs'
 import Url from 'url-parse'
-import { Context } from '@nuxt/types/app'
+import { Context } from '@nuxt/types'
 import { common } from '~/store/modules/common'
 
 import Divider from '~/components/Divider.vue'
 
 @Component({
+  head: {
+    meta: [{ name: 'robots', content: 'noindex,nofollow,noarchive' }]
+  },
   components: {
     Divider
   },
@@ -112,6 +115,15 @@ import Divider from '~/components/Divider.vue'
   }
 })
 export default class extends Vue {
+  async fetch(ctx: Context) {
+    const json = await common.getEntry({
+      mode: common.displayMode,
+      category: ctx.route.params.category as Category
+    })
+    common.SET_RSS_DATA(json)
+    common.SET_CURRENT_CATEGORY(ctx.route.params.category)
+  }
+
   // computed
   get rssData() {
     return common.rssData
@@ -140,20 +152,6 @@ export default class extends Vue {
     await this.$nextTick()
     console.log(this.$route)
     console.log(this.rssData)
-
-    common.SET_IS_TOAST_SHOW(true)
-
-    // common.SET_RSS_DATA(null)
-
-    const json = await common.getEntry({
-      mode: common.displayMode,
-      category: this.$route.params.category as Category
-    })
-
-    common.SET_RSS_DATA(json)
-    common.SET_CURRENT_CATEGORY(this.$route.params.category)
-
-    common.SET_IS_TOAST_SHOW(false)
   }
 }
 </script>
@@ -228,6 +226,8 @@ export default class extends Vue {
   grid-column: 1 / 2;
   margin-bottom: 3px;
   font-size: var(--fontsize);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .entry-image {

@@ -6,6 +6,7 @@ import {
   Action
 } from 'vuex-module-decorators'
 import { AxiosError } from 'axios'
+import { convertableToString, parseString } from 'xml2js'
 import { store } from '~/store'
 import { $axios, $redirect } from '~/plugins/axios'
 
@@ -32,7 +33,6 @@ export class CommonModule extends VuexModule {
   public currentCategory = 'all'
   public displayMode: DisplayMode = 'hotentry'
   public rssData = null as unknown as RSSData
-  public isToastShow = false
 
   @Mutation
   public SET_RSS_DATA(data): void {
@@ -49,33 +49,59 @@ export class CommonModule extends VuexModule {
     this.displayMode = mode
   }
 
-  @Mutation
-  public SET_IS_TOAST_SHOW(bool: boolean): void {
-    this.isToastShow = bool
+  @Action({ rawError: true })
+  private getJson(xml: convertableToString): Promise<any> {
+    return new Promise((resolve, reject) => {
+      parseString(
+        xml,
+        {
+          trim: true,
+          explicitArray: false
+        },
+        (err, data): void => {
+          if (err) {
+            return reject(err)
+          }
+          resolve(data['rdf:RDF'])
+        }
+      )
+    })
   }
 
   @Action({ rawError: true })
   public async getEntry(options: GetEntryOptions): Promise<any> {
-    const res = await $axios
-      .$get('.netlify/functions/api', {
+    let getUrl!: string
+
+    if (options.mode === 'hotentry') {
+      getUrl =
+        options.category === 'all'
+          ? '/hotentry?mode=rss'
+          : '/hotentry/' + options.category + '.rss'
+    } else if (options.mode === 'entrylist') {
+      getUrl =
+        options.category === 'all'
+          ? '/entrylist?mode=rss'
+          : '/entrylist/' + options.category + '.rss'
+    }
+
+    try {
+      const xml = await $axios.$get(getUrl, {
         params: {
-          mode: options.mode,
-          category: options.category
+          timestamp: Date.now()
         }
       })
-      .catch(error => {
-        $redirect('/')
-        throw new Error(error)
-      })
-
-    return res.content
+      const json = await this.getJson(xml)
+      return json
+    } catch (error) {
+      $redirect('/')
+      throw new Error(error as any)
+    }
   }
 
   @Action({ rawError: true })
   public async changeDisplayMode(options: GetEntryOptions): Promise<void> {
     if (options.mode === this.displayMode) return
 
-    this.SET_IS_TOAST_SHOW(true)
     window.scrollTo(0, 0)
 
     const json = await this.getEntry({
@@ -85,7 +111,6 @@ export class CommonModule extends VuexModule {
     this.SET_RSS_DATA(json)
 
     this.SET_DISPLAY_MODE(options.mode)
-    this.SET_IS_TOAST_SHOW(false)
   }
 
   @Action({ rawError: true })

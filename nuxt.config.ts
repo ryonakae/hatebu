@@ -7,9 +7,13 @@ const siteInfo = {
 }
 
 const config: NuxtConfig = {
-  loading: false,
-  ssr: false,
-  css: ['~/assets/styles/main.css', 'swiper/dist/css/swiper.css'],
+  loading: {
+    color: '#2b4fb7',
+    throttle: 0
+  },
+  target: 'server',
+  ssr: true,
+  css: ['~/assets/styles/main.css'],
   head: {
     htmlAttrs: {
       lang: 'ja'
@@ -71,30 +75,28 @@ const config: NuxtConfig = {
     ]
   },
   router: {
-    mode: 'hash'
+    mode: 'history'
   },
   plugins: [
-    '~/plugins/axios',
-    '~/plugins/vueAwesomeSwiper',
-    '~/plugins/keyCodes'
+    { src: '~/plugins/axios', mode: 'all' },
+    { src: '~/plugins/vueAwesomeSwiper', mode: 'client' },
+    { src: '~/plugins/keyCodes', mode: 'client' }
   ],
-  modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/proxy',
-    [
-      '@nuxtjs/google-tag-manager',
-      {
-        id: process.env.GTM_ID,
-        pageTracking: true
-      }
-    ]
-  ],
+  modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
   axios: {
-    baseURL: '/'
+    baseURL: 'https://b.hatena.ne.jp',
+    browserBaseURL: '/api',
+    proxy: true,
+    credentials: true
   },
   proxy: {
-    '/.netlify/functions': {
-      target: 'http://localhost:9000'
+    '/api': {
+      target: 'https://b.hatena.ne.jp',
+      pathRewrite: {
+        '^/api': '/'
+      },
+      changeOrigin: true,
+      logLevel: 'debug'
     }
   },
   build: {

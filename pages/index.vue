@@ -1,12 +1,11 @@
 <script lang="ts">
+import { Context } from '@nuxt/types'
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class extends Vue {
-  // lifecycle
-  async mounted() {
-    await this.$nextTick()
-    this.$router.replace('/all')
+  fetch(ctx: Context) {
+    return ctx.redirect('/all')
   }
 }
 </script>

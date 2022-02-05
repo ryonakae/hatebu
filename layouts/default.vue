@@ -5,7 +5,6 @@
     <nuxt />
     <Nav :is-bottom="true" />
     <Footer />
-    <Toast />
   </div>
 </template>
 
@@ -16,14 +15,12 @@ import { common } from '~/store/modules/common'
 import Header from '~/components/Header.vue'
 import Nav from '~/components/Nav.vue'
 import Footer from '~/components/Footer.vue'
-import Toast from '~/components/Toast.vue'
 
 @Component({
   components: {
     Header,
     Nav,
-    Footer,
-    Toast
+    Footer
   }
 })
 export default class extends Vue {
@@ -37,10 +34,6 @@ export default class extends Vue {
 
   get currentCategory() {
     return common.currentCategory
-  }
-
-  get isToastShow() {
-    return common.isToastShow
   }
 
   // methods
