@@ -22,12 +22,18 @@
             :class="{ 'is-noimage': !entry['hatena:imageurl'] }"
           >
             <h3 class="entry-title">
-              <a :href="entry.link" target="_blank" v-html="entry.title" />
+              <a
+                :href="entry.link"
+                target="_blank"
+                rel="noopener noreferrer"
+                v-html="entry.title"
+              />
             </h3>
             <a
               v-if="entry['hatena:imageurl']"
               :href="entry.link"
               target="_blank"
+              rel="noopener noreferrer"
               class="entry-image"
               :style="{
                 backgroundImage: 'url(' + entry['hatena:imageurl'] + ')'
@@ -38,6 +44,7 @@
                 class="entry-users"
                 :href="entry['hatena:bookmarkCommentListPageUrl']"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <span>{{ entry['hatena:bookmarkcount'] }} users</span>
               </a>
@@ -60,12 +67,14 @@
           v-if="displayMode === 'hotentry'"
           :href="'https://b.hatena.ne.jp/hotentry/' + category"
           target="_blank"
+          rel="noopener noreferrer"
           >{{ categoryName }}の人気エントリーをもっと読む</a
         >
         <a
           v-else-if="displayMode === 'entrylist'"
           :href="'https://b.hatena.ne.jp/entrylist/' + category"
           target="_blank"
+          rel="noopener noreferrer"
           >{{ categoryName }}の新着エントリーをもっと読む</a
         >
       </div>
