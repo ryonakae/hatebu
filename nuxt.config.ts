@@ -99,6 +99,9 @@ const config: NuxtConfig = {
       logLevel: 'debug'
     }
   },
+  serverMiddleware: [
+    { path: '/_ah/warmup', handler: '~/serverMiddleware/warmup.ts' }
+  ],
   build: {
     postcss: {
       plugins: {
