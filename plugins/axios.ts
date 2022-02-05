@@ -11,13 +11,11 @@ export default (ctx: Context): void => {
   $redirect = ctx.redirect
 
   $axios.onRequest(() => {
-    console.log('axios onRequest')
     if (process.client) {
       window.$nuxt.$loading.start()
     }
   })
   $axios.onResponse(() => {
-    console.log('axios onResponse')
     if (process.client) {
       window.$nuxt.$loading.finish()
     }
