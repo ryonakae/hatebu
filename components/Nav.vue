@@ -182,13 +182,13 @@ export default class extends Vue {
 }
 
 .display-item {
-  height: 26px;
-  padding: 0 10px;
+  height: 24px;
+  padding: 0 8px;
   margin-left: 4px;
-  line-height: 26px;
+  line-height: 24px;
   color: inherit;
   background-color: var(--color-bg);
-  border-radius: calc(26px / 2);
+  border-radius: calc(24px / 2);
 
   &:first-child {
     margin-left: 0;

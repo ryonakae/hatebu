@@ -26,8 +26,8 @@ export default class extends Vue {}
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 .title {

@@ -38,11 +38,11 @@
   },
   "lint-staged": {
     "**/*.{js,ts,vue}": [
-      "eslint --fix"
+      "eslint"
     ],
     "**/*.{css,vue}": [
       "prettier --write",
-      "stylelint --fix"
+      "stylelint"
     ]
   },
   "private": true,

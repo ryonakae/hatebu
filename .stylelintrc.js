@@ -14,6 +14,8 @@ module.exports = {
       true,
       { importFrom: ['assets/styles/custom-properties.css'] }
     ],
-    'csstools/use-nesting': 'always'
+    'csstools/use-nesting': 'always',
+    'color-function-notation': 'legacy',
+    'alpha-value-notation': 'number'
   }
 }

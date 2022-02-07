@@ -60,7 +60,7 @@ export default class extends Vue {}
 
 <style scoped>
 .footer {
-  padding: 20px var(--padding-content-horizontal-sp);
+  padding: 24px var(--padding-content-horizontal-sp);
   font-size: var(--fontsize-footer);
   color: var(--color-sub);
   background-color: var(--color-bg-footer);
@@ -70,7 +70,7 @@ export default class extends Vue {}
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   list-style-type: none;
 
   @media (--sp) {

@@ -9,7 +9,7 @@
   --color-bg-content: white;
   --color-bg-footer: #fafafa;
   --color-bg-pre: #e8e8e8;
-  --color-border: rgb(0 0 0 / 5%);
+  --color-border: rgba(0, 0, 0, 0.05);
 
   /* dark mode */
   /* stylelint-disable-next-line csstools/media-use-custom-media */
@@ -25,7 +25,7 @@
     --color-bg-content: #1a1a1a;
     --color-bg-footer: #0d0d0d;
     --color-bg-pre: #242424;
-    --color-border: rgb(255 255 255 / 5%);
+    --color-border: rgba(255, 255, 255, 0.05);
   }
 
   /* typography */
@@ -46,14 +46,14 @@
 
   /* size */
   --content-width: 820px;
-  --padding-content-horizontal: 30px;
-  --padding-content-horizontal-sp: 15px;
-  --padding-content-vertical: 20px;
-  --padding-content-vertical-sp: 15px;
-  --image-size: 50px;
+  --padding-content-horizontal: 32px;
+  --padding-content-horizontal-sp: 16px;
+  --padding-content-vertical: 24px;
+  --padding-content-vertical-sp: 16px;
+  --image-size: 48px;
   --favicon-size: 14px;
   --border-radius: 4px;
-  --nav-height: 52px;
+  --nav-height: 56px;
 
   /* safe area */
   --safe-area-inset-top: 1px;

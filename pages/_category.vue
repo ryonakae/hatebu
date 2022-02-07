@@ -213,10 +213,11 @@ export default class extends Vue {
 .entry-content {
   display: grid;
   grid-template-columns: auto var(--image-size);
-  grid-gap: 3px 10px;
+  grid-gap: 8px 16px;
   padding: var(--padding-content-vertical) var(--padding-content-horizontal);
 
   @media (--sp) {
+    grid-gap: 4px 8px;
     padding: var(--padding-content-vertical-sp)
       var(--padding-content-horizontal-sp);
   }
@@ -233,7 +234,6 @@ export default class extends Vue {
 .entry-title {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
-  margin-bottom: 3px;
   font-size: var(--fontsize);
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -269,7 +269,7 @@ export default class extends Vue {
   align-items: center;
 
   & > * {
-    margin-right: 5px;
+    margin-right: 8px;
   }
 }
 
@@ -285,7 +285,7 @@ export default class extends Vue {
     &:hover {
       color: white;
       text-decoration: none;
-      background-color: rgba(var(--color-accent-rgb), 1);
+      background-color: var(--color-accent);
     }
   }
 }
@@ -306,7 +306,7 @@ export default class extends Vue {
   & img {
     width: var(--favicon-size);
     height: auto;
-    margin-right: 5px;
+    margin-right: 4px;
   }
 }
 </style>
