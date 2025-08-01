@@ -3,6 +3,7 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
+    "check": "biome check",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "postinstall": "nuxt prepare",

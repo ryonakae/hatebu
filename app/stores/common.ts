@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { type convertableToString, parseString } from 'xml2js'
 
-const fetch = useFetch()
+const fetch = useCustomFetch()
 
 export const useCommonStore = defineStore('commonStore', {
   state: (): State => ({
