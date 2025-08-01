@@ -1,6 +1,7 @@
 <template>
   <h1>hatebu</h1>
   <NuxtPage />
+  <AppFooter />
 </template>
 
 <script>
