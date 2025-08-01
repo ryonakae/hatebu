@@ -10,7 +10,7 @@
     "preview": "nuxt preview"
   },
   "lint-staged": {
-    "!(_OLD)/**/*.{ts,vue,json}": [
+    "*.{ts,vue,json}": [
       "biome check --write"
     ]
   },
