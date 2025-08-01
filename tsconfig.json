@@ -1,22 +1,18 @@
 {
-  "compilerOptions": {
-    "target": "ES2018",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "lib": ["ESNext", "ESNext.AsyncIterable", "DOM"],
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "allowJs": true,
-    "sourceMap": true,
-    "strict": true,
-    "noImplicitAny": false,
-    "noEmit": true,
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./*"],
-      "*": ["./@types/*"]
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "files": [],
+  "references": [
+    {
+      "path": "./.nuxt/tsconfig.app.json"
     },
-    "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios"]
-  },
-  "exclude": ["node_modules"]
+    {
+      "path": "./.nuxt/tsconfig.server.json"
+    },
+    {
+      "path": "./.nuxt/tsconfig.shared.json"
+    },
+    {
+      "path": "./.nuxt/tsconfig.node.json"
+    }
+  ]
 }

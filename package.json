@@ -1,57 +1,32 @@
 {
-  "dependencies": {
-    "@nuxtjs/axios": "^5.13.6",
-    "@nuxtjs/proxy": "^2.1.0",
-    "dayjs": "^1.8.15",
-    "express": "^4.17.2",
-    "nuxt": "^2.15.8",
-    "nuxt-property-decorator": "^2.9.1",
-    "ress": "^1.2.2",
-    "swiper": "5.x",
-    "url-parse": "^1.4.7",
-    "vue-awesome-swiper": "^4.1.1",
-    "vuex-module-decorators": "^2.0.0",
-    "xml2js": "^0.4.19"
-  },
-  "devDependencies": {
-    "@babel/preset-typescript": "^7.16.5",
-    "@nuxt/types": "^2.15.8",
-    "@nuxt/typescript-build": "^2.1.0",
-    "@nuxtjs/eslint-config-typescript": "^8.0.0",
-    "@types/swiper": "^4.4.3",
-    "@types/url-parse": "^1.4.3",
-    "@types/xml2js": "^0.4.4",
-    "eslint": "^8.5.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^3.0.0",
-    "lint-staged": "^9.1.0",
-    "postcss-html": "^1.3.0",
-    "prettier": "^2.5.1",
-    "stylelint": "^14.2.0",
-    "stylelint-config-html": "^1.0.0",
-    "stylelint-config-prettier": "^9.0.3",
-    "stylelint-config-recess-order": "^3.0.0",
-    "stylelint-config-standard": "^24.0.0",
-    "stylelint-use-nesting": "^3.0.0",
-    "stylelint-value-no-unknown-custom-properties": "^3.0.0"
-  },
-  "lint-staged": {
-    "**/*.{js,ts,vue}": [
-      "eslint"
-    ],
-    "**/*.{css,vue}": [
-      "prettier --write",
-      "stylelint"
-    ]
-  },
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt",
-    "lint:css": "yarn stylelint '**/*.{css,vue}'",
-    "lint:js": "yarn eslint --ext .js,.ts,.vue .",
-    "precommit": "lint-staged",
-    "start": "nuxt start"
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "postinstall": "nuxt prepare",
+    "prepare": "husky",
+    "preview": "nuxt preview"
+  },
+  "lint-staged": {
+    "!(_OLD)/**/*.{ts,vue,json}": [
+      "biome check --write"
+    ]
+  },
+  "dependencies": {
+    "@pinia/nuxt": "0.11.2",
+    "nuxt": "4.0.2",
+    "pinia": "3.0.3",
+    "vue": "3.5.18",
+    "vue-router": "4.5.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.1.3",
+    "@types/xml2js": "0.4.14",
+    "husky": "9.1.7",
+    "lint-staged": "16.1.2",
+    "typescript": "5.8.3",
+    "vue-tsc": "3.0.4"
   }
 }
