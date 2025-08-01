@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { type convertableToString, parseString } from 'xml2js'
 
+const fetch = useFetch()
+
 export const useCommonStore = defineStore('commonStore', {
   state: (): State => ({
     categories: {
@@ -53,13 +55,12 @@ export const useCommonStore = defineStore('commonStore', {
       }
 
       try {
-        const xml = await $fetch<string>(getUrl, {
-          baseURL: 'https://b.hatena.ne.jp',
+        const xml = await fetch(getUrl, {
           query: {
             timestamp: Date.now(),
           },
         })
-        const json = (await this.getJson(xml)) as RSSData
+        const json = (await this.getJson(xml as string)) as RSSData
         return json
       } catch (error) {
         await navigateTo('/')

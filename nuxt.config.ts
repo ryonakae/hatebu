@@ -6,4 +6,15 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
   modules: ['@pinia/nuxt'],
+  nitro: {
+    routeRules: {
+      '/api/**': {
+        proxy: 'https://b.hatena.ne.jp/**',
+        cors: true,
+        headers: {
+          'Access-Control-Allow-Credentials': 'true',
+        },
+      },
+    },
+  },
 })
