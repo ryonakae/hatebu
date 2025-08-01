@@ -1,5 +1,5 @@
 <template>
-  <h1>hatebu</h1>
+  <AppHeader />
   <NuxtPage />
   <AppFooter />
 </template>
