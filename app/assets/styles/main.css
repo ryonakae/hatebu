@@ -1,0 +1,65 @@
+@import 'ress';
+@import '~/assets/styles/custom-properties.css';
+@import '~/assets/styles/custom-media.css';
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: var(--fontfamily);
+  font-size: var(--fontsize);
+  line-height: var(--lineheight);
+  color: var(--color-text);
+  letter-spacing: var(--letterspacing);
+  overflow-wrap: break-word;
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: unset;
+  text-size-adjust: 100%;
+
+  & ::selection {
+    color: white;
+    background-color: var(--color-accent);
+  }
+
+  @media (--retina) {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: var(--lineheight-title);
+}
+
+pre {
+  font-family: var(--fontfamily-code);
+}
+
+:any-link,
+.link {
+  color: var(--color-key);
+  text-decoration: none;
+
+  @media (hover) {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &.is-noborder {
+    @media (hover) {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

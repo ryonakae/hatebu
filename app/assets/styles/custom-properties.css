@@ -1,0 +1,77 @@
+:root {
+  /* color */
+  --color-text: #666;
+  --color-key: #2b4fb7;
+  --color-accent: #ff5441;
+  --color-accent-rgb: 255, 84, 65;
+  --color-sub: #b2b2b2;
+  --color-bg: #f2f2f2;
+  --color-bg-content: white;
+  --color-bg-footer: #fafafa;
+  --color-bg-pre: #e8e8e8;
+  --color-border: rgba(0, 0, 0, 0.05);
+
+  /* dark mode */
+  /* stylelint-disable-next-line csstools/media-use-custom-media */
+  @media (prefers-color-scheme: dark) {
+    --color-text: #fff;
+    --color-key: #527dff;
+
+    /* --color-accent: #ff5441; */
+
+    /* --color-accent-rgb: 255, 84, 65; */
+    --color-sub: #9c9c9c;
+    --color-bg: #080808;
+    --color-bg-content: #1a1a1a;
+    --color-bg-footer: #0d0d0d;
+    --color-bg-pre: #242424;
+    --color-border: rgba(255, 255, 255, 0.05);
+  }
+
+  /* typography */
+  --fontsize: 1.5rem;
+  --fontsize-small: 1.2rem;
+  --fontsize-title: 1.7rem;
+  --fontsize-nav: 1.3rem;
+  --fontsize-footer: 1.1rem;
+
+  /* --fontfamily: system-ui; */
+  --fontfamily: -apple-system, blinkmacsystemfont, 'Segoe UI', helvetica, arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --fontfamily-code: 'SFMono-Regular', consolas, 'Liberation Mono', menlo,
+    courier, monospace;
+  --letterspacing: initial;
+  --lineheight: 1.7;
+  --lineheight-title: 1.45;
+
+  /* size */
+  --content-width: 820px;
+  --padding-content-horizontal: 32px;
+  --padding-content-horizontal-sp: 16px;
+  --padding-content-vertical: 24px;
+  --padding-content-vertical-sp: 16px;
+  --image-size: 48px;
+  --favicon-size: 14px;
+  --border-radius: 4px;
+  --nav-height: 56px;
+
+  /* safe area */
+  --safe-area-inset-top: 1px;
+  --safe-area-inset-right: 1px;
+  --safe-area-inset-bottom: 1px;
+  --safe-area-inset-left: 1px;
+
+  @supports (top: constant(safe-area-inset-top)) {
+    --safe-area-inset-top: constant(safe-area-inset-top, 1px);
+    --safe-area-inset-right: constant(safe-area-inset-right, 1px);
+    --safe-area-inset-bottom: constant(safe-area-inset-bottom, 1px);
+    --safe-area-inset-left: constant(safe-area-inset-left, 1px);
+  }
+
+  @supports (top: env(safe-area-inset-top)) {
+    --safe-area-inset-top: env(safe-area-inset-top, 1px);
+    --safe-area-inset-right: env(safe-area-inset-right, 1px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 1px);
+    --safe-area-inset-left: env(safe-area-inset-left, 1px);
+  }
+}
