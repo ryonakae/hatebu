@@ -1,6 +1,8 @@
 <template>
   <AppHeader />
+  <AppNav :is-top="true" />
   <NuxtPage />
+  <AppNav :is-bottom="true" />
   <AppFooter />
 </template>
 
