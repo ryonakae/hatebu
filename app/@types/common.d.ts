@@ -22,9 +22,9 @@ declare global {
   }
 
   type EntryItem = {
-    title: string
-    description: string
-    link: string
+    'title': string
+    'description': string
+    'link': string
     'hatena:imageurl': string
     'hatena:bookmarkcount': string
     'hatena:bookmarkCommentListPageUrl': string

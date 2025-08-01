@@ -1,0 +1,10 @@
+{
+  "biome.enabled": false,
+  "eslint.enable": true,
+  "prettier.enable": false,
+  "eslint.useFlatConfig": true,
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
+}

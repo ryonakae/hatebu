@@ -1,11 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
+  modules: ['@pinia/nuxt', '@nuxt/eslint'],
   devtools: { enabled: true },
-  typescript: {
-    typeCheck: true,
-  },
-  modules: ['@pinia/nuxt'],
+  compatibilityDate: '2025-07-15',
   nitro: {
     routeRules: {
       '/api/**': {
@@ -15,6 +12,14 @@ export default defineNuxtConfig({
           'Access-Control-Allow-Credentials': 'true',
         },
       },
+    },
+  },
+  typescript: {
+    typeCheck: true,
+  },
+  eslint: {
+    config: {
+      stylistic: true,
     },
   },
 })

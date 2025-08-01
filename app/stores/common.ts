@@ -43,13 +43,14 @@ export const useCommonStore = defineStore('commonStore', {
       let getUrl!: string
 
       if (options.mode === 'hotentry') {
-        getUrl =
-          options.category === 'all'
+        getUrl
+          = options.category === 'all'
             ? '/hotentry?mode=rss'
             : `/hotentry/${options.category}.rss`
-      } else if (options.mode === 'entrylist') {
-        getUrl =
-          options.category === 'all'
+      }
+      else if (options.mode === 'entrylist') {
+        getUrl
+          = options.category === 'all'
             ? '/entrylist?mode=rss'
             : `/entrylist/${options.category}.rss`
       }
@@ -62,7 +63,8 @@ export const useCommonStore = defineStore('commonStore', {
         })
         const json = (await this.getJson(xml as string)) as RSSData
         return json
-      } catch (error) {
+      }
+      catch (error) {
         await navigateTo('/')
         throw new Error(String(error))
       }
