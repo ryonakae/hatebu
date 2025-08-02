@@ -8,14 +8,14 @@
       <ul class="display">
         <li
           class="display-item link is-noborder"
-          :class="{ 'is-active': displayMode === 'hotentry' }"
+          :class="{ 'is-active': store.displayMode === 'hotentry' }"
           @click.stop="changeDisplayMode('hotentry')"
         >
           人気
         </li>
         <li
           class="display-item link is-noborder"
-          :class="{ 'is-active': displayMode === 'entrylist' }"
+          :class="{ 'is-active': store.displayMode === 'entrylist' }"
           @click.stop="changeDisplayMode('entrylist')"
         >
           新着
@@ -29,7 +29,7 @@
           class="category"
         >
           <swiper-slide
-            v-for="(categoryName, category) in categories"
+            v-for="(categoryName, category) in store.categories"
             :key="category"
             class="category-item"
             :class="{ 'is-visible': isSwiperInit }"
@@ -90,13 +90,10 @@ const swiperOptions = {
 
 const swiper = useSwiper(swiperRef, swiperOptions)
 
-// Computed
-const categories = computed(() => store.categories)
-const currentCategory = computed(() => store.currentCategory)
-const displayMode = computed(() => store.displayMode)
-
 // Methods
 async function changeDisplayMode(mode: DisplayMode) {
+  console.log('changeDisplayMode', mode, route.params.category)
+
   await store.changeDisplayMode({
     mode,
     category: route.params.category as Category,
@@ -104,27 +101,40 @@ async function changeDisplayMode(mode: DisplayMode) {
 }
 
 function updateIndex(category: string) {
-  console.log(category)
-  const categoryKeys = Object.keys(categories.value)
+  console.log('updateIndex', category)
+
+  const categoryKeys = Object.keys(store.categories)
   const currentIndex = categoryKeys.indexOf(category)
+  console.log('categoryKeys', categoryKeys)
+  console.log('currentIndex', currentIndex)
+
   if (swiper.instance?.value) {
     swiper.instance.value.slideTo(currentIndex, 0)
   }
 }
 
 function onLinkClick(category: Category) {
-  if (category === currentCategory.value) {
+  console.log('onLinkClick', category, store.currentCategory)
+
+  if (category === store.currentCategory) {
     reload()
   }
+
+  store.currentCategory = category
+  console.log('currentCategory updated', store.currentCategory)
 }
 
 async function reload() {
+  console.log('reload')
+
   store.rssData = null
 
   const json = await store.getEntry({
-    mode: displayMode.value,
+    mode: store.displayMode,
     category: route.params.category as Category,
   })
+  console.log('json', json)
+
   store.rssData = json
 }
 
@@ -135,16 +145,17 @@ function onSwiperInit() {
 
 // Watch
 watch(
-  currentCategory,
-  (category) => {
-    updateIndex(category)
+  () => store.currentCategory,
+  (newCategory) => {
+    console.log('currentCategory updated', newCategory)
+    updateIndex(newCategory)
   },
 )
 
 // Lifecycle
 onMounted(async () => {
   await nextTick()
-  updateIndex(currentCategory.value)
+  updateIndex(store.currentCategory)
 })
 </script>
 
@@ -242,7 +253,7 @@ onMounted(async () => {
   color: inherit;
 
   &.is-active,
-  &.nuxt-link-active {
+  &.router-link-active {
     font-weight: bold;
     color: var(--color-key);
   }

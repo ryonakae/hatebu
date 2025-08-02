@@ -2,10 +2,10 @@
   <div>
     <header class="header">
       <h1 class="title">
-        <NuxtLink
-          to="/"
+        <a
+          href="/"
           class="is-noborder"
-        >俺のはてブ</NuxtLink>
+        >俺のはてブ</a>
       </h1>
     </header>
     <CommonDivider />
