@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { type convertableToString, parseString } from 'xml2js'
 
-const fetch = useCustomFetch()
+const customFetch = useCustomFetch()
 
 export const useCommonStore = defineStore('commonStore', {
   state: (): State => ({
@@ -56,7 +56,7 @@ export const useCommonStore = defineStore('commonStore', {
       }
 
       try {
-        const xml = await fetch(getUrl, {
+        const xml = await customFetch(getUrl, {
           query: {
             timestamp: Date.now(),
           },

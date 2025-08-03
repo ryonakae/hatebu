@@ -144,13 +144,10 @@ function onSwiperInit() {
 }
 
 // Watch
-watch(
-  () => store.currentCategory,
-  (newCategory) => {
-    console.log('currentCategory updated', newCategory)
-    updateIndex(newCategory)
-  },
-)
+watchEffect(() => {
+  console.log('currentCategory updated', store.currentCategory)
+  updateIndex(store.currentCategory)
+})
 
 // Lifecycle
 onMounted(async () => {

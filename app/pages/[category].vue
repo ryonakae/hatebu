@@ -114,7 +114,7 @@ const route = useRoute()
 const store = useCommonStore()
 
 // useAsyncDataを使ってstore.getEntryでSSRデータフェッチ
-const { data: rssData, pending } = await useAsyncData(
+const { data: rssData } = await useAsyncData(
   `entries-${route.params.category}-${store.displayMode}`,
   () => store.getEntry({
     mode: store.displayMode,
@@ -134,8 +134,8 @@ watchEffect(() => {
   }
 })
 
-// フィルター関数をcomputed化
-const formatDate = (date: string): string => {
+// Methods
+function formatDate(date: string): string {
   const today = dayjs().startOf('day')
   const entryDate = dayjs(date).startOf('day')
   let format: string
@@ -151,16 +151,15 @@ const formatDate = (date: string): string => {
   return dayjs(date).format(format)
 }
 
-const getSubject = (subject: string[]): string => {
+function getSubject(subject: string[]): string {
   return subject[0] || ''
 }
 
-const getHostName = (url: string): string => {
+function getHostName(url: string): string {
   return new Url(url).hostname
 }
 
-// Methods
-const getFaviconUrl = (url: string): string => {
+function getFaviconUrl(url: string): string {
   const hostName = new Url(url).hostname
   return 'https://www.google.com/s2/favicons?domain=' + hostName
 }

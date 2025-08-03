@@ -1,0 +1,37 @@
+env: standard
+
+runtime: nodejs22
+
+instance_class: F1
+
+automatic_scaling:
+  target_cpu_utilization: 0.95
+  target_throughput_utilization: 0.95
+  max_instances: 1
+  min_instances: 0
+  max_idle_instances: 1
+  min_idle_instances: 1
+  max_pending_latency: automatic
+  min_pending_latency: 5000ms
+  max_concurrent_requests: 80
+
+handlers:
+  - url: /_nuxt
+    static_dir: .nuxt/dist/client
+    secure: always
+
+  - url: /(.*\.(gif|png|jpg|ico|txt))$
+    static_files: static/\1
+    upload: static/.*\.(gif|png|jpg|ico|txt)$
+    secure: always
+
+  - url: /.*
+    script: auto
+    secure: always
+
+inbound_services:
+  - warmup
+
+env_variables:
+  HOST: '0.0.0.0'
+  NODE_ENV: 'production'
