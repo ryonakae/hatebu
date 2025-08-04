@@ -1,4 +1,4 @@
-.gcloudignore
-.git
-.gitignore
-node_modules/
+*
+!.output/**
+!package.json
+!pnpm-lock.yaml

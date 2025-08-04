@@ -4,6 +4,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@nuxt/eslint', 'nuxt-swiper'],
+  ssr: true,
   devtools: { enabled: true },
   css: [
     'ress',
