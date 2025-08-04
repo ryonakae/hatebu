@@ -26,6 +26,9 @@ const customFetch = $fetch.create({
 })
 
 export const useGetEntry = async (options: GetEntryOptions) => {
+  const store = useCommonStore()
+
+  store.loading = true
   let url!: string
 
   if (options.mode === 'hotentry') {
@@ -53,5 +56,8 @@ export const useGetEntry = async (options: GetEntryOptions) => {
   catch (error) {
     await navigateTo('/')
     throw new Error(String(error))
+  }
+  finally {
+    store.loading = false
   }
 }

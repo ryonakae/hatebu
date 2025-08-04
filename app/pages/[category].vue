@@ -237,8 +237,6 @@ onMounted(async () => {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
   font-size: var(--fontsize);
-  word-wrap: break-word;
-  overflow-wrap: break-word;
 }
 
 .entry-image {

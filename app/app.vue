@@ -10,6 +10,16 @@
   </div>
 </template>
 
+<script setup lang="ts">
+const store = useCommonStore()
+const { start, finish } = useLoadingIndicator()
+
+watch(
+  () => store.loading,
+  loading => loading ? start() : finish(),
+)
+</script>
+
 <style scoped>
 .app {
   max-width: var(--content-width);
