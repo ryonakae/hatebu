@@ -35,5 +35,30 @@ export const useCommonStore = defineStore('commonStore', {
 
       this.displayMode = options.mode
     },
+    moveAdjacentCategory(side: 'previous' | 'next') {
+      const categories = Object.keys(this.categories)
+      const currentIndex = categories.indexOf(this.currentCategory)
+
+      let sideIndex!: number
+
+      if (side === 'previous') {
+        sideIndex = currentIndex - 1
+
+        if (sideIndex < 0) {
+          sideIndex = categories.length - 1
+        }
+      }
+      else if (side === 'next') {
+        sideIndex = currentIndex + 1
+
+        if (sideIndex > categories.length - 1) {
+          sideIndex = 0
+        }
+      }
+
+      const sideCategory = categories[sideIndex]
+
+      navigateTo('/' + sideCategory)
+    },
   },
 })
