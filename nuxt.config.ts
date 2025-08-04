@@ -1,4 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+const isProduction = process.env.NODE_ENV === 'production'
+
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@nuxt/eslint', 'nuxt-swiper'],
   devtools: { enabled: true },
@@ -9,12 +12,28 @@ export default defineNuxtConfig({
   ],
   compatibilityDate: '2025-07-15',
   nitro: {
+    minify: isProduction,
+    sourceMap: !isProduction,
     routeRules: {
       '/api/**': {
         proxy: 'https://b.hatena.ne.jp/**',
         cors: true,
         headers: {
           'Access-Control-Allow-Credentials': 'true',
+        },
+      },
+    },
+  },
+  vite: {
+    build: {
+      minify: isProduction ? 'terser' : false,
+      terserOptions: {
+        sourceMap: !isProduction,
+        compress: {
+          drop_console: true,
+        },
+        format: {
+          comments: /@license/i,
         },
       },
     },
@@ -36,7 +55,7 @@ export default defineNuxtConfig({
           'nesting-rules': true,
         },
       },
-      'cssnano': process.env.NODE_ENV === 'production'
+      'cssnano': isProduction
         ? { preset: 'default' }
         : undefined,
     },

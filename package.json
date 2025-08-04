@@ -4,11 +4,12 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "lint": "eslint .",
     "generate": "nuxt generate",
     "postinstall": "nuxt prepare",
+    "lint": "eslint .",
     "prepare": "husky",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "start": "nuxt start"
   },
   "lint-staged": {
     "*.{ts,vue,json}": [
