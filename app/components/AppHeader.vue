@@ -7,7 +7,6 @@
       >俺のはてブ</a>
     </h1>
   </header>
-  <CommonDivider />
 </template>
 
 <style scoped>

@@ -2,10 +2,13 @@
   <NuxtLoadingIndicator :color="'#2b4fb7'" />
   <div class="app">
     <AppHeader />
+    <CommonDivider />
     <AppNav />
-    <div class="content">
-      <NuxtPage />
-    </div>
+    <CommonDivider />
+    <NuxtPage class="content" />
+    <CommonDivider />
+    <AppNav />
+    <CommonDivider />
     <AppFooter />
   </div>
 </template>

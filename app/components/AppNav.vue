@@ -41,7 +41,6 @@
         </swiper-container>
       </ClientOnly>
     </nav>
-    <CommonDivider />
   </div>
 </template>
 
@@ -131,9 +130,6 @@ watch(
   width: 100%;
   font-size: var(--fontsize-nav);
   background-color: var(--color-bg-content);
-  position: sticky;
-  top: 0;
-  z-index: var(--z-index-nav);
 }
 
 .nav-content {

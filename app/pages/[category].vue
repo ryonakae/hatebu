@@ -11,15 +11,17 @@
       v-else
       class="entries"
     >
-      <h2 class="entries-title">
-        <span v-if="store.displayMode === 'hotentry'">
-          {{ store.categories[$route.params.category as Category] }}の人気エントリー
-        </span>
-        <span v-else-if="store.displayMode === 'entrylist'">
-          {{ store.categories[$route.params.category as Category] }}の新着エントリー
-        </span>
-      </h2>
-      <CommonDivider />
+      <div class="entries-title-wrapper">
+        <h2 class="entries-title">
+          <span v-if="store.displayMode === 'hotentry'">
+            {{ store.categories[$route.params.category as Category] }}の人気エントリー
+          </span>
+          <span v-else-if="store.displayMode === 'entrylist'">
+            {{ store.categories[$route.params.category as Category] }}の新着エントリー
+          </span>
+        </h2>
+        <CommonDivider />
+      </div>
 
       <ul class="entries-list">
         <li
@@ -185,6 +187,12 @@ onMounted(async () => {
 .loading {
   font-size: var(--fontsize-nav);
   color: var(--color-sub);
+}
+
+.entries-title-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-index-entry-title);
 }
 
 .entries-title {
