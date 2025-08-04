@@ -1,6 +1,6 @@
 env: standard
 
-runtime: nodejs16
+runtime: nodejs22
 
 instance_class: F1
 
@@ -15,14 +15,15 @@ automatic_scaling:
   min_pending_latency: 5000ms
   max_concurrent_requests: 80
 
+entrypoint: node .output/server/index.mjs
+
 handlers:
   - url: /_nuxt
-    static_dir: .nuxt/dist/client
+    static_dir: .output/public/_nuxt
     secure: always
 
-  - url: /(.*\.(gif|png|jpg|ico|txt))$
-    static_files: static/\1
-    upload: static/.*\.(gif|png|jpg|ico|txt)$
+  - url: /(.*\.(gif|png|jpg|ico|txt|xml))$
+    static_files: .output/public/\1
     secure: always
 
   - url: /.*

@@ -1,146 +1,69 @@
-import { NuxtConfig } from '@nuxt/types'
+// https://nuxt.com/docs/api/configuration/nuxt-config
 
-const siteInfo = {
-  title: '俺のはてブ',
-  url: 'https://hatebu.brdr.jp',
-  description: '俺のためのはてブ'
-}
+const isProduction = process.env.NODE_ENV === 'production'
 
-const config: NuxtConfig = {
-  loading: {
-    color: '#2b4fb7',
-    throttle: 0
-  },
-  target: 'server',
+export default defineNuxtConfig({
+  modules: ['@pinia/nuxt', '@nuxt/eslint', 'nuxt-swiper'],
   ssr: true,
-  css: ['~/assets/styles/main.css'],
-  head: {
-    htmlAttrs: {
-      lang: 'ja'
+  devtools: { enabled: true },
+  css: [
+    'ress',
+    '~/assets/styles/custom-properties.css',
+    '~/assets/styles/main.css',
+  ],
+  compatibilityDate: '2025-07-15',
+  nitro: {
+    minify: isProduction,
+    sourceMap: !isProduction,
+    routeRules: {
+      '/api/**': {
+        proxy: 'https://b.hatena.ne.jp/**',
+        cors: true,
+        headers: {
+          'Access-Control-Allow-Credentials': 'true',
+        },
+      },
     },
-    title: siteInfo.title,
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'robots', content: 'index, follow' },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1.0, minimum-scale=1.0'
-      },
-      {
-        hid: 'description',
-        name: 'description',
-        content: siteInfo.description
-      },
-      {
-        hid: 'og:title',
-        property: 'og:title',
-        content: siteInfo.title
-      },
-      {
-        hid: 'og:description',
-        property: 'og:description',
-        content: siteInfo.description
-      },
-      {
-        hid: 'og:url',
-        property: 'og:url',
-        content: siteInfo.url
-      },
-      {
-        hid: 'og:image',
-        property: 'og:image',
-        content: siteInfo.url + '/ogp.png'
-      },
-      {
-        property: 'og:site_name',
-        content: siteInfo.title
-      },
-      {
-        hid: 'og:type',
-        property: 'og:type',
-        content: 'website'
-      },
-      {
-        property: 'og:locale',
-        content: 'ja_JP'
-      },
-      {
-        name: 'twitter:card',
-        content: 'summary'
-      }
-    ],
-    link: [
-      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
-      { rel: 'favicon', href: '/favicon.ico' }
-    ]
   },
-  router: {
-    mode: 'history'
-  },
-  plugins: [
-    { src: '~/plugins/axios', mode: 'all' },
-    { src: '~/plugins/vueAwesomeSwiper', mode: 'client' },
-    { src: '~/plugins/keyCodes', mode: 'client' }
-  ],
-  modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
-  axios: {
-    baseURL: 'https://b.hatena.ne.jp',
-    browserBaseURL: '/api',
-    proxy: true,
-    credentials: true
-  },
-  proxy: {
-    '/api': {
-      target: 'https://b.hatena.ne.jp',
-      pathRewrite: {
-        '^/api': '/'
+  vite: {
+    build: {
+      minify: isProduction ? 'terser' : false,
+      terserOptions: {
+        sourceMap: !isProduction,
+        compress: {
+          drop_console: true,
+        },
+        format: {
+          comments: /@license/i,
+        },
       },
-      changeOrigin: true,
-      logLevel: 'debug'
-    }
+    },
   },
-  serverMiddleware: [
-    { path: '/_ah/warmup', handler: '~/serverMiddleware/warmup.ts' }
-  ],
-  build: {
-    postcss: {
-      plugins: {
-        cssnano: {
-          preset: 'default',
-          autoprefixer: false,
-          zindex: false,
-          discardUnused: {
-            fontFace: false
-          }
-        }
+  typescript: {
+    typeCheck: true,
+  },
+  postcss: {
+    plugins: {
+      '@csstools/postcss-global-data': {
+        files: [
+          './app/assets/styles/custom-media.css',
+        ],
       },
-      preset: {
+      'postcss-preset-env': {
         stage: 2,
         features: {
           'custom-media-queries': true,
-          'nesting-rules': true
+          'nesting-rules': true,
         },
-        importFrom: [
-          './assets/styles/custom-properties.css',
-          './assets/styles/custom-media.css'
-        ]
-      }
+      },
+      'cssnano': isProduction
+        ? { preset: 'default' }
+        : undefined,
     },
-    terser: {
-      parallel: true,
-      sourceMap: false,
-      terserOptions: {
-        warnings: false,
-        compress: {
-          drop_console: true
-        },
-        output: {
-          comments: /@license/i
-        }
-      }
-    }
   },
-  buildModules: ['@nuxt/typescript-build']
-}
-
-export default config
+  eslint: {
+    config: {
+      stylistic: true,
+    },
+  },
+})
