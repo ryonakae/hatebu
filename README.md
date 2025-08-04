@@ -20,4 +20,7 @@ $ pnpm install
 $ pnpm build
 $ gcloud auth login
 $ gcloud app deploy --project [YOUR_PROJECT_ID]
+
+# Don't migrate traffic
+gcloud app deploy --project [YOUR_PROJECT_ID] --no-promote
 ```
