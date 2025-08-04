@@ -12,7 +12,10 @@
       class="entries"
     >
       <div class="entries-title-wrapper">
-        <h2 class="entries-title">
+        <h2
+          class="entries-title"
+          @click="scrollTop"
+        >
           <span v-if="store.displayMode === 'hotentry'">
             {{ store.categories[$route.params.category as Category] }}の人気エントリー
           </span>
@@ -142,6 +145,13 @@ function formatDate(date: string): string {
   }
 
   return dayjs(date).format(format)
+}
+
+function scrollTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  })
 }
 
 function getSubject(subject: string[]): string {
