@@ -14,11 +14,10 @@
 
 <style scoped>
 .header {
+  height: var(--header-height);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 16px;
-  padding-bottom: 16px;
 }
 
 .title {

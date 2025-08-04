@@ -1,22 +1,18 @@
 <template>
-  <div
-    class="nav"
-    :class="{ 'is-top': isTop, 'is-bottom': isBottom }"
-  >
-    <CommonDivider v-if="isBottom" />
+  <div class="nav">
     <nav class="nav-content">
       <ul class="display">
         <li
           class="display-item link is-noborder"
           :class="{ 'is-active': store.displayMode === 'hotentry' }"
-          @click.stop="changeDisplayMode('hotentry')"
+          @click="changeDisplayMode('hotentry')"
         >
           人気
         </li>
         <li
           class="display-item link is-noborder"
           :class="{ 'is-active': store.displayMode === 'entrylist' }"
-          @click.stop="changeDisplayMode('entrylist')"
+          @click="changeDisplayMode('entrylist')"
         >
           新着
         </li>
@@ -46,31 +42,16 @@
       </ClientOnly>
     </nav>
     <CommonDivider />
-    <div
-      v-if="isBottom"
-      class="safe-area"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
-interface Props {
-  isBottom?: boolean
-  isTop?: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  isBottom: false,
-  isTop: false,
-})
-
 const route = useRoute()
 const store = useCommonStore()
 
-// Swiper関連
+// Swiper
 const swiperRef = ref(null)
 const isSwiperInit = ref(false)
-
 const swiperOptions = {
   slidesPerView: 'auto' as const,
   spaceBetween: 16,
@@ -83,30 +64,28 @@ const swiperOptions = {
   on: {
     init: () => {
       console.log('swiper init')
-      onSwiperInit()
+      isSwiperInit.value = true
+      updateSwiperIndex(store.currentCategory)
     },
   },
 }
 
+// Init Swiper
 const swiper = useSwiper(swiperRef, swiperOptions)
 
 // Methods
 async function changeDisplayMode(mode: DisplayMode) {
-  console.log('changeDisplayMode', mode, route.params.category)
-
   await store.changeDisplayMode({
     mode,
     category: route.params.category as Category,
   })
 }
 
-function updateIndex(category: string) {
-  console.log('updateIndex', category)
+function updateSwiperIndex(category: string) {
+  console.log('updateSwiperIndex', category)
 
   const categoryKeys = Object.keys(store.categories)
   const currentIndex = categoryKeys.indexOf(category)
-  console.log('categoryKeys', categoryKeys)
-  console.log('currentIndex', currentIndex)
 
   if (swiper.instance?.value) {
     swiper.instance.value.slideTo(currentIndex, 0)
@@ -127,33 +106,24 @@ function onLinkClick(category: Category) {
 async function reload() {
   console.log('reload')
 
-  store.rssData = null
+  window.scrollTo(0, 0)
 
-  const json = await store.getEntry({
+  store.rssData = null
+  const json = await useGetEntry({
     mode: store.displayMode,
     category: route.params.category as Category,
   })
-  console.log('json', json)
-
   store.rssData = json
 }
 
-function onSwiperInit() {
-  console.log('onSwiperInit')
-  isSwiperInit.value = true
-}
-
 // Watch
-watchEffect(() => {
-  console.log('currentCategory updated', store.currentCategory)
-  updateIndex(store.currentCategory)
-})
-
-// Lifecycle
-onMounted(async () => {
-  await nextTick()
-  updateIndex(store.currentCategory)
-})
+watch(
+  () => store.currentCategory,
+  (newCategory) => {
+    console.log('currentCategory updated', newCategory)
+    updateSwiperIndex(newCategory)
+  },
+)
 </script>
 
 <style scoped>
@@ -161,6 +131,9 @@ onMounted(async () => {
   width: 100%;
   font-size: var(--fontsize-nav);
   background-color: var(--color-bg-content);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-index-nav);
 }
 
 .nav-content {

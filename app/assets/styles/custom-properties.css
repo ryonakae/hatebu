@@ -53,6 +53,7 @@
   --image-size: 48px;
   --favicon-size: 14px;
   --border-radius: 4px;
+  --header-height: 56px;
   --nav-height: 56px;
 
   /* safe area */
@@ -74,4 +75,7 @@
     --safe-area-inset-bottom: env(safe-area-inset-bottom, 1px);
     --safe-area-inset-left: env(safe-area-inset-left, 1px);
   }
+
+  /* z-index */
+  --z-index-nav: 10;
 }

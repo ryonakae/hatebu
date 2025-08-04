@@ -1,4 +1,5 @@
 <template>
+  <CommonDivider />
   <footer class="footer">
     <ul class="footer-shortcuts">
       <li class="footer-shortcuts-item">

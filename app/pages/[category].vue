@@ -113,26 +113,13 @@ definePageMeta({
 const route = useRoute()
 const store = useCommonStore()
 
-// useAsyncDataを使ってstore.getEntryでSSRデータフェッチ
-const { data: rssData } = await useAsyncData(
-  `entries-${route.params.category}-${store.displayMode}`,
-  () => store.getEntry({
-    mode: store.displayMode,
-    category: route.params.category as Category,
-  }),
-  {
-    server: true,
-    default: () => null,
-  },
-)
-
-// データが取得できたらstoreに保存
-watchEffect(() => {
-  if (rssData.value) {
-    store.rssData = rssData.value
-    store.currentCategory = route.params.category as Category
-  }
+// エントリーを取得
+const rssData = await useGetEntry({
+  mode: store.displayMode,
+  category: route.params.category as Category,
 })
+store.rssData = rssData
+store.currentCategory = route.params.category as Category
 
 // Methods
 function formatDate(date: string): string {
@@ -172,7 +159,7 @@ onMounted(async () => {
 
   // 初期データフェッチが必要な場合
   if (!store.rssData) {
-    const json = await store.getEntry({
+    const json = await useGetEntry({
       mode: store.displayMode,
       category: route.params.category as Category,
     })
@@ -184,18 +171,16 @@ onMounted(async () => {
 
 <style scoped>
 .content {
-  min-height: 100vh;
+  min-height: calc(100svh - var(--header-height) - var(--nav-height));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .loading {
-  position: fixed;
-  top: 50%;
-  left: 0;
-  width: 100%;
   font-size: var(--fontsize-nav);
   color: var(--color-sub);
-  text-align: center;
-  transform: translateY(-50%);
 }
 
 .entries-title {

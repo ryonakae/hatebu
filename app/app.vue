@@ -1,11 +1,11 @@
 <template>
+  <NuxtLoadingIndicator :color="'#2b4fb7'" />
   <div class="app">
     <AppHeader />
-    <AppNav :is-top="true" />
+    <AppNav />
     <div class="content">
       <NuxtPage />
     </div>
-    <AppNav :is-bottom="true" />
     <AppFooter />
   </div>
 </template>
