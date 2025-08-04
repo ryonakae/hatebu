@@ -9,7 +9,7 @@
 
     <div class="detail">
       <small>{{ error.statusCode }}</small>
-      <small>{{ error.message }}</small>
+      <small>{{ error.statusMessage }}</small>
     </div>
   </div>
 </template>

@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     minify: isProduction,
     sourceMap: !isProduction,
     routeRules: {
+      '/': { redirect: { to: '/all', statusCode: 301 } },
       '/api/**': {
         proxy: 'https://b.hatena.ne.jp/**',
         cors: true,

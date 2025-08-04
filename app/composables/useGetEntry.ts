@@ -1,3 +1,5 @@
+import type { NuxtError } from '#app'
+import { NuxtErrorBoundary } from '#components'
 import { type convertableToString, parseString } from 'xml2js'
 
 // xmlをjsonに変換する関数
@@ -44,20 +46,13 @@ export const useGetEntry = async (options: GetEntryOptions) => {
         : `/entrylist/${options.category}.rss`
   }
 
-  try {
-    const xml = await customFetch(url, {
-      query: {
-        timestamp: Date.now(),
-      },
-    })
-    const json = (await getJson(xml as string)) as RSSData
-    return json
-  }
-  catch (error) {
-    await navigateTo('/')
-    throw new Error(String(error))
-  }
-  finally {
-    store.loading = false
-  }
+  const xml = await customFetch(url, {
+    query: {
+      timestamp: Date.now(),
+    },
+  })
+  const json = (await getJson(xml as string)) as RSSData
+
+  store.loading = false
+  return json
 }

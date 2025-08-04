@@ -123,12 +123,28 @@ const route = useRoute()
 const store = useCommonStore()
 
 // エントリーを取得
-const rssData = await useGetEntry({
-  mode: store.displayMode,
-  category: route.params.category as Category,
-})
-store.rssData = rssData
-store.currentCategory = route.params.category as Category
+const { data: rssData, error } = await useAsyncData(
+  `entries-${route.params.category}-${store.displayMode}`,
+  () => useGetEntry({
+    mode: store.displayMode,
+    category: route.params.category as Category,
+  }),
+  {
+    server: true,
+    default: () => null,
+  },
+)
+if (error.value) {
+  console.log(error.value)
+  throw createError({
+    statusCode: error.value.statusCode,
+    statusMessage: error.value.statusMessage,
+  })
+}
+if (rssData.value) {
+  store.rssData = rssData.value
+  store.currentCategory = route.params.category as Category
+}
 
 // Methods
 function formatDate(date: string): string {
