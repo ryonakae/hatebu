@@ -12,7 +12,9 @@
 
 <script setup lang="ts">
 const store = useCommonStore()
-const { start, finish } = useLoadingIndicator()
+const { start, finish } = useLoadingIndicator({
+  throttle: 0,
+})
 
 const siteInfo = {
   title: '俺のはてブ',
@@ -52,11 +54,10 @@ watch(
 
 <style scoped>
 .app {
+  background-color: var(--color-bg-content);
   max-width: var(--content-width);
   min-height: 100svh;
-  margin-right: auto;
-  margin-left: auto;
-  background-color: var(--color-bg-content);
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
 }

@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <header class="header">
-      <h1 class="title">
-        <a
-          href="/"
-          class="is-noborder"
-        >俺のはてブ</a>
-      </h1>
-    </header>
-    <CommonDivider />
-  </div>
+  <header class="header">
+    <h1 class="title">
+      <a
+        href="/"
+        class="is-noborder"
+      >俺のはてブ</a>
+    </h1>
+  </header>
+  <CommonDivider />
 </template>
 
 <style scoped>

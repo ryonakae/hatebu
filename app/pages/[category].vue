@@ -46,10 +46,13 @@
               target="_blank"
               rel="noopener noreferrer"
               class="entry-image"
-              :style="{
-                backgroundImage: 'url(' + entry['hatena:imageurl'] + ')',
-              }"
-            />
+            >
+              <img
+                :src="entry['hatena:imageurl']"
+                :alt="entry.title"
+                loading="lazy"
+              >
+            </a>
             <div class="entry-info">
               <a
                 class="entry-users"
@@ -70,6 +73,7 @@
               <img
                 :src="getFaviconUrl(entry.link)"
                 alt=""
+                loading="lazy"
               >
               <span>{{ getHostName(entry.link) }}</span>
             </div>
@@ -190,8 +194,7 @@ onMounted(async () => {
   background-color: var(--color-bg-footer);
 
   @media (--sp) {
-    padding-right: var(--padding-content-horizontal-sp);
-    padding-left: var(--padding-content-horizontal-sp);
+    padding-inline: var(--padding-content-horizontal-sp);
   }
 }
 
@@ -206,8 +209,7 @@ onMounted(async () => {
     display: block;
     width: 100%;
     height: 100%;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-block: 15px;
     text-align: center;
   }
 }
@@ -240,32 +242,34 @@ onMounted(async () => {
 }
 
 .entry-image {
-  position: relative;
-  display: block;
   grid-row: 1 / 4;
   grid-column: 2 / 3;
+  position: relative;
+  width: var(--image-size);
   height: var(--image-size);
   background-color: var(--color-bg);
-  background-position: 50% 50%;
-  background-size: cover;
   border-radius: var(--border-radius);
+  overflow: hidden;
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
   &::after {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     content: '';
+    inset: 0;
     border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
+    border-radius: inherit;
   }
 }
 
 .entry-info {
-  display: flex;
   grid-row: 2 / 3;
   grid-column: 1 / 2;
+  display: flex;
   align-items: center;
 
   & > * {
@@ -275,7 +279,7 @@ onMounted(async () => {
 
 .entry-users {
   height: 20px;
-  padding: 0 8px;
+  padding-inline: 8px;
   font-size: var(--fontsize-small);
   color: var(--color-accent);
   background-color: rgba(var(--color-accent-rgb), 0.08);
@@ -298,15 +302,15 @@ onMounted(async () => {
 }
 
 .entry-hostname {
-  display: flex;
   grid-row: 3 / 4;
   grid-column: 1 / 2;
+  display: flex;
   align-items: center;
+  column-gap: 4px;
 
   & img {
     width: var(--favicon-size);
     height: auto;
-    margin-right: 4px;
   }
 }
 </style>

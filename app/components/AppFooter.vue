@@ -49,14 +49,17 @@
   font-size: var(--fontsize-footer);
   color: var(--color-sub);
   background-color: var(--color-bg-footer);
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
 }
 
 .footer-shortcuts {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 8px;
   list-style-type: none;
+  gap: 1em;
 
   @media (--sp) {
     display: none;
@@ -66,20 +69,16 @@
 .footer-shortcuts-item {
   display: flex;
   align-items: center;
-  margin: 0 0.5em 1em;
+  column-gap: 4px;
 
   & pre {
     display: block;
-    padding: 0.4em 0.6em 0.3em;
+    padding: 0.4em 0.6em;
     font-weight: bold;
-    line-height: 1;
+    line-height: 1em;
     color: var(--color-text);
     background-color: var(--color-bg-pre);
     border-radius: var(--border-radius);
-  }
-
-  & span {
-    margin-left: 8px;
   }
 }
 

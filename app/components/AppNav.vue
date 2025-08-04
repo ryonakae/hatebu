@@ -23,12 +23,12 @@
           ref="swiperRef"
           :init="false"
           class="category"
+          :class="{ 'is-visible': isSwiperInit }"
         >
           <swiper-slide
             v-for="(categoryName, category) in store.categories"
             :key="category"
             class="category-item"
-            :class="{ 'is-visible': isSwiperInit }"
           >
             <NuxtLink
               class="category-link is-noborder"
@@ -143,22 +143,18 @@ watch(
   overflow: hidden;
 }
 
-.safe-area {
-  /* height: calc(var(--nav-height) + var(--safe-area-inset-bottom)); */
-  height: var(--safe-area-inset-bottom);
-  background-color: var(--color-bg-footer);
-}
-
 .display {
+  background-color: var(--color-bg-content);
   position: relative;
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 16px 0 var(--padding-content-horizontal);
+  column-gap: 8px;
+  padding-left: var(--padding-content-horizontal);
+  padding-right: 16px;
   white-space: nowrap;
   list-style-type: none;
-  background-color: var(--color-bg-content);
 
   @media (--sp) {
     padding-right: 8px;
@@ -167,17 +163,12 @@ watch(
 }
 
 .display-item {
+  background-color: var(--color-bg);
   height: 24px;
-  padding: 0 8px;
-  margin-left: 4px;
+  padding-inline: 8px;
   line-height: 24px;
   color: inherit;
-  background-color: var(--color-bg);
   border-radius: calc(24px / 2);
-
-  &:first-child {
-    margin-left: 0;
-  }
 
   &.is-active {
     font-weight: bold;
@@ -201,10 +192,6 @@ watch(
   height: 100%;
   padding: 0 16px 0 8px;
   overflow: hidden;
-}
-
-.category-item {
-  width: auto;
   pointer-events: none;
   visibility: hidden;
 
@@ -212,6 +199,10 @@ watch(
     pointer-events: auto;
     visibility: visible;
   }
+}
+
+.category-item {
+  width: auto;
 }
 
 .category-link {
