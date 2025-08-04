@@ -28,12 +28,14 @@
     "xml2js": "0.6.2"
   },
   "devDependencies": {
+    "@csstools/postcss-global-data": "3.0.0",
     "@nuxt/eslint": "1.7.1",
     "@types/url-parse": "1.4.11",
     "@types/xml2js": "0.4.14",
     "eslint": "9.32.0",
     "husky": "9.1.7",
     "lint-staged": "16.1.2",
+    "postcss-preset-env": "10.2.4",
     "typescript": "5.8.3",
     "vue-tsc": "3.0.4"
   }

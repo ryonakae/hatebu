@@ -10,10 +10,6 @@
   </div>
 </template>
 
-<script>
-import '~/assets/styles/main.css'
-</script>
-
 <style scoped>
 .app {
   max-width: var(--content-width);
