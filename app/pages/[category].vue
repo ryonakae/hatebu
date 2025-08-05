@@ -37,19 +37,19 @@
             :class="{ 'is-noimage': !entry['hatena:imageurl'] }"
           >
             <h3 class="entry-title">
-              <a
-                :href="entry.link"
+              <NuxtLink
+                :to="entry.link"
+                external
                 target="_blank"
-                rel="noopener noreferrer"
               >
                 {{ entry.title }}
-              </a>
+              </NuxtLink>
             </h3>
-            <a
+            <NuxtLink
               v-if="entry['hatena:imageurl']"
-              :href="entry.link"
+              :to="entry.link"
+              external
               target="_blank"
-              rel="noopener noreferrer"
               class="entry-image"
             >
               <img
@@ -57,16 +57,16 @@
                 :alt="entry.title"
                 loading="lazy"
               >
-            </a>
+            </NuxtLink>
             <div class="entry-info">
-              <a
-                class="entry-users"
-                :href="entry['hatena:bookmarkCommentListPageUrl']"
+              <NuxtLink
+                :to="entry['hatena:bookmarkCommentListPageUrl']"
+                external
                 target="_blank"
-                rel="noopener noreferrer"
+                class="entry-users"
               >
                 <span>{{ entry['hatena:bookmarkcount'] }} users</span>
-              </a>
+              </NuxtLink>
               <div class="entry-subject">
                 {{ getSubject(entry['dc:subject']) }}
               </div>
@@ -88,22 +88,22 @@
       </ul>
 
       <div class="entries-link">
-        <a
+        <NuxtLink
           v-if="store.displayMode === 'hotentry'"
-          :href="'https://b.hatena.ne.jp/hotentry/' + $route.params.category"
+          :to="'https://b.hatena.ne.jp/hotentry/' + $route.params.category"
+          external
           target="_blank"
-          rel="noopener noreferrer"
         >
           {{ store.categories[$route.params.category as Category] }}の人気エントリーをもっと読む
-        </a>
-        <a
+        </NuxtLink>
+        <NuxtLink
           v-else-if="store.displayMode === 'entrylist'"
-          :href="'https://b.hatena.ne.jp/entrylist/' + $route.params.category"
+          :to="'https://b.hatena.ne.jp/entrylist/' + $route.params.category"
+          external
           target="_blank"
-          rel="noopener noreferrer"
         >
           {{ store.categories[$route.params.category as Category] }}の新着エントリーをもっと読む
-        </a>
+        </NuxtLink>
       </div>
     </div>
   </div>

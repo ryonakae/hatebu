@@ -21,23 +21,23 @@
 
     <div class="footer-copyright">
       <small>Respect
-        <a
-          href="https://b.hatena.ne.jp/"
+        <NuxtLink
+          to="https://b.hatena.ne.jp/"
+          external
           target="_blank"
-          rel="noopener noreferrer"
-        >はてなブックマーク</a>
+        >はてなブックマーク</NuxtLink>
         and
-        <a
-          href="http://hatebu.straightline.jp/"
+        <NuxtLink
+          to="http://hatebu.straightline.jp/"
+          external
           target="_blank"
-          rel="noopener noreferrer"
-        >嫁のはてブ</a></small>
+        >嫁のはてブ</NuxtLink></small>
       <small>Created by
-        <a
-          href="https://twitter.com/ryo_dg"
+        <NuxtLink
+          to="https://twitter.com/ryo_dg"
+          external
           target="_blank"
-          rel="noopener noreferrer"
-        >Ryo Nakae</a></small>
+        >Ryo Nakae</NuxtLink></small>
     </div>
   </footer>
 </template>

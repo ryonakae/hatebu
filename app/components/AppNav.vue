@@ -18,28 +18,27 @@
         </li>
       </ul>
 
-      <ClientOnly>
-        <swiper-container
-          ref="swiperRef"
-          :init="false"
-          class="category"
-          :class="{ 'is-visible': isSwiperInit }"
+      <swiper-container
+        ref="swiperRef"
+        :init="false"
+        class="category"
+        :class="{ 'is-visible': isSwiperInit }"
+      >
+        <swiper-slide
+          v-for="(categoryName, category) in store.categories"
+          :key="category"
+          class="category-item"
         >
-          <swiper-slide
-            v-for="(categoryName, category) in store.categories"
-            :key="category"
-            class="category-item"
+          <NuxtLink
+            class="category-link is-noborder"
+            :to="`/${category}`"
+            prefetch
+            @click="onLinkClick(category)"
           >
-            <NuxtLink
-              class="category-link is-noborder"
-              :to="'/' + category"
-              @click="onLinkClick(category)"
-            >
-              <span>{{ categoryName }}</span>
-            </NuxtLink>
-          </swiper-slide>
-        </swiper-container>
-      </ClientOnly>
+            <span>{{ categoryName }}</span>
+          </NuxtLink>
+        </swiper-slide>
+      </swiper-container>
     </nav>
   </div>
 </template>

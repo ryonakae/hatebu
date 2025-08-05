@@ -1,10 +1,11 @@
 <template>
   <header class="header">
     <h1 class="title">
-      <a
-        href="/"
+      <NuxtLink
+        to="/"
+        external
         class="is-noborder"
-      >俺のはてブ</a>
+      >俺のはてブ</NuxtLink>
     </h1>
   </header>
 </template>
