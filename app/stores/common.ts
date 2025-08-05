@@ -44,7 +44,7 @@ export const useCommonStore = defineStore('commonStore', {
 
       const sideCategory = categories[sideIndex]
 
-      navigateTo(`/${route.params.type}/${sideCategory}`)
+      navigateTo(`/${route.params.type || 'hotentry'}/${sideCategory}`)
     },
   },
 })
