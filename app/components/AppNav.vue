@@ -3,14 +3,14 @@
     <nav class="nav-content">
       <ul class="display">
         <NuxtLink
-          :to="`/hotentry/${route.params.category}`"
+          :to="`/hotentry/${route.params.category || 'all'}`"
           class="display-item link is-noborder"
-          :class="{ 'is-active': route.params.type === 'hotentry' }"
+          :class="{ 'is-active': route.params.type === 'hotentry' || route.path === '/' }"
         >
           人気
         </NuxtLink>
         <NuxtLink
-          :to="`/entrylist/${route.params.category}`"
+          :to="`/entrylist/${route.params.category || 'all'}`"
           class="display-item link is-noborder"
           :class="{ 'is-active': route.params.type === 'entrylist' }"
         >
@@ -31,8 +31,8 @@
         >
           <NuxtLink
             class="category-link is-noborder"
-            :class="{ 'is-active': category === store.currentCategory }"
-            :to="`/${route.params.type}/${category}`"
+            :class="{ 'is-active': category === 'all' && route.path === '/' }"
+            :to="`/${route.params.type || 'hotentry'}/${category}`"
             prefetch
             @click="onLinkClick(category)"
           >
@@ -86,26 +86,8 @@ function updateSwiperIndex(category: string) {
 
 function onLinkClick(category: Category) {
   console.log('onLinkClick', category, store.currentCategory)
-
-  if (category === store.currentCategory) {
-    reload()
-  }
-
   store.currentCategory = category
   console.log('currentCategory updated', store.currentCategory)
-}
-
-async function reload() {
-  console.log('reload')
-
-  window.scrollTo(0, 0)
-
-  store.rssData = null
-  const json = await useGetEntry({
-    type: route.params.type as EntryType,
-    category: route.params.category as Category,
-  })
-  store.rssData = json
 }
 
 // Watch
@@ -206,6 +188,7 @@ watch(
   &.router-link-active {
     font-weight: bold;
     color: var(--color-key);
+    pointer-events: none;
   }
 
   @media (hover) {
