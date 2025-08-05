@@ -5,7 +5,9 @@
     <CommonDivider />
     <AppNav />
     <CommonDivider />
-    <NuxtPage class="content" />
+    <div class="page">
+      <NuxtPage />
+    </div>
     <CommonDivider />
     <AppNav />
     <CommonDivider />
@@ -94,7 +96,7 @@ onUnmounted(() => {
   flex-direction: column;
 }
 
-.content {
+.page {
   flex: 1;
 }
 </style>

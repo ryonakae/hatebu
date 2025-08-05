@@ -12,7 +12,6 @@ export default defineNuxtConfig({
     '~/assets/styles/main.css',
   ],
   routeRules: {
-    '/': { redirect: { to: '/hotentry/all', statusCode: 301 } },
     '/api/**': {
       proxy: 'https://b.hatena.ne.jp/**',
       cors: true,
@@ -21,16 +20,13 @@ export default defineNuxtConfig({
         'Cache-Control': 'public, max-age=600, s-maxage=600',
       },
     },
+    '/': { // /hotentry/all と同じ扱い
+      isr: 600,
+    },
     '/hotentry/**': {
-      headers: {
-        'Cache-Control': 'public, max-age=600, s-maxage=600',
-      },
       isr: 600,
     },
     '/entrylist/**': {
-      headers: {
-        'Cache-Control': 'public, max-age=600, s-maxage=600',
-      },
       isr: 600,
     },
   },
