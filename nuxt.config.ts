@@ -22,12 +22,21 @@ export default defineNuxtConfig({
     },
     '/hotentry/**': {
       isr: 600,
+      headers: {
+        'Cache-Control': 'public, max-age=600, s-maxage=600',
+      },
     },
     '/entrylist/**': {
       isr: 600,
+      headers: {
+        'Cache-Control': 'public, max-age=600, s-maxage=600',
+      },
     },
     '/': { // /hotentry/all と同じ
       isr: 600,
+      headers: {
+        'Cache-Control': 'public, max-age=600, s-maxage=600',
+      },
     },
   },
   compatibilityDate: '2025-07-15',
