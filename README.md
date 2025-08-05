@@ -12,5 +12,13 @@ $ pnpm install
 $ pnpm dev
 ```
 
+## Preview
+
+```
+$ pnpm install
+$ pnpm build
+$ pnpm preview # open http://localhost:3000
+```
+
 ## Deploy
 Deploy to Vercel
