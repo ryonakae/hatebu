@@ -11,20 +11,33 @@ export default defineNuxtConfig({
     '~/assets/styles/custom-properties.css',
     '~/assets/styles/main.css',
   ],
+  routeRules: {
+    '/': { redirect: { to: '/hotentry/all', statusCode: 301 } },
+    '/api/**': {
+      proxy: 'https://b.hatena.ne.jp/**',
+      cors: true,
+      headers: {
+        'Access-Control-Allow-Credentials': 'true',
+        'Cache-Control': 'public, max-age=600, s-maxage=600',
+      },
+    },
+    '/hotentry/**': {
+      headers: {
+        'Cache-Control': 'public, max-age=600, s-maxage=600',
+      },
+      isr: 600,
+    },
+    '/entrylist/**': {
+      headers: {
+        'Cache-Control': 'public, max-age=600, s-maxage=600',
+      },
+      isr: 600,
+    },
+  },
   compatibilityDate: '2025-07-15',
   nitro: {
     minify: isProduction,
     sourceMap: !isProduction,
-    routeRules: {
-      '/': { redirect: { to: '/hotentry/all', statusCode: 301 } },
-      '/api/**': {
-        proxy: 'https://b.hatena.ne.jp/**',
-        cors: true,
-        headers: {
-          'Access-Control-Allow-Credentials': 'true',
-        },
-      },
-    },
   },
   vite: {
     build: {

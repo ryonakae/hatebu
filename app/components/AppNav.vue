@@ -202,7 +202,8 @@ watch(
   height: 100%;
   color: inherit;
 
-  &.is-active {
+  &.is-active,
+  &.router-link-active {
     font-weight: bold;
     color: var(--color-key);
   }
