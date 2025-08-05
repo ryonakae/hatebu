@@ -113,14 +113,26 @@
 import dayjs from 'dayjs'
 import Url from 'url-parse'
 
-// Define meta for SEO
-definePageMeta({
-  robots: 'noindex,nofollow,noarchive',
-})
-
 // Composables
 const route = useRoute()
 const store = useCommonStore()
+
+// Set head
+useHead({
+  meta: [
+    // /all のみインデックスを許可し、他はnoindexにする
+    {
+      name: 'robots',
+      content: route.params.category === 'all' ? 'index,follow' : 'noindex,nofollow,noarchive',
+    },
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: `${siteInfo.url}/${route.params.category}`,
+    },
+  ],
+})
 
 // エントリーを取得
 const { data: rssData, error } = await useAsyncData(

@@ -20,11 +20,6 @@ const store = useCommonStore()
 const { start, finish } = useLoadingIndicator({
   throttle: 0,
 })
-const siteInfo = {
-  title: '俺のはてブ',
-  description: '俺のためのはてブ',
-  url: 'https://hatebu.brdr.jp',
-}
 
 // headとmeta情報を設定
 useHead({
