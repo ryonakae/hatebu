@@ -3,7 +3,6 @@ declare global {
     loading: boolean
     categories: Categories
     currentCategory: Category
-    displayMode: DisplayMode
     rssData: RSSData | null
   }
 }

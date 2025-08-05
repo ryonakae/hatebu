@@ -25,12 +25,12 @@ export const useGetEntry = async (options: GetEntryOptions) => {
   store.loading = true
   let url!: string
 
-  if (options.mode === 'hotentry') {
+  if (options.type === 'hotentry') {
     url = options.category === 'all'
       ? '/hotentry?mode=rss'
       : `/hotentry/${options.category}.rss`
   }
-  else if (options.mode === 'entrylist') {
+  else if (options.type === 'entrylist') {
     url = options.category === 'all'
       ? '/entrylist?mode=rss'
       : `/entrylist/${options.category}.rss`

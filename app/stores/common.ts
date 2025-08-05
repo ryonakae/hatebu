@@ -16,26 +16,12 @@ export const useCommonStore = defineStore('commonStore', {
       game: 'アニメとゲーム',
     },
     currentCategory: 'all',
-    displayMode: 'hotentry',
     rssData: null,
   }),
   actions: {
-    async changeDisplayMode(options: GetEntryOptions) {
-      console.log('changeDisplayMode', options)
-
-      if (options.mode === this.displayMode) {
-        console.log('changeDisplayMode: aborted')
-        return
-      }
-
-      const json = await useGetEntry(options)
-      this.rssData = json
-
-      window.scrollTo(0, 0)
-
-      this.displayMode = options.mode
-    },
     moveAdjacentCategory(side: 'previous' | 'next') {
+      const route = useRoute()
+
       const categories = Object.keys(this.categories)
       const currentIndex = categories.indexOf(this.currentCategory)
 
@@ -58,7 +44,7 @@ export const useCommonStore = defineStore('commonStore', {
 
       const sideCategory = categories[sideIndex]
 
-      navigateTo('/' + sideCategory)
+      navigateTo(`/${route.params.type}/${sideCategory}`)
     },
   },
 })

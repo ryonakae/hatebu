@@ -2,20 +2,20 @@
   <div class="nav">
     <nav class="nav-content">
       <ul class="display">
-        <li
+        <NuxtLink
+          :to="`/hotentry/${route.params.category}`"
           class="display-item link is-noborder"
-          :class="{ 'is-active': store.displayMode === 'hotentry' }"
-          @click="changeDisplayMode('hotentry')"
+          :class="{ 'is-active': route.params.type === 'hotentry' }"
         >
           人気
-        </li>
-        <li
+        </NuxtLink>
+        <NuxtLink
+          :to="`/entrylist/${route.params.category}`"
           class="display-item link is-noborder"
-          :class="{ 'is-active': store.displayMode === 'entrylist' }"
-          @click="changeDisplayMode('entrylist')"
+          :class="{ 'is-active': route.params.type === 'entrylist' }"
         >
           新着
-        </li>
+        </NuxtLink>
       </ul>
 
       <swiper-container
@@ -31,7 +31,8 @@
         >
           <NuxtLink
             class="category-link is-noborder"
-            :to="`/${category}`"
+            :class="{ 'is-active': category === store.currentCategory }"
+            :to="`/${route.params.type}/${category}`"
             prefetch
             @click="onLinkClick(category)"
           >
@@ -72,13 +73,6 @@ const swiperOptions = {
 const swiper = useSwiper(swiperRef, swiperOptions)
 
 // Methods
-async function changeDisplayMode(mode: DisplayMode) {
-  await store.changeDisplayMode({
-    mode,
-    category: route.params.category as Category,
-  })
-}
-
 function updateSwiperIndex(category: string) {
   console.log('updateSwiperIndex', category)
 
@@ -108,7 +102,7 @@ async function reload() {
 
   store.rssData = null
   const json = await useGetEntry({
-    mode: store.displayMode,
+    type: route.params.type as EntryType,
     category: route.params.category as Category,
   })
   store.rssData = json
@@ -208,8 +202,7 @@ watch(
   height: 100%;
   color: inherit;
 
-  &.is-active,
-  &.router-link-active {
+  &.is-active {
     font-weight: bold;
     color: var(--color-key);
   }

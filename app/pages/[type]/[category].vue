@@ -16,11 +16,11 @@
           class="entries-title"
           @click="scrollTop"
         >
-          <span v-if="store.displayMode === 'hotentry'">
-            {{ store.categories[$route.params.category as Category] }}の人気エントリー
+          <span v-if="route.params.type === 'hotentry'">
+            {{ store.categories[route.params.category as Category] }}の人気エントリー
           </span>
-          <span v-else-if="store.displayMode === 'entrylist'">
-            {{ store.categories[$route.params.category as Category] }}の新着エントリー
+          <span v-else-if="route.params.type === 'entrylist'">
+            {{ store.categories[route.params.category as Category] }}の新着エントリー
           </span>
         </h2>
         <CommonDivider />
@@ -89,7 +89,7 @@
 
       <div class="entries-link">
         <NuxtLink
-          v-if="store.displayMode === 'hotentry'"
+          v-if="route.params.type === 'hotentry'"
           :to="'https://b.hatena.ne.jp/hotentry/' + $route.params.category"
           external
           target="_blank"
@@ -97,7 +97,7 @@
           {{ store.categories[$route.params.category as Category] }}の人気エントリーをもっと読む
         </NuxtLink>
         <NuxtLink
-          v-else-if="store.displayMode === 'entrylist'"
+          v-else-if="route.params.type === 'entrylist'"
           :to="'https://b.hatena.ne.jp/entrylist/' + $route.params.category"
           external
           target="_blank"
@@ -120,25 +120,28 @@ const store = useCommonStore()
 // Set head
 useHead({
   meta: [
-    // /all のみインデックスを許可し、他はnoindexにする
+    // /hotentry/all のみインデックスを許可し、他はnoindexにする
     {
       name: 'robots',
-      content: route.params.category === 'all' ? 'index,follow' : 'noindex,nofollow,noarchive',
+      content: route.params.type === 'hotentry'
+        && route.params.category === 'all'
+        ? 'index,follow'
+        : 'noindex,nofollow,noarchive',
     },
   ],
   link: [
     {
       rel: 'canonical',
-      href: `${siteInfo.url}/${route.params.category}`,
+      href: `${siteInfo.url}/${route.params.type}/${route.params.category}`,
     },
   ],
 })
 
 // エントリーを取得
 const { data: rssData, error } = await useAsyncData(
-  `entries-${route.params.category}-${store.displayMode}`,
+  `entries-${route.params.type}-${route.params.category}`,
   () => useGetEntry({
-    mode: store.displayMode,
+    type: route.params.type as EntryType,
     category: route.params.category as Category,
   }),
   {
@@ -194,23 +197,6 @@ function getFaviconUrl(url: string): string {
   const hostName = new Url(url).hostname
   return 'https://www.google.com/s2/favicons?domain=' + hostName
 }
-
-// Lifecycle
-onMounted(async () => {
-  await nextTick()
-  console.log(route)
-  console.log(store.rssData)
-
-  // 初期データフェッチが必要な場合
-  if (!store.rssData) {
-    const json = await useGetEntry({
-      mode: store.displayMode,
-      category: route.params.category as Category,
-    })
-    store.rssData = json
-    store.currentCategory = route.params.category as Category
-  }
-})
 </script>
 
 <style scoped>

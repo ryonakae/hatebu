@@ -1,5 +1,5 @@
 declare global {
-  type DisplayMode = 'hotentry' | 'entrylist'
+  type EntryType = 'hotentry' | 'entrylist'
 
   type Categories = {
     all: '総合'
@@ -17,7 +17,7 @@ declare global {
   type Category = keyof Categories
 
   type GetEntryOptions = {
-    mode: DisplayMode
+    type: EntryType
     category: keyof Categories
   }
 
