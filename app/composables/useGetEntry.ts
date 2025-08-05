@@ -1,5 +1,3 @@
-import type { NuxtError } from '#app'
-import { NuxtErrorBoundary } from '#components'
 import { type convertableToString, parseString } from 'xml2js'
 
 // xmlをjsonに変換する関数
@@ -21,12 +19,6 @@ function getJson(xml: convertableToString) {
   })
 }
 
-// カスタムfetch関数の作成
-const customFetch = $fetch.create({
-  baseURL: import.meta.client ? '/api' : 'https://b.hatena.ne.jp',
-  credentials: 'include',
-})
-
 export const useGetEntry = async (options: GetEntryOptions) => {
   const store = useCommonStore()
 
@@ -34,22 +26,19 @@ export const useGetEntry = async (options: GetEntryOptions) => {
   let url!: string
 
   if (options.mode === 'hotentry') {
-    url
-          = options.category === 'all'
-        ? '/hotentry?mode=rss'
-        : `/hotentry/${options.category}.rss`
+    url = options.category === 'all'
+      ? '/hotentry?mode=rss'
+      : `/hotentry/${options.category}.rss`
   }
   else if (options.mode === 'entrylist') {
-    url
-          = options.category === 'all'
-        ? '/entrylist?mode=rss'
-        : `/entrylist/${options.category}.rss`
+    url = options.category === 'all'
+      ? '/entrylist?mode=rss'
+      : `/entrylist/${options.category}.rss`
   }
 
-  const xml = await customFetch(url, {
-    query: {
-      timestamp: Date.now(),
-    },
+  const xml = await $fetch(url, {
+    baseURL: import.meta.client ? '/api' : 'https://b.hatena.ne.jp',
+    credentials: 'include',
   })
   const json = (await getJson(xml as string)) as RSSData
 
