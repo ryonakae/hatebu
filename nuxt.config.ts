@@ -20,13 +20,13 @@ export default defineNuxtConfig({
         'Cache-Control': 'public, max-age=600, s-maxage=600',
       },
     },
-    '/': { // /hotentry/all と同じ扱い
-      isr: 600,
-    },
     '/hotentry/**': {
       isr: 600,
     },
     '/entrylist/**': {
+      isr: 600,
+    },
+    '/': { // /hotentry/all と同じ
       isr: 600,
     },
   },
