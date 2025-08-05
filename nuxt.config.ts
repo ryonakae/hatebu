@@ -17,25 +17,25 @@ export default defineNuxtConfig({
       cors: true,
       headers: {
         'Access-Control-Allow-Credentials': 'true',
-        'Cache-Control': 'public, max-age=600, s-maxage=600',
+        'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=600',
       },
     },
     '/hotentry/**': {
       isr: 600,
       headers: {
-        'Cache-Control': 'public, max-age=600, s-maxage=600',
+        'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=600',
       },
     },
     '/entrylist/**': {
       isr: 600,
       headers: {
-        'Cache-Control': 'public, max-age=600, s-maxage=600',
+        'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=600',
       },
     },
     '/': { // /hotentry/all と同じ
       isr: 600,
       headers: {
-        'Cache-Control': 'public, max-age=600, s-maxage=600',
+        'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=600',
       },
     },
   },
