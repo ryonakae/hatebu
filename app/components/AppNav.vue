@@ -1,18 +1,20 @@
 <template>
   <div class="nav">
     <nav class="nav-content">
-      <ul class="display">
+      <ul class="type">
         <NuxtLink
           :to="`/hotentry/${route.params.category || 'all'}`"
-          class="display-item link is-noborder"
+          class="type-item link is-noborder"
           :class="{ 'is-active': route.params.type === 'hotentry' || route.path === '/' }"
+          @click="onEntryTypeClick('hotentry')"
         >
           人気
         </NuxtLink>
         <NuxtLink
           :to="`/entrylist/${route.params.category || 'all'}`"
-          class="display-item link is-noborder"
+          class="type-item link is-noborder"
           :class="{ 'is-active': route.params.type === 'entrylist' }"
+          @click="onEntryTypeClick('entrylist')"
         >
           新着
         </NuxtLink>
@@ -35,7 +37,7 @@
               :class="{ 'is-active': category === 'all' && route.path === '/' }"
               :to="`/${route.params.type || 'hotentry'}/${category}`"
               prefetch
-              @click="onLinkClick(category)"
+              @click="onCategoryClick(category)"
             >
               <span>{{ categoryName }}</span>
             </NuxtLink>
@@ -85,10 +87,33 @@ function updateSwiperIndex(category: string) {
   swiper.instance.value?.slideTo(currentIndex, 0)
 }
 
-function onLinkClick(category: Category) {
-  console.log('onLinkClick', category, store.currentCategory)
+function onEntryTypeClick(type: EntryType) {
+  console.log('onEntryTypeClick', type)
+
+  if (type === route.params.type) {
+    reload(type, store.currentCategory)
+  }
+}
+
+function onCategoryClick(category: Category) {
+  console.log('onCategoryClick', category, store.currentCategory)
+
+  if (category === store.currentCategory) {
+    reload(route.params.type as EntryType, category)
+  }
+
   store.currentCategory = category
   console.log('currentCategory updated', store.currentCategory)
+}
+
+async function reload(type: EntryType, category: Category) {
+  console.log('reload', type, category)
+
+  window.scrollTo(0, 0)
+  store.rssData = null
+
+  const rssData = await useGetEntry({ type, category })
+  store.rssData = rssData
 }
 
 // Watch
@@ -115,7 +140,7 @@ watch(
   overflow: hidden;
 }
 
-.display {
+.type {
   background-color: var(--color-bg-content);
   position: relative;
   z-index: 1;
@@ -134,7 +159,7 @@ watch(
   }
 }
 
-.display-item {
+.type-item {
   background-color: var(--color-bg);
   height: 24px;
   padding-inline: 8px;
@@ -145,7 +170,6 @@ watch(
   &.is-active {
     font-weight: bold;
     color: white;
-    pointer-events: none;
     background-color: var(--color-key);
   }
 
@@ -189,7 +213,6 @@ watch(
   &.router-link-active {
     font-weight: bold;
     color: var(--color-key);
-    pointer-events: none;
   }
 
   @media (hover) {
