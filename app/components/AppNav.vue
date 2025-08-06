@@ -18,28 +18,30 @@
         </NuxtLink>
       </ul>
 
-      <swiper-container
-        ref="swiperRef"
-        :init="false"
-        class="category"
-        :class="{ 'is-visible': isSwiperInit }"
-      >
-        <swiper-slide
-          v-for="(categoryName, category) in store.categories"
-          :key="category"
-          class="category-item"
+      <ClientOnly>
+        <swiper-container
+          ref="swiperRef"
+          :init="false"
+          class="category"
+          :class="{ 'is-visible': isSwiperInit }"
         >
-          <NuxtLink
-            class="category-link is-noborder"
-            :class="{ 'is-active': category === 'all' && route.path === '/' }"
-            :to="`/${route.params.type || 'hotentry'}/${category}`"
-            prefetch
-            @click="onLinkClick(category)"
+          <swiper-slide
+            v-for="(categoryName, category) in store.categories"
+            :key="category"
+            class="category-item"
           >
-            <span>{{ categoryName }}</span>
-          </NuxtLink>
-        </swiper-slide>
-      </swiper-container>
+            <NuxtLink
+              class="category-link is-noborder"
+              :class="{ 'is-active': category === 'all' && route.path === '/' }"
+              :to="`/${route.params.type || 'hotentry'}/${category}`"
+              prefetch
+              @click="onLinkClick(category)"
+            >
+              <span>{{ categoryName }}</span>
+            </NuxtLink>
+          </swiper-slide>
+        </swiper-container>
+      </ClientOnly>
     </nav>
   </div>
 </template>
@@ -61,9 +63,10 @@ const swiperOptions = {
     releaseOnEdges: true,
   },
   on: {
-    init: () => {
+    init: async () => {
       console.log('swiper init')
       isSwiperInit.value = true
+      await nextTick()
       updateSwiperIndex(store.currentCategory)
     },
   },
@@ -79,9 +82,7 @@ function updateSwiperIndex(category: string) {
   const categoryKeys = Object.keys(store.categories)
   const currentIndex = categoryKeys.indexOf(category)
 
-  if (swiper.instance?.value) {
-    swiper.instance.value.slideTo(currentIndex, 0)
-  }
+  swiper.instance.value?.slideTo(currentIndex, 0)
 }
 
 function onLinkClick(category: Category) {
