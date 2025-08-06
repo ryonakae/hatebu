@@ -3,6 +3,7 @@
     <h1 class="title">
       <NuxtLink
         to="/"
+        external
         class="is-noborder"
       >俺のはてブ</NuxtLink>
     </h1>

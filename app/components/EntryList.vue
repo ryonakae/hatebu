@@ -67,6 +67,7 @@ const props = defineProps<{
 
 // Composables
 const store = useCommonStore()
+const route = useRoute()
 
 // エントリーを取得
 const { data: rssData, error } = await useAsyncData(
@@ -90,6 +91,28 @@ if (error.value) {
 if (rssData.value) {
   store.rssData = rssData.value
   store.currentCategory = props.category as Category
+}
+
+// クライアントサイドでのみページをfetchする（キャッシュさせるため）
+if (import.meta.client) {
+  const pathsToFetch = (() => {
+    if (route.path === '/' || route.path === '/hotentry/all') {
+      return ['/', '/hotentry/all']
+    }
+    else {
+      return [route.path]
+    }
+  })()
+
+  pathsToFetch.forEach((path) => {
+    useFetch(path, {
+      method: 'HEAD',
+      server: false,
+      onRequest: () => {
+        console.log('useFetch:', path)
+      },
+    })
+  })
 }
 
 // Methods
