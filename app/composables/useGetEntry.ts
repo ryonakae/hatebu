@@ -20,7 +20,7 @@ function getJson(xml: convertableToString) {
 }
 
 export const useGetEntry = async (options: GetEntryOptions) => {
-  console.log('useGetEntry', options)
+  console.log('useGetEntry:', options)
 
   const store = useCommonStore()
 
