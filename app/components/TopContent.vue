@@ -13,7 +13,7 @@
       <EntryList
         :type="route.params.type as EntryType || 'hotentry'"
         :category="category"
-        :display-count="10"
+        :display-count="getDisplayCount(category)"
         :data="data!"
       />
       <div class="categories-link">
@@ -71,6 +71,15 @@ if (error.value) {
 }
 
 // Methods
+function getDisplayCount(category: Category) {
+  if (category === 'all') {
+    return 10
+  }
+  else {
+    return 5
+  }
+}
+
 function getLinkText(category: Category) {
   const categoryName = store.categories[category]
 
