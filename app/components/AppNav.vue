@@ -57,7 +57,7 @@ const swiperRef = ref(null)
 const isSwiperInit = ref(false)
 const swiperOptions = {
   slidesPerView: 'auto' as const,
-  spaceBetween: 16,
+  spaceBetween: 0,
   freeMode: true,
   freeModeMomentum: false,
   touchReleaseOnEdges: true,
@@ -149,13 +149,12 @@ watch(
   justify-content: center;
   column-gap: 8px;
   padding-left: var(--padding-content-horizontal);
-  padding-right: 16px;
+  padding-right: 24px;
   white-space: nowrap;
   list-style-type: none;
 
   @media (--sp) {
-    padding-right: 8px;
-    padding-left: var(--padding-content-horizontal-sp);
+    padding-inline: var(--padding-content-horizontal-sp);
   }
 }
 
@@ -186,7 +185,6 @@ watch(
   z-index: 0;
   width: 100%;
   height: 100%;
-  padding: 0 16px 0 8px;
   overflow: hidden;
   pointer-events: none;
   visibility: hidden;
@@ -199,6 +197,7 @@ watch(
 
 .category-item {
   width: auto;
+  padding-right: 16px;
 }
 
 .category-link {
