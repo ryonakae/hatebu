@@ -1,16 +1,13 @@
 <template>
-  <div class="content">
+  <div class="entries">
     <div
-      v-if="!store.rssData"
+      v-if="!props.data"
       class="loading"
     >
       <span>読み込み中…</span>
     </div>
 
-    <div
-      v-else
-      class="entries"
-    >
+    <template v-else>
       <div class="entries-title-wrapper">
         <h2
           class="entries-title"
@@ -28,7 +25,7 @@
 
       <ul class="entries-list">
         <li
-          v-for="entry in store.rssData.item"
+          v-for="entry in displayedEntries"
           :key="entry.link"
           class="entry"
         >
@@ -55,7 +52,7 @@
           {{ store.categories[$props.category as Category] }}の新着エントリーをもっと読む
         </NuxtLink>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -63,35 +60,25 @@
 const props = defineProps<{
   type: EntryType
   category: Category
+  data: RSSData
+  displayEntries?: number
 }>()
 
 // Composables
 const store = useCommonStore()
 const route = useRoute()
 
-// エントリーを取得
-const { data: rssData, error } = await useAsyncData(
-  `entries-${props.type}-${props.category}`,
-  () => useGetEntry({
-    type: props.type as EntryType,
-    category: props.category as Category,
-  }),
-  {
-    server: true,
-    default: () => null,
-  },
-)
-if (error.value) {
-  console.log(error.value)
-  throw createError({
-    statusCode: error.value.statusCode,
-    statusMessage: error.value.statusMessage,
-  })
-}
-if (rssData.value) {
-  store.rssData = rssData.value
-  store.currentCategory = props.category as Category
-}
+// currentCategoryを設定
+store.currentCategory = props.category as Category
+
+// 表示するエントリーリストを計算
+const displayedEntries = computed(() => {
+  const entries = props.data.item
+  if (props.displayEntries && props.displayEntries > 0) {
+    return entries.slice(0, props.displayEntries)
+  }
+  return entries
+})
 
 // クライアントサイドでのみページをfetchする（キャッシュさせるため）
 if (import.meta.client) {
@@ -125,17 +112,17 @@ function scrollTop() {
 </script>
 
 <style scoped>
-.content {
+.loading {
   min-height: calc(100svh - var(--header-height) - var(--nav-height));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
 
-.loading {
-  font-size: var(--fontsize-nav);
-  color: var(--color-sub);
+  & span {
+    font-size: var(--fontsize-nav);
+    color: var(--color-sub);
+  }
 }
 
 .entries-title-wrapper {
@@ -161,13 +148,7 @@ function scrollTop() {
 
 .entries-link {
   font-size: var(--fontsize-nav);
-
-  & :any-link {
-    display: block;
-    width: 100%;
-    height: 100%;
-    padding-block: 15px;
-    text-align: center;
-  }
+  padding-block: 12px;
+  text-align: center;
 }
 </style>

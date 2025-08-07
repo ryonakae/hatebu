@@ -2,6 +2,7 @@
   <EntryList
     :type="route.params.type as EntryType"
     :category="route.params.category as Category"
+    :data="rssData!"
   />
 </template>
 
@@ -26,4 +27,24 @@ useHead({
     },
   ],
 })
+
+// エントリーを取得
+const { data: rssData, error } = await useAsyncData(
+  `entries-${route.params.type}-${route.params.category}`,
+  () => useGetEntry({
+    type: route.params.type as EntryType,
+    category: route.params.category as Category,
+  }),
+  {
+    server: true,
+    default: () => null,
+  },
+)
+if (error.value) {
+  console.log(error.value)
+  throw createError({
+    statusCode: error.value.statusCode,
+    statusMessage: error.value.statusMessage,
+  })
+}
 </script>

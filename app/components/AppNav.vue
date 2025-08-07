@@ -27,6 +27,16 @@
           class="category"
           :class="{ 'is-visible': isSwiperInit }"
         >
+          <swiper-slide class="category-item">
+            <NuxtLink
+              class="category-link is-noborder"
+              :class="{ 'is-active': route.path === '/' }"
+              to="/"
+              prefetch
+            >
+              <span>すべて</span>
+            </NuxtLink>
+          </swiper-slide>
           <swiper-slide
             v-for="(categoryName, category) in store.categories"
             :key="category"
@@ -34,7 +44,6 @@
           >
             <NuxtLink
               class="category-link is-noborder"
-              :class="{ 'is-active': category === 'all' && route.path === '/' }"
               :to="`/${route.params.type || 'hotentry'}/${category}`"
               prefetch
               @click="onCategoryClick(category)"
