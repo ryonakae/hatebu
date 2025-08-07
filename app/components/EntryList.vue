@@ -1,10 +1,7 @@
 <template>
   <div class="entries">
     <div class="entries-title-wrapper">
-      <h2
-        class="entries-title"
-        @click="scrollTop"
-      >
+      <h2 class="entries-title">
         <span v-if="props.type === 'hotentry'">
           {{ store.categories[props.category as Category] }}の人気エントリー
         </span>
@@ -47,14 +44,6 @@ const displayedEntries = computed(() => {
 
   return entries
 })
-
-// Methods
-function scrollTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  })
-}
 </script>
 
 <style scoped>

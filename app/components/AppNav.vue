@@ -2,22 +2,20 @@
   <div class="nav">
     <nav class="nav-content">
       <ul class="type">
-        <button
-          type="button"
+        <NuxtLink
+          :to="`/hotentry/${route.params.category || ''}`"
           class="type-item link is-noborder"
-          :class="{ 'is-active': store.entryType === 'hotentry' }"
-          @click="onEntryTypeClick('hotentry')"
+          :class="{ 'is-active': route.params.type === 'hotentry' || route.path === '/' }"
         >
           人気
-        </button>
-        <button
-          type="button"
+        </NuxtLink>
+        <NuxtLink
+          :to="`/entrylist/${route.params.category || ''}`"
           class="type-item link is-noborder"
-          :class="{ 'is-active': store.entryType === 'entrylist' }"
-          @click="onEntryTypeClick('entrylist')"
+          :class="{ 'is-active': route.params.type === 'entrylist' }"
         >
           新着
-        </button>
+        </NuxtLink>
       </ul>
 
       <ClientOnly>
@@ -32,7 +30,7 @@
             <NuxtLink
               class="category-link is-noborder"
               :class="{ 'is-active': route.path === '/' }"
-              to="/"
+              :to="`/${route.params.type || 'hotentry'}`"
               prefetch
               @click="onAllClick"
             >
@@ -48,7 +46,7 @@
           >
             <NuxtLink
               class="category-link is-noborder"
-              :to="`/${store.entryType}/${category}`"
+              :to="`/${route.params.type || 'hotentry'}/${category}`"
               prefetch
               @click="onCategoryClick(category)"
             >
@@ -110,11 +108,6 @@ function updateSwiperIndex(category: keyof Categories | number) {
   }
 
   swiper.instance.value?.slideTo(currentIndex, 0)
-}
-
-function onEntryTypeClick(type: EntryType) {
-  console.log('onEntryTypeClick:', type)
-  store.entryType = type
 }
 
 function onAllClick() {

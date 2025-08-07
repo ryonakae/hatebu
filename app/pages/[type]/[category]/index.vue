@@ -68,25 +68,16 @@ if (error.value) {
   })
 }
 
-// クライアントサイドでのみページをfetchする（キャッシュさせるため）
+// クライアントサイドでのみページをfetchする
+// ブラウザ上でのページ遷移は、 /api へリクエストされるが /<route.path> へはリクエストされない
+// それをVercelに無理やりキャッシュさせる
 if (import.meta.client) {
-  const pathsToFetch = (() => {
-    if (route.path === '/' || route.path === '/hotentry/all') {
-      return ['/', '/hotentry/all']
-    }
-    else {
-      return [route.path]
-    }
-  })()
-
-  pathsToFetch.forEach((path) => {
-    useFetch(path, {
-      method: 'HEAD',
-      server: false,
-      onRequest: () => {
-        console.log('useFetch:', path)
-      },
-    })
+  useFetch(route.path, {
+    method: 'HEAD',
+    server: false,
+    onRequest: () => {
+      console.log('useFetch:', route.path)
+    },
   })
 }
 

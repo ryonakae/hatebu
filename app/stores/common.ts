@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 export const useCommonStore = defineStore('commonStore', {
   state: (): State => ({
     loading: false,
-    entryType: 'hotentry',
     categories: {
       all: '総合',
       general: '一般',
@@ -20,6 +19,8 @@ export const useCommonStore = defineStore('commonStore', {
   }),
   actions: {
     moveAdjacentCategory(side: 'previous' | 'next') {
+      const route = useRoute()
+
       // nullを含む全ての選択肢の配列を作成（「すべて」→ 各カテゴリー の順）
       const allCategories: (Category | null)[] = [null, ...(Object.keys(this.categories) as Category[])]
 
@@ -45,10 +46,10 @@ export const useCommonStore = defineStore('commonStore', {
 
       // nullの場合は'/'（すべて）に、そうでなければ各カテゴリーページに移動
       if (targetCategory === null) {
-        navigateTo('/')
+        navigateTo(`/${route.params.type}`)
       }
       else {
-        navigateTo(`/${this.entryType}/${targetCategory}`)
+        navigateTo(`/${route.params.type}/${targetCategory}`)
       }
     },
   },
