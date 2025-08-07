@@ -30,17 +30,13 @@ useHead({
   meta: [
     {
       name: 'robots',
-      content: route.params.type === 'hotentry' && route.params.category === 'all'
-        ? 'noindex,follow' // /hotentry/all のみ
-        : 'noindex,nofollow,noarchive', // その他すべて
+      content: 'noindex,nofollow,noarchive',
     },
   ],
   link: [
     {
       rel: 'canonical',
-      href: route.params.type === 'hotentry' && route.params.category === 'all'
-        ? siteInfo.url // /hotentry/all のcanonicalはルートに向ける
-        : `${siteInfo.url}/${route.params.type}/${route.params.category}`, // その他は自分のURL
+      href: `${siteInfo.url}/${route.params.type}/${route.params.category}`, // 自分自身のURLにcanonicalを設定
     },
   ],
 })
