@@ -1,32 +1,17 @@
 :root {
+  color-scheme: light dark;
+
   /* color */
-  --color-text: #666;
-  --color-key: #2b4fb7;
+  --color-text: light-dark(#666, #fff);
+  --color-key: light-dark(#2b4fb7, #527dff);
   --color-accent: #ff5441;
   --color-accent-rgb: 255, 84, 65;
-  --color-sub: #b2b2b2;
-  --color-bg: #f2f2f2;
-  --color-bg-content: white;
-  --color-bg-footer: #fafafa;
-  --color-bg-pre: #e8e8e8;
-  --color-border: rgba(0, 0, 0, 0.05);
-
-  /* dark mode */
-  /* stylelint-disable-next-line csstools/media-use-custom-media */
-  @media (prefers-color-scheme: dark) {
-    --color-text: #fff;
-    --color-key: #527dff;
-
-    /* --color-accent: #ff5441; */
-
-    /* --color-accent-rgb: 255, 84, 65; */
-    --color-sub: #9c9c9c;
-    --color-bg: #080808;
-    --color-bg-content: #1a1a1a;
-    --color-bg-footer: #0d0d0d;
-    --color-bg-pre: #242424;
-    --color-border: rgba(255, 255, 255, 0.05);
-  }
+  --color-sub: light-dark(#b2b2b2, #9c9c9c);
+  --color-bg: light-dark(#f2f2f2, #080808);
+  --color-bg-content: light-dark(#fff, #1a1a1a);
+  --color-bg-footer: light-dark(#fafafa, #0d0d0d);
+  --color-bg-pre: light-dark(#e8e8e8, #242424);
+  --color-border: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
 
   /* typography */
   --fontsize: 1.5rem;

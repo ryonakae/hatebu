@@ -15,36 +15,42 @@ export const useCommonStore = defineStore('commonStore', {
       entertainment: 'エンタメ',
       game: 'アニメとゲーム',
     },
-    currentCategory: 'all',
-    rssData: null,
+    currentCategory: null,
   }),
   actions: {
     moveAdjacentCategory(side: 'previous' | 'next') {
       const route = useRoute()
 
-      const categories = Object.keys(this.categories)
-      const currentIndex = categories.indexOf(this.currentCategory)
+      // nullを含む全ての選択肢の配列を作成（「すべて」→ 各カテゴリー の順）
+      const allCategories: (Category | null)[] = [null, ...(Object.keys(this.categories) as Category[])]
 
-      let sideIndex!: number
+      // 現在のcurrentCategoryのインデックスを取得
+      const currentIndex = allCategories.indexOf(this.currentCategory)
+
+      let sideIndex: number
 
       if (side === 'previous') {
         sideIndex = currentIndex - 1
-
         if (sideIndex < 0) {
-          sideIndex = categories.length - 1
+          sideIndex = allCategories.length - 1 // 最後の要素へ
         }
       }
-      else if (side === 'next') {
+      else { // next
         sideIndex = currentIndex + 1
-
-        if (sideIndex > categories.length - 1) {
-          sideIndex = 0
+        if (sideIndex >= allCategories.length) {
+          sideIndex = 0 // 最初の要素へ
         }
       }
 
-      const sideCategory = categories[sideIndex]
+      const targetCategory = allCategories[sideIndex]
 
-      navigateTo(`/${route.params.type || 'hotentry'}/${sideCategory}`)
+      // nullの場合は'/'（すべて）に、そうでなければ各カテゴリーページに移動
+      if (targetCategory === null) {
+        navigateTo(`/${route.params.type}`)
+      }
+      else {
+        navigateTo(`/${route.params.type}/${targetCategory}`)
+      }
     },
   },
 })

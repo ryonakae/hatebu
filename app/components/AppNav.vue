@@ -3,18 +3,16 @@
     <nav class="nav-content">
       <ul class="type">
         <NuxtLink
-          :to="`/hotentry/${route.params.category || 'all'}`"
+          :to="`/hotentry/${route.params.category || ''}`"
           class="type-item link is-noborder"
           :class="{ 'is-active': route.params.type === 'hotentry' || route.path === '/' }"
-          @click="onEntryTypeClick('hotentry')"
         >
           人気
         </NuxtLink>
         <NuxtLink
-          :to="`/entrylist/${route.params.category || 'all'}`"
+          :to="`/entrylist/${route.params.category || ''}`"
           class="type-item link is-noborder"
           :class="{ 'is-active': route.params.type === 'entrylist' }"
-          @click="onEntryTypeClick('entrylist')"
         >
           新着
         </NuxtLink>
@@ -27,6 +25,20 @@
           class="category"
           :class="{ 'is-visible': isSwiperInit }"
         >
+          <!-- すべて (/) -->
+          <swiper-slide class="category-item">
+            <NuxtLink
+              class="category-link is-noborder"
+              :class="{ 'is-active': route.path === '/' }"
+              :to="`/${route.params.type || 'hotentry'}`"
+              prefetch
+              @click="onAllClick"
+            >
+              <span>すべて</span>
+            </NuxtLink>
+          </swiper-slide>
+
+          <!-- 各カテゴリ -->
           <swiper-slide
             v-for="(categoryName, category) in store.categories"
             :key="category"
@@ -34,7 +46,6 @@
           >
             <NuxtLink
               class="category-link is-noborder"
-              :class="{ 'is-active': category === 'all' && route.path === '/' }"
               :to="`/${route.params.type || 'hotentry'}/${category}`"
               prefetch
               @click="onCategoryClick(category)"
@@ -57,7 +68,7 @@ const swiperRef = ref(null)
 const isSwiperInit = ref(false)
 const swiperOptions = {
   slidesPerView: 'auto' as const,
-  spaceBetween: 16,
+  spaceBetween: 0,
   freeMode: true,
   freeModeMomentum: false,
   touchReleaseOnEdges: true,
@@ -69,7 +80,13 @@ const swiperOptions = {
       console.log('swiper init')
       isSwiperInit.value = true
       await nextTick()
-      updateSwiperIndex(store.currentCategory)
+
+      if (store.currentCategory === null) {
+        updateSwiperIndex(0)
+      }
+      else {
+        updateSwiperIndex(store.currentCategory)
+      }
     },
   },
 }
@@ -78,50 +95,43 @@ const swiperOptions = {
 const swiper = useSwiper(swiperRef, swiperOptions)
 
 // Methods
-function updateSwiperIndex(category: string) {
-  console.log('updateSwiperIndex', category)
+function updateSwiperIndex(category: keyof Categories | number) {
+  console.log('updateSwiperIndex:', category)
+  let currentIndex: number
 
-  const categoryKeys = Object.keys(store.categories)
-  const currentIndex = categoryKeys.indexOf(category)
+  if (typeof category === 'number') {
+    currentIndex = category
+  }
+  else {
+    const categoryKeys = Object.keys(store.categories)
+    currentIndex = categoryKeys.indexOf(category) + 1 // 「すべて」を考慮
+  }
 
   swiper.instance.value?.slideTo(currentIndex, 0)
 }
 
-function onEntryTypeClick(type: EntryType) {
-  console.log('onEntryTypeClick', type)
-
-  if (type === route.params.type) {
-    reload(type, store.currentCategory)
-  }
+function onAllClick() {
+  console.log('onAllClick')
+  store.currentCategory = null
 }
 
 function onCategoryClick(category: Category) {
-  console.log('onCategoryClick', category, store.currentCategory)
-
-  if (category === store.currentCategory) {
-    reload(route.params.type as EntryType, category)
-  }
-
+  console.log('onCategoryClick:', category, store.currentCategory)
   store.currentCategory = category
-  console.log('currentCategory updated', store.currentCategory)
-}
-
-async function reload(type: EntryType, category: Category) {
-  console.log('reload', type, category)
-
-  window.scrollTo(0, 0)
-  store.rssData = null
-
-  const rssData = await useGetEntry({ type, category })
-  store.rssData = rssData
 }
 
 // Watch
 watch(
   () => store.currentCategory,
   (newCategory) => {
-    console.log('currentCategory updated', newCategory)
-    updateSwiperIndex(newCategory)
+    console.log('currentCategory updated:', newCategory)
+
+    if (newCategory === null) {
+      updateSwiperIndex(0)
+    }
+    else {
+      updateSwiperIndex(newCategory)
+    }
   },
 )
 </script>
@@ -149,13 +159,12 @@ watch(
   justify-content: center;
   column-gap: 8px;
   padding-left: var(--padding-content-horizontal);
-  padding-right: 16px;
+  padding-right: 24px;
   white-space: nowrap;
   list-style-type: none;
 
   @media (--sp) {
-    padding-right: 8px;
-    padding-left: var(--padding-content-horizontal-sp);
+    padding-inline: var(--padding-content-horizontal-sp);
   }
 }
 
@@ -171,6 +180,7 @@ watch(
     font-weight: bold;
     color: white;
     background-color: var(--color-key);
+    pointer-events: none;
   }
 
   @media (hover) {
@@ -186,7 +196,6 @@ watch(
   z-index: 0;
   width: 100%;
   height: 100%;
-  padding: 0 16px 0 8px;
   overflow: hidden;
   pointer-events: none;
   visibility: hidden;
@@ -199,6 +208,7 @@ watch(
 
 .category-item {
   width: auto;
+  padding-right: 16px;
 }
 
 .category-link {
@@ -213,6 +223,7 @@ watch(
   &.router-link-active {
     font-weight: bold;
     color: var(--color-key);
+    pointer-events: none;
   }
 
   @media (hover) {

@@ -1,8 +1,5 @@
 <template>
-  <EntryList
-    :type="'hotentry'"
-    :category="'all'"
-  />
+  <TopContent />
 </template>
 
 <script setup lang="ts">
