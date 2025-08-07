@@ -6,15 +6,28 @@
     <span>読み込み中…</span>
   </div>
 
-  <EntryList
+  <div
     v-else
-    :type="route.params.type as EntryType"
-    :category="route.params.category as Category"
-    :data="rssData"
-  />
+  >
+    <EntryList
+      :type="route.params.type as EntryType"
+      :category="route.params.category as Category"
+      :data="rssData"
+    />
+
+    <div class="link">
+      <NuxtLink
+        :to="`https://b.hatena.ne.jp/${route.params.type}/${route.params.category}`"
+        external
+        target="_blank"
+      >
+        {{ getLinkText() }}
+      </NuxtLink>
+    </div>
+  </div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 const route = useRoute()
 const store = useCommonStore()
 
@@ -81,6 +94,13 @@ if (import.meta.client) {
     })
   })
 }
+
+// Methods
+function getLinkText() {
+  const categoryName = store.categories[route.params.category as Category]
+  const entryTypeName = route.params.type === 'hotentry' ? '人気エントリー' : '新着エントリー'
+  return `はてブ公式で ${categoryName}の${entryTypeName} をもっと読む`
+}
 </script>
 
 <style scoped>
@@ -95,5 +115,11 @@ if (import.meta.client) {
     font-size: var(--fontsize-nav);
     color: var(--color-sub);
   }
+}
+
+.link {
+  font-size: var(--fontsize-nav);
+  padding-block: 12px;
+  text-align: center;
 }
 </style>

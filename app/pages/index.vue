@@ -8,7 +8,7 @@
 
   <div
     v-else
-    class="categories-list"
+    class="categories"
   >
     <div
       v-for="({ category, data }, index) in categoriesData"
@@ -21,6 +21,13 @@
         :display-count="getDisplayCount(category)"
         :data="data!"
       />
+      <div class="categories-link">
+        <NuxtLink
+          :to="category === 'all' ? '/' : `/${store.entryType}/${category}`"
+        >
+          {{ getLinkText(category) }}
+        </NuxtLink>
+      </div>
     </div>
   </div>
 </template>
@@ -85,12 +92,24 @@ function getDisplayCount(category: Category) {
     return 5
   }
 }
+
+function getLinkText(category: Category) {
+  const categoryName = store.categories[category]
+  const entryTypeName = store.entryType === 'hotentry' ? '人気エントリー' : '新着エントリー'
+  return `${categoryName}の${entryTypeName} をもっと読む`
+}
 </script>
 
 <style scoped>
-.categories-list {
+.categories {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.categories-link {
+  font-size: var(--fontsize-nav);
+  padding-block: 12px;
+  text-align: center;
 }
 </style>

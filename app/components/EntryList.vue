@@ -25,25 +25,6 @@
         <CommonDivider />
       </li>
     </ul>
-
-    <div class="entries-link">
-      <NuxtLink
-        v-if="props.type === 'hotentry'"
-        :to="'https://b.hatena.ne.jp/hotentry/' + $props.category"
-        external
-        target="_blank"
-      >
-        {{ store.categories[$props.category as Category] }}の人気エントリーをもっと読む
-      </NuxtLink>
-      <NuxtLink
-        v-else-if="props.type === 'entrylist'"
-        :to="'https://b.hatena.ne.jp/entrylist/' + $props.category"
-        external
-        target="_blank"
-      >
-        {{ store.categories[$props.category as Category] }}の新着エントリーをもっと読む
-      </NuxtLink>
-    </div>
   </div>
 </template>
 
@@ -96,11 +77,5 @@ function scrollTop() {
 
 .entries-list {
   list-style-type: none;
-}
-
-.entries-link {
-  font-size: var(--fontsize-nav);
-  padding-block: 12px;
-  text-align: center;
 }
 </style>
