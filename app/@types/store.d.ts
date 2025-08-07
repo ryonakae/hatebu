@@ -1,9 +1,9 @@
 declare global {
   type State = {
     loading: boolean
+    entryType: EntryType
     categories: Categories
-    currentCategory: Category
-    rssData: RSSData | null
+    currentCategory: Category | null
   }
 }
 

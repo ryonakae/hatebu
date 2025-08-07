@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 export const useCommonStore = defineStore('commonStore', {
   state: (): State => ({
     loading: false,
+    entryType: 'hotentry',
     categories: {
       all: '総合',
       general: '一般',
@@ -15,8 +16,7 @@ export const useCommonStore = defineStore('commonStore', {
       entertainment: 'エンタメ',
       game: 'アニメとゲーム',
     },
-    currentCategory: 'all',
-    rssData: null,
+    currentCategory: null,
   }),
   actions: {
     moveAdjacentCategory(side: 'previous' | 'next') {

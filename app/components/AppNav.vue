@@ -2,22 +2,22 @@
   <div class="nav">
     <nav class="nav-content">
       <ul class="type">
-        <NuxtLink
-          :to="`/hotentry/${route.params.category || 'all'}`"
+        <button
+          type="button"
           class="type-item link is-noborder"
-          :class="{ 'is-active': route.params.type === 'hotentry' || route.path === '/' }"
+          :class="{ 'is-active': store.entryType === 'hotentry' }"
           @click="onEntryTypeClick('hotentry')"
         >
           人気
-        </NuxtLink>
-        <NuxtLink
-          :to="`/entrylist/${route.params.category || 'all'}`"
+        </button>
+        <button
+          type="button"
           class="type-item link is-noborder"
-          :class="{ 'is-active': route.params.type === 'entrylist' }"
+          :class="{ 'is-active': store.entryType === 'entrylist' }"
           @click="onEntryTypeClick('entrylist')"
         >
           新着
-        </NuxtLink>
+        </button>
       </ul>
 
       <ClientOnly>
@@ -27,16 +27,20 @@
           class="category"
           :class="{ 'is-visible': isSwiperInit }"
         >
+          <!-- すべて (/) -->
           <swiper-slide class="category-item">
             <NuxtLink
               class="category-link is-noborder"
               :class="{ 'is-active': route.path === '/' }"
               to="/"
               prefetch
+              @click="onAllClick"
             >
               <span>すべて</span>
             </NuxtLink>
           </swiper-slide>
+
+          <!-- 各カテゴリ -->
           <swiper-slide
             v-for="(categoryName, category) in store.categories"
             :key="category"
@@ -78,7 +82,13 @@ const swiperOptions = {
       console.log('swiper init')
       isSwiperInit.value = true
       await nextTick()
-      updateSwiperIndex(store.currentCategory)
+
+      if (store.currentCategory === null) {
+        updateSwiperIndex(0)
+      }
+      else {
+        updateSwiperIndex(store.currentCategory)
+      }
     },
   },
 }
@@ -87,50 +97,48 @@ const swiperOptions = {
 const swiper = useSwiper(swiperRef, swiperOptions)
 
 // Methods
-function updateSwiperIndex(category: string) {
-  console.log('updateSwiperIndex', category)
+function updateSwiperIndex(category: keyof Categories | number) {
+  console.log('updateSwiperIndex:', category)
+  let currentIndex: number
 
-  const categoryKeys = Object.keys(store.categories)
-  const currentIndex = categoryKeys.indexOf(category)
+  if (typeof category === 'number') {
+    currentIndex = category
+  }
+  else {
+    const categoryKeys = Object.keys(store.categories)
+    currentIndex = categoryKeys.indexOf(category) + 1 // 「すべて」を考慮
+  }
 
   swiper.instance.value?.slideTo(currentIndex, 0)
 }
 
 function onEntryTypeClick(type: EntryType) {
-  console.log('onEntryTypeClick', type)
+  console.log('onEntryTypeClick:', type)
+  store.entryType = type
+}
 
-  if (type === route.params.type) {
-    reload(type, store.currentCategory)
-  }
+function onAllClick() {
+  console.log('onAllClick')
+  store.currentCategory = null
 }
 
 function onCategoryClick(category: Category) {
-  console.log('onCategoryClick', category, store.currentCategory)
-
-  if (category === store.currentCategory) {
-    reload(route.params.type as EntryType, category)
-  }
-
+  console.log('onCategoryClick:', category, store.currentCategory)
   store.currentCategory = category
-  console.log('currentCategory updated', store.currentCategory)
-}
-
-async function reload(type: EntryType, category: Category) {
-  console.log('reload', type, category)
-
-  window.scrollTo(0, 0)
-  store.rssData = null
-
-  const rssData = await useGetEntry({ type, category })
-  store.rssData = rssData
 }
 
 // Watch
 watch(
   () => store.currentCategory,
   (newCategory) => {
-    console.log('currentCategory updated', newCategory)
-    updateSwiperIndex(newCategory)
+    console.log('currentCategory updated:', newCategory)
+
+    if (newCategory === null) {
+      updateSwiperIndex(0)
+    }
+    else {
+      updateSwiperIndex(newCategory)
+    }
   },
 )
 </script>
@@ -179,6 +187,7 @@ watch(
     font-weight: bold;
     color: white;
     background-color: var(--color-key);
+    pointer-events: none;
   }
 
   @media (hover) {
@@ -221,6 +230,7 @@ watch(
   &.router-link-active {
     font-weight: bold;
     color: var(--color-key);
+    pointer-events: none;
   }
 
   @media (hover) {
