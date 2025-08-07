@@ -33,6 +33,12 @@ useHead({
     { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
     { rel: 'favicon', href: '/favicon.ico' },
   ],
+  meta: [
+    { name: 'description', content: siteInfo.description },
+    { name: 'color-scheme', content: 'light dark' },
+    { name: 'theme-color', content: '#fff', media: '(prefers-color-scheme: light)' },
+    { name: 'theme-color', content: '#1a1a1a', media: '(prefers-color-scheme: dark)' },
+  ],
 })
 useSeoMeta({
   ogTitle: siteInfo.title,
