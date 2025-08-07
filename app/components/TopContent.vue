@@ -36,7 +36,7 @@ store.currentCategory = null
 
 // 全カテゴリーのエントリーを並行取得
 const { data: categoriesData, error } = await useAsyncData(
-  'entries-all-categories',
+  `entries-${route.params.type}-all-categories`,
   async () => {
     // categoriesオブジェクトから全カテゴリーのキーを取得
     const categoryKeys = Object.keys(store.categories) as Category[]
@@ -44,7 +44,7 @@ const { data: categoriesData, error } = await useAsyncData(
     // 各カテゴリーに対してuseGetEntryを並行実行
     const promises = categoryKeys.map(category =>
       useGetEntry({
-        type: 'hotentry',
+        type: route.params.type as EntryType || 'hotentry',
         category,
       }),
     )
@@ -86,8 +86,7 @@ function getLinkText(category: Category) {
   // 指定されたパスパターンの場合は常に「人気エントリー」を表示
   const currentPath = route.path
   const isHotentry = currentPath === '/'
-    || currentPath.startsWith('/hotentry')
-    || currentPath.startsWith('/entrylist')
+    || currentPath === '/hotentry'
   const entryTypeName = isHotentry
     ? '人気エントリー'
     : (route.params.type === 'hotentry' ? '人気エントリー' : '新着エントリー')

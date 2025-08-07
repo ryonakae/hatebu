@@ -2,12 +2,7 @@
   <div class="entries">
     <div class="entries-title-wrapper">
       <h2 class="entries-title">
-        <span v-if="props.type === 'hotentry'">
-          {{ store.categories[props.category as Category] }}の人気エントリー
-        </span>
-        <span v-else-if="props.type === 'entrylist'">
-          {{ store.categories[props.category as Category] }}の新着エントリー
-        </span>
+        {{ getTitleText(props.type, props.category) }}
       </h2>
       <CommonDivider />
     </div>
@@ -34,7 +29,7 @@ const props = defineProps<{
 }>()
 const store = useCommonStore()
 
-// 表示するエントリーリストを計算
+// Computed
 const displayedEntries = computed(() => {
   const entries = props.data.item
 
@@ -44,6 +39,12 @@ const displayedEntries = computed(() => {
 
   return entries
 })
+
+// Methods
+function getTitleText(type: EntryType, category: Category) {
+  const typeName = type === 'hotentry' ? '人気' : '新着'
+  return `${store.categories[category]}の${typeName}エントリー`
+}
 </script>
 
 <style scoped>
