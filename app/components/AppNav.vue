@@ -48,7 +48,7 @@
           >
             <NuxtLink
               class="category-link is-noborder"
-              :to="`/${route.params.type || 'hotentry'}/${category}`"
+              :to="`/${store.entryType}/${category}`"
               prefetch
               @click="onCategoryClick(category)"
             >

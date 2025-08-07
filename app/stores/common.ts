@@ -20,31 +20,36 @@ export const useCommonStore = defineStore('commonStore', {
   }),
   actions: {
     moveAdjacentCategory(side: 'previous' | 'next') {
-      const route = useRoute()
+      // nullを含む全ての選択肢の配列を作成（「すべて」→ 各カテゴリー の順）
+      const allCategories: (Category | null)[] = [null, ...(Object.keys(this.categories) as Category[])]
 
-      const categories = Object.keys(this.categories)
-      const currentIndex = categories.indexOf(this.currentCategory)
+      // 現在のcurrentCategoryのインデックスを取得
+      const currentIndex = allCategories.indexOf(this.currentCategory)
 
-      let sideIndex!: number
+      let sideIndex: number
 
       if (side === 'previous') {
         sideIndex = currentIndex - 1
-
         if (sideIndex < 0) {
-          sideIndex = categories.length - 1
+          sideIndex = allCategories.length - 1 // 最後の要素へ
         }
       }
-      else if (side === 'next') {
+      else { // next
         sideIndex = currentIndex + 1
-
-        if (sideIndex > categories.length - 1) {
-          sideIndex = 0
+        if (sideIndex >= allCategories.length) {
+          sideIndex = 0 // 最初の要素へ
         }
       }
 
-      const sideCategory = categories[sideIndex]
+      const targetCategory = allCategories[sideIndex]
 
-      navigateTo(`/${route.params.type || 'hotentry'}/${sideCategory}`)
+      // nullの場合は'/'（すべて）に、そうでなければ各カテゴリーページに移動
+      if (targetCategory === null) {
+        navigateTo('/')
+      }
+      else {
+        navigateTo(`/${this.entryType}/${targetCategory}`)
+      }
     },
   },
 })
