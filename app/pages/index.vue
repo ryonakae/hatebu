@@ -1,10 +1,5 @@
 <template>
-  <div
-    v-if="!categoriesData"
-    class="loading"
-  >
-    <span>読み込み中…</span>
-  </div>
+  <EntryLoading v-if="!categoriesData" />
 
   <div
     v-else

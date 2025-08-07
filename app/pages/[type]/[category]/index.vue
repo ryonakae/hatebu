@@ -1,10 +1,5 @@
 <template>
-  <div
-    v-if="!rssData"
-    class="loading"
-  >
-    <span>読み込み中…</span>
-  </div>
+  <EntryLoading v-if="!rssData" />
 
   <div
     v-else
@@ -104,19 +99,6 @@ function getLinkText() {
 </script>
 
 <style scoped>
-.loading {
-  min-height: calc(100svh - var(--header-height) - var(--nav-height));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  & span {
-    font-size: var(--fontsize-nav);
-    color: var(--color-sub);
-  }
-}
-
 .link {
   font-size: var(--fontsize-nav);
   padding-block: 12px;
