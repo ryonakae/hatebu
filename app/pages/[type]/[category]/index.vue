@@ -64,19 +64,6 @@ if (error.value) {
   })
 }
 
-// クライアントサイドでのみページをfetchする
-// ブラウザ上でのページ遷移は、 /api へリクエストされるが /<route.path> へはリクエストされない
-// それをVercelに無理やりキャッシュさせる
-if (import.meta.client) {
-  useFetch(route.path, {
-    method: 'HEAD',
-    server: false,
-    onRequest: () => {
-      console.log('useFetch:', route.path)
-    },
-  })
-}
-
 // Methods
 function getLinkText() {
   const categoryName = store.categories[route.params.category as Category]
