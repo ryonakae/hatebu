@@ -2,6 +2,9 @@
 
 const isProduction = process.env.NODE_ENV === 'production'
 
+const cacheSeconds = 600
+const cacheSetting = `public, max-age=${cacheSeconds}, s-maxage=${cacheSeconds}, stale-while-revalidate=${cacheSeconds}`
+
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@nuxt/eslint', 'nuxt-swiper'],
   ssr: true,
@@ -17,25 +20,37 @@ export default defineNuxtConfig({
       cors: true,
       headers: {
         'Access-Control-Allow-Credentials': 'true',
-        'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=600',
+        'Cache-Control': cacheSetting,
+      },
+    },
+    '/': { // /hotentry と同じ
+      isr: cacheSeconds,
+      headers: {
+        'Cache-Control': cacheSetting,
+      },
+    },
+    '/hotentry': {
+      isr: cacheSeconds,
+      headers: {
+        'Cache-Control': cacheSetting,
       },
     },
     '/hotentry/**': {
-      isr: 600,
+      isr: cacheSeconds,
       headers: {
-        'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=600',
+        'Cache-Control': cacheSetting,
+      },
+    },
+    '/entrylist': {
+      isr: cacheSeconds,
+      headers: {
+        'Cache-Control': cacheSetting,
       },
     },
     '/entrylist/**': {
-      isr: 600,
+      isr: cacheSeconds,
       headers: {
-        'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=600',
-      },
-    },
-    '/': { // /hotentry/all と同じ
-      isr: 600,
-      headers: {
-        'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=600',
+        'Cache-Control': cacheSetting,
       },
     },
   },
