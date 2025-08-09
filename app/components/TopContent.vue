@@ -5,11 +5,10 @@
     v-else
     class="categories"
   >
-    <div
-      v-for="({ category, data }, index) in categoriesData"
+    <section
+      v-for="({ category, data }) in categoriesData"
       :key="category"
     >
-      <CommonDivider v-if="index > 0" />
       <EntryList
         :type="route.params.type as EntryType || 'hotentry'"
         :category="category"
@@ -23,7 +22,8 @@
           {{ getLinkText(category) }}
         </NuxtLink>
       </div>
-    </div>
+      <CommonDivider />
+    </section>
   </div>
 </template>
 
@@ -38,9 +38,6 @@ store.currentCategory = null
 const { data: categoriesData, error } = await useAsyncData(
   `entries-${route.params.type}-all-categories`,
   async () => {
-    // categoriesオブジェクトから全カテゴリーのキーを取得
-    const categoryKeys = Object.keys(store.categories) as Category[]
-
     // 各カテゴリーに対してuseGetEntryを並行実行
     const promises = categoryKeys.map(category =>
       useGetEntry({
@@ -81,7 +78,7 @@ function getDisplayCount(category: Category) {
 }
 
 function getLinkText(category: Category) {
-  const categoryName = store.categories[category]
+  const categoryName = categories[category]
 
   // 指定されたパスパターンの場合は常に「人気エントリー」を表示
   const currentPath = route.path
@@ -99,12 +96,12 @@ function getLinkText(category: Category) {
 .categories {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .categories-link {
   font-size: var(--fontsize-nav);
   padding-block: 12px;
+  padding-bottom: 24px;
   text-align: center;
 }
 </style>
