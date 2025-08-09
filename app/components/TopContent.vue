@@ -38,9 +38,6 @@ store.currentCategory = null
 const { data: categoriesData, error } = await useAsyncData(
   `entries-${route.params.type}-all-categories`,
   async () => {
-    // categoriesオブジェクトから全カテゴリーのキーを取得
-    const categoryKeys = Object.keys(store.categories) as Category[]
-
     // 各カテゴリーに対してuseGetEntryを並行実行
     const promises = categoryKeys.map(category =>
       useGetEntry({
@@ -81,7 +78,7 @@ function getDisplayCount(category: Category) {
 }
 
 function getLinkText(category: Category) {
-  const categoryName = store.categories[category]
+  const categoryName = categories[category]
 
   // 指定されたパスパターンの場合は常に「人気エントリー」を表示
   const currentPath = route.path

@@ -3,18 +3,6 @@ import { defineStore } from 'pinia'
 export const useCommonStore = defineStore('commonStore', {
   state: (): State => ({
     loading: false,
-    categories: {
-      all: '総合',
-      general: '一般',
-      social: '世の中',
-      economics: '政治と経済',
-      life: '暮らし',
-      knowledge: '学び',
-      it: 'テクノロジー',
-      fun: 'おもしろ',
-      entertainment: 'エンタメ',
-      game: 'アニメとゲーム',
-    },
     currentCategory: null,
   }),
   actions: {
@@ -22,7 +10,7 @@ export const useCommonStore = defineStore('commonStore', {
       const route = useRoute()
 
       // nullを含む全ての選択肢の配列を作成（「すべて」→ 各カテゴリー の順）
-      const allCategories: (Category | null)[] = [null, ...(Object.keys(this.categories) as Category[])]
+      const allCategories: (Category | null)[] = [null, ...categoryKeys]
 
       // 現在のcurrentCategoryのインデックスを取得
       const currentIndex = allCategories.indexOf(this.currentCategory)

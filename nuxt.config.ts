@@ -1,12 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { siteInfo } from './shared/utils/siteInfo'
+import { categoryKeys } from './shared/utils/categories'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
-const cacheSeconds = 600
-const cacheSetting = `public, max-age=${cacheSeconds}, s-maxage=${cacheSeconds}, stale-while-revalidate=${cacheSeconds}`
-
 export default defineNuxtConfig({
-  modules: ['@pinia/nuxt', '@nuxt/eslint', 'nuxt-swiper'],
+  modules: ['@pinia/nuxt', '@nuxt/eslint', 'nuxt-swiper', '@nuxtjs/sitemap'],
   ssr: true,
   devtools: { enabled: true },
   css: [
@@ -14,43 +13,23 @@ export default defineNuxtConfig({
     '~/assets/styles/custom-properties.css',
     '~/assets/styles/main.css',
   ],
+  site: {
+    name: siteInfo.title,
+    url: siteInfo.url,
+  },
   routeRules: {
     '/api/**': {
       proxy: 'https://b.hatena.ne.jp/**',
       cors: true,
       headers: {
         'Access-Control-Allow-Credentials': 'true',
-        'Cache-Control': cacheSetting,
+        'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=600',
       },
     },
-    '/': { // /hotentry と同じ
-      isr: cacheSeconds,
+    '/**': {
+      isr: 600,
       headers: {
-        'Cache-Control': cacheSetting,
-      },
-    },
-    '/hotentry': {
-      isr: cacheSeconds,
-      headers: {
-        'Cache-Control': cacheSetting,
-      },
-    },
-    '/hotentry/**': {
-      isr: cacheSeconds,
-      headers: {
-        'Cache-Control': cacheSetting,
-      },
-    },
-    '/entrylist': {
-      isr: cacheSeconds,
-      headers: {
-        'Cache-Control': cacheSetting,
-      },
-    },
-    '/entrylist/**': {
-      isr: cacheSeconds,
-      headers: {
-        'Cache-Control': cacheSetting,
+        'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=600',
       },
     },
   },
@@ -99,5 +78,23 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
     },
+  },
+  sitemap: {
+    urls: () => {
+      const urls: string[] = [
+        '/',
+        '/hotentry',
+        '/entrylist',
+      ]
+
+      // 各カテゴリーのhotentryとentrylistのURLを追加
+      categoryKeys.forEach((category) => {
+        urls.push(`/hotentry/${category}`)
+        urls.push(`/entrylist/${category}`)
+      })
+
+      return urls
+    },
+    xsl: false,
   },
 })
