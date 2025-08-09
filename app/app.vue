@@ -69,13 +69,13 @@ onMounted(() => {
   // H: ホッテントリに切り替え
   hotkeys('h', (event) => {
     event.preventDefault()
-    navigateTo(`/hotentry/${store.currentCategory}`)
+    navigateTo(store.currentCategory ? `/hotentry/${store.currentCategory}` : '/hotentry')
   })
 
   // N: 新着エントリに切り替え
   hotkeys('n', (event) => {
     event.preventDefault()
-    navigateTo(`/entrylist/${store.currentCategory}`)
+    navigateTo(store.currentCategory ? `/entrylist/${store.currentCategory}` : '/entrylist')
   })
 
   // ←: 一つ前のカテゴリに遷移
