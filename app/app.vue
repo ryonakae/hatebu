@@ -5,10 +5,12 @@
     <CommonDivider />
     <AppNav />
     <CommonDivider />
-    <div class="page">
+    <main
+      class="page"
+      data-nosnippet
+    >
       <NuxtPage />
-    </div>
-    <CommonDivider />
+    </main>
     <AppNav />
     <CommonDivider />
     <AppFooter />
