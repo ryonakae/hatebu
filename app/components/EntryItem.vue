@@ -1,5 +1,5 @@
 <template>
-  <article
+  <div
     class="entry-content"
     :class="{ 'is-noimage': !entry['hatena:imageurl'] }"
   >
@@ -27,7 +27,7 @@
       >
     </NuxtLink>
 
-    <aside class="entry-info">
+    <div class="entry-info">
       <NuxtLink
         :to="entry['hatena:bookmarkCommentListPageUrl']"
         external
@@ -44,18 +44,18 @@
       <div class="entry-date">
         {{ formatDate(entry['dc:date']) }}
       </div>
-    </aside>
+    </div>
 
-    <aside class="entry-hostname">
+    <div class="entry-hostname">
       <img
         :src="getFaviconUrl(entry.link)"
         alt=""
         loading="lazy"
       >
 
-      <small>{{ getHostName(entry.link) }}</small>
-    </aside>
-  </article>
+      <span>{{ getHostName(entry.link) }}</span>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -195,10 +195,6 @@ function getFaviconUrl(url: string): string {
   & img {
     width: var(--favicon-size);
     height: auto;
-  }
-
-  & small {
-    font-size: inherit;
   }
 }
 </style>

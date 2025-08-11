@@ -1,7 +1,7 @@
 <template>
   <EntryLoading v-if="!rssData" />
 
-  <section
+  <div
     v-else
   >
     <EntryList
@@ -10,7 +10,7 @@
       :data="rssData"
     />
 
-    <div class="category-link">
+    <div class="link">
       <NuxtLink
         :to="`https://b.hatena.ne.jp/${route.params.type}/${route.params.category}`"
         external
@@ -19,20 +19,26 @@
         {{ getLinkText() }}
       </NuxtLink>
     </div>
-
-    <CommonDivider />
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
 const route = useRoute()
 const store = useCommonStore()
 
-// meta
-const categoryName = categories[route.params.category as Category]
-const entryTypeName = route.params.type === 'hotentry' ? '人気エントリー' : '新着エントリー'
-useSeoMeta({
-  title: `${categoryName}の${entryTypeName}`,
+useHead({
+  meta: [
+    {
+      name: 'robots',
+      content: 'noindex,nofollow,noarchive',
+    },
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: `${siteInfo.url}/${route.params.type}/${route.params.category}`, // 自分自身のURLにcanonicalを設定
+    },
+  ],
 })
 
 // currentCategoryを設定
@@ -60,14 +66,14 @@ if (error.value) {
 
 // Methods
 function getLinkText() {
-  const categoryName = categories[route.params.category as Category]
+  const categoryName = store.categories[route.params.category as Category]
   const entryTypeName = route.params.type === 'hotentry' ? '人気エントリー' : '新着エントリー'
   return `はてブ公式で ${categoryName}の${entryTypeName} をもっと読む`
 }
 </script>
 
 <style scoped>
-.category-link {
+.link {
   font-size: var(--fontsize-nav);
   padding-block: 12px;
   text-align: center;

@@ -40,7 +40,7 @@
 
           <!-- 各カテゴリ -->
           <swiper-slide
-            v-for="(categoryName, category) in categories"
+            v-for="(categoryName, category) in store.categories"
             :key="category"
             class="category-item"
           >
@@ -103,6 +103,7 @@ function updateSwiperIndex(category: keyof Categories | number) {
     currentIndex = category
   }
   else {
+    const categoryKeys = Object.keys(store.categories)
     currentIndex = categoryKeys.indexOf(category) + 1 // 「すべて」を考慮
   }
 

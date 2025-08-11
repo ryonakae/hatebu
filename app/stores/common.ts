@@ -3,46 +3,48 @@ import { defineStore } from 'pinia'
 export const useCommonStore = defineStore('commonStore', {
   state: (): State => ({
     loading: false,
+    categories: {
+      all: '総合',
+      general: '一般',
+      social: '世の中',
+      economics: '政治と経済',
+      life: '暮らし',
+      knowledge: '学び',
+      it: 'テクノロジー',
+      fun: 'おもしろ',
+      entertainment: 'エンタメ',
+      game: 'アニメとゲーム',
+    },
     currentCategory: null,
   }),
   actions: {
     moveAdjacentCategory(side: 'previous' | 'next') {
       const route = useRoute()
 
-      // ルートパス（/）の特別処理
-      if (!route.params.type) {
-        if (side === 'next') {
-          navigateTo(`/hotentry/${categoryKeys[0]}`) // all
-        }
-        else {
-          navigateTo(`/hotentry/${categoryKeys[categoryKeys.length - 1]}`) // game
-        }
-        return
-      }
+      // nullを含む全ての選択肢の配列を作成（「すべて」→ 各カテゴリー の順）
+      const allCategories: (Category | null)[] = [null, ...(Object.keys(this.categories) as Category[])]
 
-      // 循環順序を定義: type only → all → その他のカテゴリー → type only
-      const cycleOrder: (Category | null)[] = [null, ...categoryKeys]
+      // 現在のcurrentCategoryのインデックスを取得
+      const currentIndex = allCategories.indexOf(this.currentCategory)
 
-      // 現在の位置を取得
-      const currentIndex = cycleOrder.indexOf(this.currentCategory)
+      let sideIndex: number
 
-      let targetIndex: number
       if (side === 'previous') {
-        targetIndex = currentIndex - 1
-        if (targetIndex < 0) {
-          targetIndex = cycleOrder.length - 1
+        sideIndex = currentIndex - 1
+        if (sideIndex < 0) {
+          sideIndex = allCategories.length - 1 // 最後の要素へ
         }
       }
       else { // next
-        targetIndex = currentIndex + 1
-        if (targetIndex >= cycleOrder.length) {
-          targetIndex = 0
+        sideIndex = currentIndex + 1
+        if (sideIndex >= allCategories.length) {
+          sideIndex = 0 // 最初の要素へ
         }
       }
 
-      const targetCategory = cycleOrder[targetIndex]
+      const targetCategory = allCategories[sideIndex]
 
-      // ナビゲーション
+      // nullの場合は'/'（すべて）に、そうでなければ各カテゴリーページに移動
       if (targetCategory === null) {
         navigateTo(`/${route.params.type}`)
       }

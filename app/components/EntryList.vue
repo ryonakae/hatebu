@@ -1,19 +1,22 @@
 <template>
-  <div class="entries-title-wrapper">
-    <h2 class="entries-title">
-      {{ getTitleText(props.type, props.category) }}
-    </h2>
-    <CommonDivider />
-  </div>
-
-  <div>
-    <template
-      v-for="entry in displayedEntries"
-      :key="entry.link"
-    >
-      <EntryItem :entry="entry" />
+  <div class="entries">
+    <div class="entries-title-wrapper">
+      <h2 class="entries-title">
+        {{ getTitleText(props.type, props.category) }}
+      </h2>
       <CommonDivider />
-    </template>
+    </div>
+
+    <ul class="entries-list">
+      <li
+        v-for="entry in displayedEntries"
+        :key="entry.link"
+        class="entry"
+      >
+        <EntryItem :entry="entry" />
+        <CommonDivider />
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -24,6 +27,7 @@ const props = defineProps<{
   data: RSSData
   displayCount?: number
 }>()
+const store = useCommonStore()
 
 // Computed
 const displayedEntries = computed(() => {
@@ -39,7 +43,7 @@ const displayedEntries = computed(() => {
 // Methods
 function getTitleText(type: EntryType, category: Category) {
   const typeName = type === 'hotentry' ? '人気' : '新着'
-  return `${categories[category]}の${typeName}エントリー`
+  return `${store.categories[category]}の${typeName}エントリー`
 }
 </script>
 
@@ -59,5 +63,9 @@ function getTitleText(type: EntryType, category: Category) {
   @media (--sp) {
     padding-inline: var(--padding-content-horizontal-sp);
   }
+}
+
+.entries-list {
+  list-style-type: none;
 }
 </style>
