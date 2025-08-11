@@ -43,7 +43,7 @@ const displayedEntries = computed(() => {
 // Methods
 function getTitleText(type: EntryType, category: Category) {
   const typeName = type === 'hotentry' ? '人気' : '新着'
-  return `${store.categories[category]}の${typeName}エントリー`
+  return `${categories[category]}の${typeName}エントリー`
 }
 </script>
 

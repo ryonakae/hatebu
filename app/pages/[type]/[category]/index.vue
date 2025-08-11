@@ -66,7 +66,7 @@ if (error.value) {
 
 // Methods
 function getLinkText() {
-  const categoryName = store.categories[route.params.category as Category]
+  const categoryName = categories[route.params.category as Category]
   const entryTypeName = route.params.type === 'hotentry' ? '人気エントリー' : '新着エントリー'
   return `はてブ公式で ${categoryName}の${entryTypeName} をもっと読む`
 }
