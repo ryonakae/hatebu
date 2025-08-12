@@ -1,22 +1,19 @@
 <template>
-  <div class="entries">
-    <div class="entries-title-wrapper">
-      <h2 class="entries-title">
-        {{ getTitleText(props.type, props.category) }}
-      </h2>
-      <CommonDivider />
-    </div>
+  <div class="entries-title-wrapper">
+    <h2 class="entries-title">
+      {{ getTitleText(props.type, props.category) }}
+    </h2>
+    <CommonDivider />
+  </div>
 
-    <ul class="entries-list">
-      <li
-        v-for="entry in displayedEntries"
-        :key="entry.link"
-        class="entry"
-      >
-        <EntryItem :entry="entry" />
-        <CommonDivider />
-      </li>
-    </ul>
+  <div>
+    <template
+      v-for="entry in displayedEntries"
+      :key="entry.link"
+    >
+      <EntryItem :entry="entry" />
+      <CommonDivider />
+    </template>
   </div>
 </template>
 
@@ -27,7 +24,6 @@ const props = defineProps<{
   data: RSSData
   displayCount?: number
 }>()
-const store = useCommonStore()
 
 // Computed
 const displayedEntries = computed(() => {
@@ -63,9 +59,5 @@ function getTitleText(type: EntryType, category: Category) {
   @media (--sp) {
     padding-inline: var(--padding-content-horizontal-sp);
   }
-}
-
-.entries-list {
-  list-style-type: none;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <EntryLoading v-if="!rssData" />
 
-  <div
+  <section
     v-else
   >
     <EntryList
@@ -10,7 +10,7 @@
       :data="rssData"
     />
 
-    <div class="link">
+    <div class="category-link">
       <NuxtLink
         :to="`https://b.hatena.ne.jp/${route.params.type}/${route.params.category}`"
         external
@@ -19,7 +19,9 @@
         {{ getLinkText() }}
       </NuxtLink>
     </div>
-  </div>
+
+    <CommonDivider />
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -65,7 +67,7 @@ function getLinkText() {
 </script>
 
 <style scoped>
-.link {
+.category-link {
   font-size: var(--fontsize-nav);
   padding-block: 12px;
   text-align: center;

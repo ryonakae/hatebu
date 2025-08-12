@@ -1,16 +1,20 @@
 <template>
   <NuxtLoadingIndicator :color="'#2b4fb7'" />
+
   <div class="app">
     <AppHeader />
+
     <CommonDivider />
     <AppNav />
     <CommonDivider />
-    <div class="page">
+
+    <main class="page">
       <NuxtPage />
-    </div>
-    <CommonDivider />
+    </main>
+
     <AppNav />
     <CommonDivider />
+
     <AppFooter />
   </div>
 </template>
@@ -20,7 +24,7 @@ import hotkeys from 'hotkeys-js'
 
 const route = useRoute()
 const store = useCommonStore()
-const { start, finish } = useLoadingIndicator({
+const { start: startLoading, finish: finishLoading } = useLoadingIndicator({
   throttle: 0,
 })
 
@@ -61,7 +65,7 @@ useSeoMeta({
 // LoadingIndicatorを開始/終了する
 watch(
   () => store.loading,
-  loading => loading ? start() : finish(),
+  loading => loading ? startLoading() : finishLoading(),
 )
 
 // キーボードショートカットの設定

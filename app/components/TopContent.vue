@@ -5,11 +5,10 @@
     v-else
     class="categories"
   >
-    <div
-      v-for="({ category, data }, index) in categoriesData"
+    <section
+      v-for="{ category, data } in categoriesData"
       :key="category"
     >
-      <CommonDivider v-if="index > 0" />
       <EntryList
         :type="route.params.type as EntryType || 'hotentry'"
         :category="category"
@@ -23,7 +22,8 @@
           {{ getLinkText(category) }}
         </NuxtLink>
       </div>
-    </div>
+      <CommonDivider />
+    </section>
   </div>
 </template>
 
@@ -97,12 +97,12 @@ function getLinkText(category: Category) {
 .categories {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .categories-link {
   font-size: var(--fontsize-nav);
   padding-block: 12px;
+  padding-bottom: 24px;
   text-align: center;
 }
 </style>
