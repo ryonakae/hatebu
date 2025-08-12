@@ -26,19 +26,11 @@
 const route = useRoute()
 const store = useCommonStore()
 
-useHead({
-  meta: [
-    {
-      name: 'robots',
-      content: 'noindex,nofollow,noarchive',
-    },
-  ],
-  link: [
-    {
-      rel: 'canonical',
-      href: `${siteInfo.url}/${route.params.type}/${route.params.category}`, // 自分自身のURLにcanonicalを設定
-    },
-  ],
+// meta
+const categoryName = categories[route.params.category as Category]
+const entryTypeName = route.params.type === 'hotentry' ? '人気エントリー' : '新着エントリー'
+useSeoMeta({
+  title: `${categoryName}の${entryTypeName}`,
 })
 
 // currentCategoryを設定

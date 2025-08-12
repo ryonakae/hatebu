@@ -18,6 +18,7 @@
 <script setup lang="ts">
 import hotkeys from 'hotkeys-js'
 
+const route = useRoute()
 const store = useCommonStore()
 const { start, finish } = useLoadingIndicator({
   throttle: 0,
@@ -28,27 +29,32 @@ useHead({
   htmlAttrs: {
     lang: 'ja',
   },
-  title: siteInfo.title,
   link: [
     { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
     { rel: 'favicon', href: '/favicon.ico' },
-  ],
-  meta: [
-    { name: 'description', content: siteInfo.description },
-    { name: 'color-scheme', content: 'light dark' },
-    { name: 'theme-color', content: '#fff', media: '(prefers-color-scheme: light)' },
-    { name: 'theme-color', content: '#1a1a1a', media: '(prefers-color-scheme: dark)' },
+    {
+      rel: 'canonical',
+      href: route.path === '/' ? siteInfo.url : `${siteInfo.url}/${route.path}`,
+    },
   ],
 })
 useSeoMeta({
-  ogTitle: siteInfo.title,
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} - ${siteInfo.title}` : `${siteInfo.title}`
+  },
+  description: siteInfo.description,
   ogSiteName: siteInfo.title,
-  ogDescription: siteInfo.description,
-  ogUrl: siteInfo.url,
+  ogUrl: route.path === '/' ? siteInfo.url : `${siteInfo.url}/${route.path}`,
   ogImage: siteInfo.url + '/ogp.png',
-  twitterCard: 'summary',
   ogType: 'website',
   ogLocale: 'ja_JP',
+  twitterCard: 'summary',
+  colorScheme: 'light dark',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', content: '#fff' },
+    { media: '(prefers-color-scheme: dark)', content: '#1a1a1a' },
+  ],
+  robots: 'index,follow,noarchive',
 })
 
 // store.loadingを監視
