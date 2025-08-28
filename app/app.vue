@@ -8,10 +8,7 @@
     <AppNav />
     <CommonDivider />
 
-    <main
-      class="page"
-      data-nosnippet
-    >
+    <main class="page">
       <NuxtPage />
     </main>
 
