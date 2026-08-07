@@ -19,7 +19,7 @@
     "@pinia/nuxt": "0.11.2",
     "dayjs": "1.11.13",
     "hotkeys-js": "3.13.15",
-    "nuxt": "4.0.2",
+    "nuxt": "4.5.1",
     "nuxt-swiper": "2.0.1",
     "pinia": "3.0.3",
     "ress": "5.0.2",
